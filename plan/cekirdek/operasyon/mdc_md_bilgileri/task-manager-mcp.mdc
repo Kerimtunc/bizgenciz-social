@@ -1,0 +1,99 @@
+---
+description: This rule file defines the high-level philosophy and integration points for task-master-ai MCP tool. It ensures that task management is used not just as a task tracker, but as an automated enforcer of our Engineering Constitution. The specific rules are managed directly in the task-master-ai configuration.
+globs: tasks.json,*.mdc,*.prd.txt,docs/prd.txt,kontroller.md,TODO.md
+---
+
+---
+
+### **Task Master Orchestration Rules**
+
+_**Philosophy:** This project is managed through structured, predictable tasks, not unplanned, ad-hoc decisions. `task-master-ai` is the central tool that establishes and maintains this structure. These rules define how the agent must wield this tool with expert precision._
+
+---
+
+### **Part 1: Core Command Capabilities (Quick Reference)**
+
+The agent must be aware of the following core `task-master` commands and their primary use cases:
+
+*   **Project Management:**
+    *   `task-master init`: Used **only once,** at the very beginning of a project, to set up a new task management structure.
+    *   `task-master parse-prd <file>`: Reads a Project Requirements Document (PRD) and creates the `tasks.json` file, which includes the project's main tasks, dependencies, and test strategies. **This is the step that creates the project's skeleton.**
+    *   `task-master models`: Used to configure the AI models (main, research, fallback) for the project.
+*   **Task Analysis & Planning:**
+    *   `task-master list`: Lists all current tasks and their statuses. Used to get a high-level overview of the project.
+    *   `task-master next`: Determines the **next logical task** to work on (dependencies met, high priority). It is the answer to the question, "What should I do next?"
+    *   `task-master show <id>`: Displays all details for a specific task. Used to fully understand the context before starting a task.
+    *   `task-master analyze-complexity`: Analyzes the complexity of tasks, generates a report, and identifies which tasks require more detail. This is a critical step after `parse-prd` and before `expand`.
+    *   `task-master complexity-report`: Presents the generated complexity report in a readable format.
+*   **Task Execution & Change Management:**
+    *   `task-master add-task`: Adds a new, unplanned task to the project.
+    *   `task-master expand`: Breaks down a complex parent task into smaller, manageable sub-tasks.
+    *   `task-master update`: When the project's direction changes (e.g., a technology switch), it updates all subsequent tasks from a specific point to reflect the new situation. **This is the most powerful command for preventing implementation drift.**
+    *   `task-master set-status`: Updates a task's status (`pending`, `in-progress`, `done`).
+    *   `task-master research`: Conducts research on a specific topic, taking project context into account, to provide up-to-date information.
+*   **Dependency & Structure Management:**
+    *   `task-master add-dependency` / `remove-dependency`: Manually manages dependencies between tasks.
+    *   `task-master fix-dependencies`: Automatically finds and fixes broken or circular dependencies.
+    *   `task-master generate`: Creates individual `tasks/*.txt` files for each task in `tasks.json`, keeping their state in sync.
+
+---
+
+### **Part 2: The Universal Workflow (Steps to Follow for Every Task)**
+
+The agent must follow these steps **in order** when handling any task:
+
+1.  **Task Definition & Understanding:**
+    *   **Input:** A request from the user ("Add the payment system") or an item from `kontroller.md`.
+    *   **Action:** If the task does not exist in `tasks.json`, ask the user clarifying questions about its requirements. Then, use the `task-master add-task --prompt="[TASK_DESCRIPTION]"` command to add the task to the system.
+
+2.  **Identify the Governing Principle:**
+    *   **Thought Process:** "Which part of the project does this task (added via `add-task` or selected via `next`) affect? The database? Tests? The UI?"
+    *   **Action:** Mentally reference the relevant `.mdc` file (e.g., `sql.mdc`, `jest.mdc`) based on the task's content.
+
+3.  **Expand the Task to Enforce the Standard:**
+    *   **Thought Process:** "The `jest.mdc` file I'm referencing says, 'Characterization tests must be written first.' I must break this task into sub-steps to enforce that standard."
+    *   **Action:** Use the `task-master expand --id=[TASK_ID] --prompt="[PROMPT_FROM_GOVERNING_PRINCIPLE]"` command to ensure the task's sub-steps adhere to project standards.
+
+4.  **Implementation & Status Update:**
+    *   **Action:** Implement the sub-tasks in order. When each sub-task or the main task is completed, **immediately** run `task-master set-status --id=[COMPLETED_ID] --status=done` to keep the plan up-to-date.
+
+---
+
+### **Part 3: Detailed Scenarios & Command Mappings**
+
+#### **Scenario A: Creating a New Feature from Scratch (Starting from a PRD)**
+1.  **Create the Skeleton:** `task-master parse-prd docs/main.prd.txt --num-tasks=0`.
+2.  **Identify Challenges:** `task-master analyze-complexity`.
+3.  **Review the Report & Plan:** Analyze the output of `task-master complexity-report`.
+4.  **Detail Complex Tasks:** Starting with the most complex task recommended by the report, run `task-master expand --id=[COMPLEX_TASK_ID] --research`. The `--research` flag ensures the use of current best practices. Repeat for all complex tasks or use `task-master expand --all`.
+5.  **Begin the Task Loop:**
+    *   "What's next?" -> Run `task-master next`.
+    *   Understand the suggested task -> Run `task-master show [SUGGESTED_ID]`.
+    *   Implement the task.
+    *   Complete the task -> Run `task-master set-status --id=[FINISHED_ID] --status=done`.
+    *   Repeat the loop.
+
+#### **Scenario B: Safe Refactoring**
+*   **Input:** Task "Make the payment service more efficient" (ID: 7).
+*   **Governing Principle:** `jest.mdc` (Test first!).
+*   **Action:** Do not attempt to implement the task directly. Instead, enforce the standard by running this command:
+    ```bash
+    task-master expand --id=7 --prompt="This is a refactoring task. The first sub-task MUST be to write comprehensive characterization tests to create a safety net for the existing behavior. The second sub-task is to perform the actual code refactoring. The final sub-task is to verify the changes by running all tests and confirming they pass."
+    ```
+
+#### **Scenario C: Adapting to Changing Requirements (Implementation Drift)**
+*   **Input:** "We've decided to switch the database from PostgreSQL to MongoDB. This affects all tasks after task #4."
+*   **Governing Principle:** The project plan must remain current.
+*   **Action:** Do not edit `tasks.json` manually. Instead, intelligently update the plan by running this command:
+    ```bash
+    task-master update --from=4 --prompt="Project direction changed: We are now using MongoDB instead of PostgreSQL. All subsequent tasks involving database interaction, schemas, and queries must be updated to reflect MongoDB's architecture and best practices."
+    ```
+
+#### **Scenario D: Human Oversight & Approval Protocol**
+*   **Situation:** The agent is unsure about the solution path even after analyzing and expanding a task, or the task requires an architectural decision.
+*   **Governing Principle:** `general.mdc` (When in doubt, halt and ask).
+*   **Action:** To formally log the need for human approval in the task list, run this command:
+    ```bash
+    task-master add-task --prompt="[FLAG-REVIEW] Task [AMBIGUOUS_TASK_ID] requires human input. Proposed plan: [AGENT'S_PLAN_SUMMARY]. Please approve or provide a new direction before I proceed." --dependencies=[AMBIGUOUS_TASK_ID] --priority=high
+    ```
+    This blocks the progress of the ambiguous task and makes human intervention mandatory.

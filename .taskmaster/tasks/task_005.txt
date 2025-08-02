@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: FAZ 5: İş Mantığı ve Pipeline'ların Tasarımı
+# Status: done
+# Dependencies: 4
+# Priority: high
+# Description: Customer journey, staff management, kitchen management, financial, Ciro Partnerliği, kurye yönetimi ve süperadmin özellik atama pipeline'ları
+# Details:
+Bu faz, projenin iş mantığı altyapısını oluşturacak kapsamlı pipeline tasarımını içerir. Customer journey pipeline (QR kod okutma, menü görüntüleme, ürün seçimi, sepete ekleme, sipariş onayı, ödeme, sipariş takibi) tasarlanacak. Staff management pipeline (vardiya başlangıcı, masa kontrolü, garson çağırısı, sipariş alma, mutfak bildirimi, sipariş servis) geliştirilecek. Kitchen management pipeline (sipariş alma, malzeme hazırlama, hazırlama başlama, pişirme süreci, kalite kontrol, hazır bildirimi) oluşturulacak. Financial pipeline (gelir kaydı, maliyet kaydı, gün sonu işlemi, kar/zarar analizi) tasarlanacak. Ciro Partnerliği pipeline (kredi kullanımı, sübvansiyon hesaplama, komisyon hesaplama, finansal mutabakat) geliştirilecek. Kurye yönetimi pipeline (kurye kayıt, kurye atama, teslimat takibi, performans değerlendirme) oluşturulacak. Süperadmin özellik atama pipeline (yeni işletme onboarding, özellik atama, toplu güncelleme, dependency check, usage tracking, audit logging, real-time updates, template application) tasarlanacak.
+
+# Test Strategy:
+Her pipeline için flow diagram'ları oluşturulacak. Unit testler yazılacak. Integration testleri yapılacak. End-to-end testler gerçekleştirilecek. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

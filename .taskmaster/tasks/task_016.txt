@@ -1,0 +1,11 @@
+# Task ID: 16
+# Title: insaedilecekler.md Özellik Kataloğu ve Detaylı İş Mantığı Kontrolü
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: insaedilecekler.md dosyasındaki özellik kataloğu ve detaylı iş mantığının kapsamlı kontrolü
+# Details:
+insaedilecekler.md dosyasının 5. ve 6. bölümlerindeki özellik kataloğu ve detaylı iş mantığı detaylıca kontrol edilecek. Customer journey pipeline, staff management pipeline, kitchen management pipeline incelenecek. Revenue hesaplamaları, rollback mantığı, vergi esnekliği gibi finansal sistem detayları analiz edilecek. RBAC, audit logging, data protection gibi güvenlik yaklaşımları değerlendirilecek. Özellik kataloğundaki tüm modüller ve iş mantığı pipeline'ları kontrol edilecek. Bu analiz sonucunda özellik kataloğunun implementasyon planı hazırlanacak ve eksiklikler tespit edilecek.
+
+# Test Strategy:
+Özellik kataloğunun implementasyon kontrolü yapılacak. İş mantığı pipeline testleri yazılacak. Finansal sistem testleri gerçekleştirilecek. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

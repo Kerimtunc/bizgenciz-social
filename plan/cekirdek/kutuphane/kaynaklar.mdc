@@ -1,0 +1,2607 @@
+# 📚 Kaynaklar ve Referanslar
+
+Bu dosya, YemekZen QR Menu Elite Edition projesinde kullanılan temel teknolojiler ve kütüphanelerin kaynaklarını içerir.
+
+---
+
+## 📋 İçindekiler
+
+- [🤖 AI ve MCP Araçları](#-ai-ve-mcp-araçları)
+- [🎨 UI/UX Kütüphaneleri](#-uiux-kütüphaneleri)
+- [🔧 Geliştirici Araçları](#-geliştirici-araçları)
+- [📰 Web Scraping ve Veri İşleme](#-web-scraping-ve-veri-işleme)
+- [🚀 Trading ve Finans](#-trading-ve-finans)
+- [🎨 3D Grafik ve Görselleştirme](#-3d-grafik-ve-görselleştirme)
+- [🎯 Modern Web Uygulama Geliştirme](#-modern-web-uygulama-geliştirme)
+- [🛒 E-ticaret Projeleri](#-e-ticaret-projeleri)
+- [📖 Öğrenme Kaynakları](#-öğrenme-kaynakları)
+- [🔧 Teknoloji Stack Özeti](#-teknoloji-stack-özeti)
+- [🚀 Hızlı Başlangıç](#-hızlı-başlangıç)
+
+---
+
+## 🤖 AI ve MCP Araçları
+
+
+### **Awesome MCP Servers**
+- **Repository:** [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers)
+- **Lisans:** MIT
+- **Açıklama:** Model Context Protocol (MCP) sunucularının kapsamlı listesi
+- **İçerik:**
+  - 500+ MCP sunucu implementasyonu
+  - Kategorilere ayrılmış (Database, Cloud, Security, Gaming, vb.)
+  - Framework'ler ve geliştirici araçları
+  - Kurulum rehberleri ve örnekler
+  - Topluluk kaynakları ve dokümantasyon
+  - 34 farklı kategori (Database, Cloud Platforms, Security, Gaming, vb.)
+  - Her kategori için detaylı açıklamalar ve kullanım senaryoları
+  - Resmi ve topluluk tarafından geliştirilen sunucular
+  - Çoklu dil desteği (Python, TypeScript, Go, Rust, Java, C#)
+  - Platform desteği (Windows, macOS, Linux, Cloud)
+
+
+### **Awesome Cursor Rules MDC**
+- **Repository:** [sanjeed5/awesome-cursor-rules-mdc](https://github.com/sanjeed5/awesome-cursor-rules-mdc)
+- **Lisans:** MIT
+- **Açıklama:** Cursor MDC (Markdown Cursor) kural dosyaları için otomatik üretici
+- **İçerik:**
+  - Kütüphaneler için kapsamlı MDC kural dosyaları oluşturur
+  - Exa ile semantik web araması yaparak en iyi uygulamaları toplar
+  - LLM (Gemini) kullanarak detaylı, yapılandırılmış içerik oluşturur
+  - Paralel işleme desteği
+  - Kesintiye uğrayan çalışmaları devam ettirme özelliği
+  - Akıllı yeniden deneme sistemi
+  - CLI aracı ile kurulum ve yönetim
+  - Çoklu LLM desteği (Gemini, OpenAI, Anthropic)
+  - Tag tabanlı filtreleme sistemi
+  - Rate limiting ve API yönetimi
+
+---
+
+## 🎨 UI/UX Kütüphaneleri
+
+### **Vue Vben Admin**
+- **Repository:** [vbenjs/vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
+- **Lisans:** MIT
+- **Açıklama:** Vue3, Vite, TypeScript tabanlı kurumsal seviye yönetim sistemi framework'ü
+- **İçerik:**
+  - Vue3, Pinia, Vue Router, TypeScript ile geliştirilmiş
+  - Zengin konfigürasyon seçenekleri ve tema özelleştirme
+  - Uluslararasılaştırma (i18n) desteği
+  - Yetki yönetimi ve dinamik menü sistemi
+  - Çoklu UI framework desteği (Ant Design Vue, Element Plus, Naive UI)
+  - Monorepo yapısı ile çoklu uygulama desteği
+  - Mock data ve Nitro server entegrasyonu
+  - Tailwind CSS ve shadcn-vue entegrasyonu
+  - Turbo Repo ile build optimizasyonu
+  - Kapsamlı dokümantasyon ve örnekler
+  - ESLint, Prettier, Stylelint ile kod kalitesi
+  - Vitest ile unit test desteği
+  - Docker desteği ve deployment rehberleri
+
+### **Shadcn UI MCP Server**
+- **Repository:** [Jpisnice/shadcn-ui-mcp-server](https://github.com/Jpisnice/shadcn-ui-mcp-server)
+- **Lisans:** MIT
+- **Açıklama:** Shadcn UI bileşenlerini MCP (Model Context Protocol) üzerinden erişilebilir hale getiren sunucu
+- **İçerik:**
+  - Shadcn UI bileşenlerini MCP protokolü ile entegre eder
+  - AI sistemlerinin Shadcn UI bileşenlerine erişimini sağlar
+  - Bileşen şemaları ve API entegrasyonu
+  - Çoklu framework desteği (React, Vue, Svelte)
+  - Bileşen kaynak şablonları ve örnekler
+  - Axios tabanlı HTTP istekleri
+  - Validasyon ve hata yönetimi
+  - TypeScript tip güvenliği
+  - MCP araçları ve kaynakları
+  - Bileşen oluşturma ve yönetim araçları
+
+### **Shadcn UI Expansions**
+- **Repository:** [hsuanyi-chou/shadcn-ui-expansions](https://github.com/hsuanyi-chou/shadcn-ui-expansions)
+- **Lisans:** MIT
+- **Açıklama:** Shadcn UI üzerine inşa edilmiş kullanışlı bileşen koleksiyonu
+- **İçerik:**
+  - **Bileşenler:**
+    - Autosize Textarea (Otomatik boyutlandırılan metin alanı)
+    - Blockquote (Alıntı bloğu)
+    - Floating Label Input (Yüzen etiketli giriş)
+    - Heading With Anchor (Bağlantılı başlık)
+    - Infinite Scroll (Sonsuz kaydırma)
+    - Loading Button (Yükleme butonu)
+    - Magic Back Button (Sihirli geri butonu)
+    - Multiple Selector (Çoklu seçici)
+    - Datetime Picker (Tarih-saat seçici)
+    - Spinner (Döndürücü)
+    - Dual Range Slider (Çift aralık kaydırıcı)
+    - Progress With Value (Değerli ilerleme çubuğu)
+    - Responsive Modal (Duyarlı modal)
+    - Typewriter (Daktilo efekti)
+  - **Kütüphaneler:**
+    - Rate Limit (Hız sınırlama)
+  - **Özellikler:**
+    - Shadcn UI ile tam uyumlu
+    - Kişisel ve ticari kullanım için ücretsiz
+    - Kopyala-yapıştır kullanımı
+    - Özelleştirilebilir kod
+    - Canlı demo ve dokümantasyon
+
+### **Invoify**
+- **Repository:** [al1abb/invoify](https://github.com/al1abb/invoify)
+- **Lisans:** MIT
+- **Açıklama:** Next.js 13, TypeScript ve Shadcn UI ile geliştirilmiş web tabanlı fatura oluşturucu uygulaması
+- **İçerik:**
+  - **Temel Teknolojiler:**
+    - Next.js 13 (SSR ve client-side navigation)
+    - TypeScript (Statik tip güvenliği)
+    - Shadcn-UI (Gelişmiş görsel arayüz)
+    - Tailwind CSS (Utility-first CSS framework)
+    - React Hook Form (Form yönetimi)
+    - Zod (TypeScript-first şema validasyonu)
+    - Puppeteer (Headless browser ile PDF oluşturma)
+  - **Ek Bağımlılıklar:**
+    - Nodemailer (E-posta gönderimi)
+    - Lucide Icons (Özelleştirilebilir SVG ikonları)
+  - **Özellikler:**
+    - Kolay fatura oluşturma formu
+    - Tarayıcıda fatura saklama
+    - Fatura erişimi ve yönetimi
+    - PDF formatında indirme ve e-posta gönderimi
+    - Çoklu fatura şablonu (2 adet)
+    - Gerçek zamanlı önizleme
+    - Çoklu format dışa aktarma (JSON, XLSX, CSV, XML)
+    - Canlı demo ve Discord topluluğu
+
+### **Shadcn UI**
+- **Repository:** [shadcn-ui/ui](https://github.com/shadcn-ui/ui)
+- **Lisans:** MIT
+- **Açıklama:** Erişilebilir ve özelleştirilebilir bileşenler koleksiyonu - kendi bileşen kütüphanenizi oluşturmak için kullanın
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Erişilebilir (Accessible) bileşenler
+    - Özelleştirilebilir tasarım
+    - Kopyala-yapıştır kullanımı
+    - Ücretsiz ve açık kaynak
+    - Kendi bileşen kütüphanenizi oluşturma
+  - **Bileşen Kategorileri:**
+    - Form bileşenleri (Input, Button, Select, vb.)
+    - Layout bileşenleri (Card, Container, vb.)
+    - Navigation bileşenleri (Menu, Tabs, vb.)
+    - Feedback bileşenleri (Alert, Toast, vb.)
+    - Data display bileşenleri (Table, List, vb.)
+    - Overlay bileşenleri (Modal, Dialog, vb.)
+  - **Teknolojiler:**
+    - React ve TypeScript tabanlı
+    - Tailwind CSS ile stil
+    - Radix UI ile erişilebilirlik
+    - Framer Motion ile animasyonlar
+  - **Dokümantasyon:**
+    - Kapsamlı online dokümantasyon
+    - Kurulum rehberleri
+    - Örnek kullanımlar
+    - Katkıda bulunma rehberi
+
+### **Awesome Shadcn UI**
+- **Repository:** [birobirobiro/awesome-shadcn-ui](https://github.com/birobirobiro/awesome-shadcn-ui)
+- **Lisans:** MIT
+- **Açıklama:** Shadcn UI ile ilgili harika şeylerin küratörlüğünü yapılmış listesi
+- **İçerik:**
+  - **Kategoriler:**
+    - **Bileşenler ve Kütüphaneler:** 100+ shadcn/ui bileşeni ve genişletmesi
+    - **Eklentiler ve Uzantılar:** VS Code, JetBrains, Raycast eklentileri
+    - **Renkler ve Özelleştirmeler:** Tema editörleri ve renk paletleri
+    - **Animasyonlar:** Framer Motion ve Tailwind animasyonları
+    - **Araçlar:** Form builder, tema editörü, CLI araçları
+    - **Websiteler ve Portföyler:** İlham verici örnekler
+    - **Platformlar:** Tam özellikli uygulamalar
+    - **Portlar:** Diğer framework'lere uyarlamalar (Vue, Svelte, Angular, vb.)
+    - **Tasarım Sistemi:** Figma kütüphaneleri ve Storybook
+    - **Boilerplate'ler:** Hazır şablonlar ve başlangıç projeleri
+  - **Özellikler:**
+    - 500+ kaynak ve bileşen
+    - Güncel tarih bilgileri
+    - Kategorilere ayrılmış düzenli liste
+    - Topluluk katkıları
+    - Star history takibi
+    - Kapsamlı dokümantasyon
+
+### **Shadcn Admin Dashboard**
+- **Repository:** [satnaing/shadcn-admin](https://github.com/satnaing/shadcn-admin)
+- **Lisans:** MIT
+- **Açıklama:** Shadcn ve Vite ile geliştirilmiş admin dashboard UI - responsive ve erişilebilir tasarım
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Açık/koyu tema desteği
+    - Responsive tasarım
+    - Erişilebilir (Accessible) bileşenler
+    - Yerleşik Sidebar bileşeni
+    - Global Arama Komutu
+    - 10+ sayfa
+    - Ek özel bileşenler
+  - **Teknoloji Yığını:**
+    - **UI:** ShadcnUI (TailwindCSS + RadixUI)
+    - **Build Tool:** Vite
+    - **Routing:** TanStack Router
+    - **Type Checking:** TypeScript
+    - **Linting/Formatting:** ESLint & Prettier
+    - **Icons:** Tabler Icons
+    - **Auth:** Clerk (kısmi)
+  - **Özellikler:**
+    - Yeniden kullanılabilir dashboard UI koleksiyonu
+    - Özel bileşenler
+    - ShadcnUI örneklerinden adaptasyonlar
+    - Sponsor desteği ve geliştirme
+    - Kapsamlı dokümantasyon
+
+### **Shadcn Table**
+- **Repository:** [sadmann7/shadcn-table](https://github.com/sadmann7/shadcn-table)
+- **Lisans:** MIT
+- **Açıklama:** Server-side sorting, filtering ve pagination ile shadcn table bileşeni
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Server-side pagination, sorting ve filtering
+    - Özelleştirilebilir sütunlar
+    - Sütun tanımlarından otomatik filtre oluşturma
+    - Dinamik Data-Table-Toolbar (arama, filtreler, aksiyonlar)
+    - Notion/Airtable benzeri gelişmiş filtreleme
+    - Linear benzeri komut paleti filtreleme
+    - Satır seçimi üzerinde aksiyon çubuğu
+  - **Teknoloji Yığını:**
+    - **Framework:** Next.js
+    - **Styling:** Tailwind CSS
+    - **UI Components:** shadcn/ui
+    - **Table package:** TanStack/react-table
+    - **Database:** Neon
+    - **ORM:** Drizzle ORM
+    - **Validation:** Zod
+  - **Kurulum Seçenekleri:**
+    - Docker ile hızlı kurulum
+    - Manuel kurulum
+    - PostgreSQL desteği
+    - Örnek veri ile seed
+    - Deployment rehberleri (Vercel, Netlify, Docker)
+
+### **Shadcn UI Sidebar**
+- **Repository:** [salimi-my/shadcn-ui-sidebar](https://github.com/salimi-my/shadcn-ui-sidebar)
+- **Lisans:** MIT
+- **Açıklama:** Next.js için geliştirilmiş etkileyici ve işlevsel geri çekilebilir sidebar - shadcn/ui üzerine inşa edilmiş
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Geri çekilebilir mini ve geniş sidebar
+    - Kaydırılabilir sidebar menü
+    - Mobil için sheet menü
+    - Etiketli gruplandırılmış menü
+    - Katlanabilir alt menü
+    - Çıkarılmış menü öğeleri listesi
+  - **Teknoloji Yığını:**
+    - Next.js 14
+    - Shadcn/ui
+    - Tailwind CSS
+    - TypeScript
+    - Zustand
+  - **Kurulum Seçenekleri:**
+    - Custom registry ile direkt kurulum
+    - Shadcn CLI entegrasyonu
+    - Desktop ve mobil responsive tasarım
+    - Açık/koyu tema desteği
+    - Canlı demo ve ekran görüntüleri
+
+### **Shadcn Chat**
+- **Repository:** [jakobhoeg/shadcn-chat](https://github.com/jakobhoeg/shadcn-chat)
+- **Lisans:** MIT
+- **Açıklama:** Uygulamalarınıza özelleştirilebilir ve yeniden kullanılabilir chat bileşenleri eklemek için paket
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Özelleştirilebilir chat bileşenleri
+    - Yeniden kullanılabilir chat arayüzleri
+    - Dakikalar içinde güzel chat arayüzleri oluşturma
+    - Vercel AI SDK chatbot örneği
+    - 5 dakikada AI destek chatbot'u oluşturma
+  - **Kurulum Seçenekleri:**
+    - CLI ile tüm bileşenleri kurma (`--all` flag)
+    - Tek tek bileşen kurulumu
+    - Shadcn-ui bağımlılığı
+    - NPM paketi olarak mevcut
+  - **Özellikler:**
+    - Kapsamlı dokümantasyon ve API referansı
+    - Canlı demo websitesi
+    - Vercel AI SDK entegrasyonu
+    - Örnek projeler ve kod
+    - Katkıda bulunma rehberleri
+    - NPM istatistikleri ve GitHub stars
+
+---
+
+## 🔧 Geliştirici Araçları
+
+### **Engineering Management**
+- **Repository:** [charlax/engineering-management](https://github.com/charlax/engineering-management)
+- **Lisans:** MIT
+- **Açıklama:** Mühendislik yönetimi için kapsamlı kaynak koleksiyonu - yöneticiler ve liderler için
+- **İçerik:**
+  - **Kategoriler:**
+    - **Kitaplar:** Turn the Ship Around, High Output Management, The Manager's Path
+    - **1-1 Toplantıları:** Soru listeleri, format önerileri, etkili iletişim
+    - **İşe Alım:** Mülakat teknikleri, süreç yönetimi, aday değerlendirme
+    - **Performans Yönetimi:** Geri bildirim, değerlendirme, kariyer gelişimi
+    - **Takım Kültürü:** Değerler, güven, psikolojik güvenlik
+    - **Organizasyon Yapısı:** Conway's Law, Team Topologies, ölçeklendirme
+    - **Proje Yönetimi:** Tahminleme, süreçler, metodolojiler
+    - **Strateji:** Teknik strateji, karar verme, önceliklendirme
+    - **Uzaktan Çalışma:** Dağıtık takımlar, iletişim, verimlilik
+    - **Kişisel Verimlilik:** Zaman yönetimi, GTD, derin çalışma
+  - **Özellikler:**
+    - 1000+ kaynak ve makale
+    - Pratik öneriler ve örnekler
+    - Video ve podcast önerileri
+    - Güncel blog ve bülten takibi
+    - Kategorilere ayrılmış düzenli liste
+    - Topluluk katkıları
+
+### **Newspaper3k**
+- **Repository:** [codelucas/newspaper](https://github.com/codelucas/newspaper)
+- **Lisans:** MIT
+- **Açıklama:** Python3 için makale kazıma ve küratörlük kütüphanesi - Instapaper tarzı makale çıkarma
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Çok iş parçacıklı makale indirme framework'ü
+    - Haber URL tanımlama
+    - HTML'den metin çıkarma
+    - HTML'den üst resim çıkarma
+    - HTML'den tüm resimleri çıkarma
+    - Metinden anahtar kelime çıkarma
+    - Metinden özet çıkarma
+    - Metinden yazar çıkarma
+    - Google trend terimleri çıkarma
+  - **Dil Desteği:**
+    - 10+ dil desteği (İngilizce, Çince, Almanca, Arapça, vb.)
+    - Otomatik dil algılama
+    - Çok dilli makale işleme
+  - **Kullanım Örnekleri:**
+    - Tek makale işleme
+    - Tüm haber sitesi tarama
+    - Kategori URL'leri çıkarma
+    - NLP analizi (anahtar kelimeler, özet)
+    - Yazar ve yayın tarihi çıkarma
+  - **Teknolojiler:**
+    - Python3 tabanlı
+    - lxml ile hızlı işleme
+    - requests benzeri basit API
+    - PIL ile resim işleme
+    - NLTK ile NLP özellikleri
+
+### **OpenSSL**
+- **Repository:** [openssl/openssl](https://github.com/openssl/openssl)
+- **Lisans:** Apache License 2.0
+- **Açıklama:** TLS, DTLS ve QUIC protokolleri için güçlü, ticari seviyede, tam özellikli açık kaynak araç seti
+- **İçerik:**
+  - **Temel Bileşenler:**
+    - **libssl:** TLSv1.3, DTLSv1.2 ve QUIC v1 protokol implementasyonları
+    - **libcrypto:** Tam güçlü genel amaçlı kriptografik kütüphane
+    - **openssl:** Kriptografik görevler için komut satırı aracı
+  - **Özellikler:**
+    - Anahtar parametreleri oluşturma
+    - X.509 sertifikaları, CSR ve CRL oluşturma
+    - Mesaj özeti hesaplama
+    - Şifreleme ve şifre çözme
+    - SSL/TLS/DTLS istemci ve sunucu testleri
+    - QUIC istemci testleri
+    - S/MIME imzalı veya şifreli e-posta işleme
+    - FIPS standartlarına uygun kriptografik modül
+  - **Protokol Desteği:**
+    - TLS (Transport Layer Security)
+    - DTLS (Datagram Transport Layer Security)
+    - QUIC (Quick UDP Internet Connections)
+    - Çeşitli kriptografik algoritmalar
+  - **Platform Desteği:**
+    - Unix-benzeri sistemler
+    - Windows
+    - Android
+    - macOS
+    - Çeşitli gömülü sistemler
+
+### **Phaser**
+- **Repository:** [phaserjs/phaser](https://github.com/phaserjs/phaser)
+- **Lisans:** MIT
+- **Açıklama:** Hızlı, ücretsiz ve eğlenceli açık kaynak HTML5 oyun framework'ü - WebGL ve Canvas rendering
+- **İçerik:**
+  - **Temel Özellikler:**
+    - WebGL ve Canvas rendering desteği
+    - Desktop ve mobil web tarayıcıları için
+    - 10+ yıldır aktif geliştirme
+    - JavaScript ve TypeScript desteği
+    - 40+ frontend framework desteği (React, Vue, Angular, vb.)
+  - **Platform Desteği:**
+    - Web oyunları
+    - YouTube Playables
+    - Discord Activities
+    - Twitch Overlays
+    - iOS, Android, Steam (3rd party araçlarla)
+    - Native uygulamalar
+  - **Geliştirme Araçları:**
+    - create-phaser-game CLI aracı
+    - Phaser Sandbox (online editör)
+    - Phaser Compressor (bundle optimizasyonu)
+    - Kapsamlı API dokümantasyonu
+    - 2000+ örnek kod
+  - **Özellikler:**
+    - Oyun nesneleri sistemi
+    - Fizik motoru
+    - Ses sistemi
+    - Input yönetimi
+    - Animasyon sistemi
+    - Particle efektleri
+    - Tilemap desteği
+    - Çoklu platform optimizasyonu
+  - **Topluluk:**
+    - Discord topluluğu
+    - Haftalık Phaser World bülteni
+    - StackOverflow desteği
+    - RexRainbow plugins koleksiyonu
+
+### **Sunshine**
+- **Repository:** [LizardByte/Sunshine](https://github.com/LizardByte/Sunshine)
+- **Lisans:** GPL-3.0
+- **Açıklama:** Açık kaynak oyun streaming sunucusu - Nvidia GameStream alternatifi
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Oyun streaming sunucusu
+    - Düşük gecikme süresi
+    - HDR desteği
+    - Çoklu platform desteği (Linux, macOS, Windows)
+    - Web tabanlı yönetim arayüzü
+  - **Encoder Desteği:**
+    - NVENC (NVIDIA)
+    - QuickSync (Intel)
+    - AMF (AMD)
+    - libx264 (yazılım)
+  - **Capture Yöntemleri:**
+    - NVFBC (NVIDIA)
+    - KMS (Linux)
+    - X11 (Linux)
+    - WGC (Windows)
+    - DDX (macOS)
+  - **Özellikler:**
+    - UPnP desteği
+    - Virtual display device (VDD)
+    - Audio streaming
+    - Controller desteği
+    - Gamepad emülasyonu
+    - RESTful API
+  - **Kurulum Seçenekleri:**
+    - Binary indirme
+    - Docker container
+    - Flatpak paketi
+    - Kaynak koddan derleme
+    - 3rd party paketler (Chocolatey, Scoop, vb.)
+  - **Performans Optimizasyonu:**
+    - AMD Enhanced Sync
+    - NVIDIA Fast Sync
+    - Mesa low-latency mode
+    - Network tuning
+
+### **Stendhal**
+- **Repository:** [arianne/stendhal](https://github.com/arianne/stendhal)
+- **Lisans:** GPL-2.0+ (server/client), AGPL-3.0+ (web client), LGPL-3.0+ (nativehelper)
+- **Açıklama:** Tam özellikli çok oyunculu online macera oyunu (MORPG) - tamamen açık kaynak
+- **İçerik:**
+  - **Oyun Özellikleri:**
+    - Çok oyunculu online rol yapma oyunu (MORPG)
+    - Zengin ve genişleyen dünya
+    - Kasabalar, binalar, ovalar, mağaralar ve zindanlar
+    - NPC'ler ve görev sistemi
+    - Karakter geliştirme ve seviye atlama
+    - Eşya ve silah sistemi
+    - Canavar avlama ve savaş
+  - **Platform Desteği:**
+    - Web tarayıcısı (JavaScript)
+    - Progressive Web App (PWA)
+    - Android uygulaması (F-Droid)
+    - Klasik masaüstü istemcisi (Java)
+    - Platform bağımsız
+  - **Teknik Özellikler:**
+    - Tamamen açık kaynak (istemci, sunucu, her şey)
+    - Java tabanlı sunucu ve istemci
+    - Web tabanlı istemci
+    - Android WebView istemcisi
+    - Çoklu lisans yapısı
+  - **Geliştirme:**
+    - Eclipse IDE desteği
+    - Sunucu hosting rehberi
+    - Build talimatları
+    - Android WebView istemci geliştirme
+    - Topluluk katkıları
+
+### **Manim**
+- **Repository:** [ManimCommunity/manim](https://github.com/ManimCommunity/manim)
+- **Lisans:** MIT
+- **Açıklama:** Matematiksel animasyonlar oluşturmak için Python kütüphanesi - 3Blue1Brown tarzı eğitim videoları
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Matematiksel animasyonlar oluşturma
+    - LaTeX desteği ile matematiksel formüller
+    - 2D ve 3D grafikler
+    - Geometrik şekiller ve dönüşümler
+    - Ses ve video entegrasyonu
+  - **Ana Bileşenler:**
+    - **Mobjects:** Matematiksel nesneler (daire, kare, grafik, vb.)
+    - **Animations:** Dönüşümler ve hareketler
+    - **Scenes:** Animasyon sahneleri
+    - **Cameras:** Kamera kontrolü ve açıları
+  - **Render Seçenekleri:**
+    - Cairo renderer (varsayılan)
+    - OpenGL renderer (hızlı)
+    - WebGL renderer (web için)
+    - Çoklu kalite seviyeleri
+  - **Özellikler:**
+    - LaTeX ve Pango text rendering
+    - SVG ve 3D nesne desteği
+    - Ses ve video işleme
+    - Jupyter notebook entegrasyonu
+    - Docker desteği
+    - Plugin sistemi
+  - **Kurulum Seçenekleri:**
+    - pip ile kurulum
+    - conda ile kurulum
+    - Docker container
+    - Jupyter notebook
+    - uv ile kurulum
+  - **Topluluk:**
+    - Kapsamlı dokümantasyon
+    - 2000+ örnek kod
+    - Discord topluluğu
+    - StackOverflow desteği
+
+
+### **Awesome Python**
+- **Repository:** [vinta/awesome-python](https://github.com/vinta/awesome-python)
+- **Lisans:** MIT
+- **Açıklama:** Python framework'leri, kütüphaneleri, yazılımları ve kaynakları için kapsamlı liste
+- **İçerik:**
+  - **Kategoriler (50+):**
+    - **Web Frameworks:** Django, Flask, Pyramid, Tornado, FastAPI
+    - **Deep Learning:** TensorFlow, PyTorch, Keras, Stable Baselines3
+    - **Data Science:** NumPy, SciPy, Pandas, Matplotlib, Seaborn
+    - **Machine Learning:** Scikit-learn, XGBoost, LightGBM
+    - **Database:** SQLAlchemy, Django ORM, Peewee, Tortoise ORM
+    - **API Development:** FastAPI, Django REST Framework, Flask-RESTful
+    - **Testing:** pytest, unittest, nose, coverage
+    - **DevOps:** Docker, Kubernetes, Ansible, Terraform
+    - **GUI Development:** Tkinter, PyQt, Kivy, wxPython
+    - **Game Development:** Pygame, Arcade, Panda3D
+  - **Özellikler:**
+    - 1000+ Python kütüphanesi ve araç
+    - Kategorilere ayrılmış düzenli liste
+    - Her kütüphane için açıklama
+    - GitHub star sayıları
+    - Güncel bakım durumu
+    - Lisans bilgileri
+  - **Kullanım Alanları:**
+    - Web geliştirme
+    - Veri bilimi ve analiz
+    - Yapay zeka ve makine öğrenmesi
+    - Otomasyon ve scripting
+    - Masaüstü uygulamaları
+    - Mobil uygulamalar
+    - Oyun geliştirme
+    - DevOps ve deployment
+
+### **Whereami**
+- **Repository:** [kootenpv/whereami](https://github.com/kootenpv/whereami)
+- **Lisans:** MIT
+- **Açıklama:** WiFi sinyalleri ve makine öğrenmesi kullanarak konum tahmini yapan Python kütüphanesi
+- **İçerik:**
+  - **Temel Özellikler:**
+    - WiFi sinyallerini kullanarak konum tahmini
+    - scikit-learn RandomForest algoritması
+    - 2-10 metre gibi küçük mesafelerde çalışır
+    - Cross-platform desteği (OSX, Windows, Linux)
+  - **Kullanım Senaryoları:**
+    - Ev içi konum tespiti (yatak odası, mutfak)
+    - Ofis içi konum tespiti
+    - Küçük mesafe ayrımı (koltuk #1 vs koltuk #2)
+    - Dikey konum farklılıkları
+  - **Özellikler:**
+    - %99+ doğruluk oranı
+    - Komut satırı arayüzü
+    - Python API
+    - Cross-validation desteği
+    - Olasılık tahminleri
+    - Otomatik öğrenme
+  - **Teknolojiler:**
+    - scikit-learn RandomForest
+    - access_points kütüphanesi
+    - WiFi tarama
+    - Makine öğrenmesi
+    - Cross-platform WiFi erişimi
+
+
+---
+
+## 🎨 3D Grafik ve Görselleştirme
+
+### **Three.js**
+- **Repository:** [mrdoob/three.js](https://github.com/mrdoob/three.js)
+- **Lisans:** MIT
+- **Açıklama:** WebGL tabanlı 3D grafik kütüphanesi - web tarayıcılarında 3D içerik oluşturmak için
+- **İçerik:**
+  - **Temel Özellikler:**
+    - WebGL ve Canvas rendering desteği
+    - Sahne grafiği (Scene Graph) yönetimi
+    - Kamera kontrolleri ve perspektif
+    - Işıklandırma ve gölge sistemi
+    - Materyal ve doku (texture) yönetimi
+    - Animasyon ve transformasyon
+    - Geometri ve mesh oluşturma
+  - **Render Sistemleri:**
+    - WebGLRenderer (ana renderer)
+    - WebGLRenderTarget (render hedefleri)
+    - WebGLRenderTarget3D (3D render hedefleri)
+    - WebGLArrayRenderTarget (dizi render hedefleri)
+  - **Işıklandırma:**
+    - PointLight, DirectionalLight, SpotLight
+    - LightProbe (çevre ışıklandırması)
+    - AmbientLight, HemisphereLight
+    - Gölge haritalama ve PCF gölgeler
+  - **Materyaller:**
+    - MeshBasicMaterial, MeshLambertMaterial
+    - MeshPhongMaterial, MeshStandardMaterial
+    - MeshPhysicalMaterial, MeshToonMaterial
+    - ShaderMaterial (özel shader'lar)
+  - **Geometri:**
+    - BoxGeometry, SphereGeometry, CylinderGeometry
+    - PlaneGeometry, RingGeometry, TorusGeometry
+    - BufferGeometry (özel geometri)
+    - InstancedMesh (çoklu mesh)
+  - **Kamera Sistemleri:**
+    - PerspectiveCamera (perspektif kamera)
+    - OrthographicCamera (ortografik kamera)
+    - CubeCamera (küp harita kamerası)
+    - ArrayCamera (dizi kamera)
+  - **Doku ve Materyal:**
+    - TextureLoader, CubeTextureLoader
+    - CompressedTextureLoader
+    - DataTexture, VideoTexture
+    - CanvasTexture, ImageBitmapTexture
+  - **Animasyon:**
+    - AnimationMixer, AnimationClip
+    - KeyframeTrack, PropertyBinding
+    - MorphTargets, Skeleton
+    - Tween.js entegrasyonu
+  - **Fizik ve Etkileşim:**
+    - Raycaster (ışın tarama)
+    - TransformControls (dönüşüm kontrolleri)
+    - DragControls (sürükleme kontrolleri)
+    - OrbitControls (yörünge kontrolleri)
+  - **Performans Optimizasyonu:**
+    - Frustum culling
+    - Level of Detail (LOD)
+    - Occlusion culling
+    - Instancing ve batching
+  - **WebXR Desteği:**
+    - VR ve AR deneyimleri
+    - WebXR Device API entegrasyonu
+    - Controller desteği
+    - Hand tracking
+  - **Eklentiler ve Add-ons:**
+    - Lensflare (mercek parlaması)
+    - Sky (gökyüzü objesi)
+    - Water (su efekti)
+    - Terrain (arazi oluşturma)
+  - **Geliştirme Araçları:**
+    - Three.js Inspector
+    - Stats.js entegrasyonu
+    - Debug helpers
+    - Performance monitoring
+  - **Platform Desteği:**
+    - Web tarayıcıları
+    - Progressive Web Apps (PWA)
+    - Electron uygulamaları
+    - React Native (react-three-fiber)
+  - **Dokümantasyon:**
+    - Kapsamlı API referansı
+    - 2000+ örnek kod
+    - Tutorial serileri
+    - Manual ve fundamentals
+  - **Topluluk:**
+    - Discord topluluğu
+    - Stack Overflow desteği
+    - GitHub discussions
+    - Haftalık bültenler
+
+
+
+### **Gitmoji**
+- **Repository:** [carloscuesta/gitmoji](https://github.com/carloscuesta/gitmoji)
+- **Lisans:** MIT
+- **Açıklama:** GitHub commit mesajlarında emoji kullanımını standartlaştıran ve açıklayan girişim
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Emoji tabanlı commit mesaj standardı
+    - Commit amacını ve niyetini kolayca tanımlama
+    - Proje genelinde tutarlı commit formatı
+    - Görsel commit geçmişi
+  - **Commit Formatı:**
+    - `<intention> [scope?][:?] <message>`
+    - intention: Emoji listesinden bir emoji
+    - scope: Değişikliğin kapsamı için opsiyonel string
+    - message: Değişikliğin kısa açıklaması
+  - **Emoji Kategorileri:**
+    - 🎨 Art (kod stilini iyileştirme)
+    - ⚡️ Zap (performans iyileştirmesi)
+    - 🔥 Fire (kod veya dosya silme)
+    - 🐛 Bug (hata düzeltmesi)
+    - 🚑️ Ambulance (kritik düzeltme)
+    - ✨ Sparkles (yeni özellik)
+    - 📝 Memo (dokümantasyon)
+    - 🚀 Rocket (deploy)
+    - 💄 Lipstick (UI/UX iyileştirmesi)
+    - 🎉 Tada (proje başlatma)
+  - **CLI Aracı:**
+    - gitmoji-cli paketi
+    - İnteraktif emoji seçimi
+    - Commit mesajı oluşturma
+    - Global kurulum desteği
+  - **Entegrasyon:**
+    - NPM paketi olarak kullanım
+    - Proje bağımlılığı olarak ekleme
+    - CI/CD pipeline entegrasyonu
+    - IDE eklentileri
+  - **Topluluk:**
+    - Katkıda bulunma rehberleri
+    - Emoji önerileri ve tartışmaları
+    - Proje rozeti sistemi
+    - Dokümantasyon ve örnekler
+
+### **KryptEY**
+- **Repository:** [amnesica/KryptEY](https://github.com/amnesica/KryptEY)
+- **Lisans:** MIT
+- **Açıklama:** Android klavyesi üzerinden Signal protokolü ile güvenli end-to-end şifreli mesajlaşma
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Signal protokolü implementasyonu
+    - Messenger bağımsız E2EE
+    - X3DH Key Agreement Protocol
+    - Double Ratchet Algorithm
+    - Server gerektirmeyen çalışma
+  - **Güvenlik Özellikleri:**
+    - X25519 elliptic curve ile SHA-512
+    - SHA-256 hash fonksiyonu
+    - AES-256 CBC şifreleme
+    - Fingerprint doğrulama
+    - Özel anahtar cihazda kalır
+  - **Kullanım Modları:**
+    - Raw mode (JSON formatında)
+    - Fairytale mode (gizli metin içinde)
+    - Clipboard entegrasyonu
+    - Mesaj günlüğü
+  - **Özellikler:**
+    - Karanlık/aydınlık tema
+    - Kişi yönetimi
+    - Q&A görünümü
+    - Mesaj doğrulama
+    - 1-to-1 konuşma desteği
+  - **Teknolojiler:**
+    - Signal Protocol (android)
+    - Jackson JSON
+    - Protobuf (lite)
+    - JUnit4 test framework
+  - **Platform:**
+    - Android 8.0+
+    - F-Droid desteği
+    - GitHub releases
+    - IzzyOnDroid
+
+### **Chat-E2EE**
+- **Repository:** [muke1908/chat-e2ee](https://github.com/muke1908/chat-e2ee)
+- **Lisans:** MIT
+- **Açıklama:** Geçici end-to-end şifreli sohbet oturumu - kullanıcı tanımlama gerektirmeyen güvenli mesajlaşma
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Login/signup gerektirmeyen sistem
+    - End-to-end şifreli sesli arama (deneysel)
+    - Veri sunucuda saklanmaz
+    - Geçici sohbet oturumları
+    - Özel anahtar cihazda kalır
+  - **Güvenlik Özellikleri:**
+    - Browser window.crypto kütüphanesi
+    - Public/private key çifti
+    - Asimetrik şifreleme
+    - Man-in-the-middle koruması
+    - Veri sahipliği sadece kullanıcıda
+  - **Kullanım Akışı:**
+    - Benzersiz link oluşturma
+    - PIN ile paylaşım
+    - Otomatik şifreleme/çözme
+    - Oturum sonunda veri silinir
+  - **Teknoloji Stack:**
+    - Frontend: React (create-react-app)
+    - Backend: Express.js/Node.js
+    - WebSocket: Socket.io
+    - Ses: WebRTC
+    - SDK: @chat-e2ee/service
+  - **Geliştirici Özellikleri:**
+    - JS SDK desteği
+    - Custom frontend geliştirme
+    - Docker desteği
+    - Native build
+    - Conventional commits
+  - **Platform:**
+    - Web tabanlı
+    - Azure deployment
+    - Gitpod entegrasyonu
+    - Cross-platform
+
+### **Physijs**
+- **Repository:** [chandlerprall/Physijs](https://github.com/chandlerprall/Physijs)
+- **Lisans:** MIT
+- **Açıklama:** Three.js için fizik motoru eklentisi - kolay kullanımlı fizik simülasyonu
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Three.js ile sorunsuz entegrasyon
+    - Kolay kurulum (5 adım)
+    - Web worker ile ayrı thread'de çalışma
+    - Three.js kod stilini koruma
+    - Performans optimizasyonu
+  - **Fizik Motoru:**
+    - Ammo.js tabanlı (Bullet Physics)
+    - Cannon.js branch desteği
+    - Çoklu obje şekli desteği
+    - Özel convex/concave objeler
+    - Heightmap desteği
+  - **Materyal Sistemi:**
+    - Sürtünme kontrolü
+    - Restitution (zıplama) ayarları
+    - Çarpışma algılama
+    - Çarpışma olayları
+  - **Obje Sistemi:**
+    - Compound objeler
+    - Hierarchy sistemi
+    - Araç sistemi
+    - Constraint sistemleri
+  - **Constraint Türleri:**
+    - Point-to-point constraints
+    - Hinge constraints
+    - Araç constraint'leri
+    - Özel constraint'ler
+  - **Rotasyon Sistemi:**
+    - Euler rotasyonları
+    - Quaternion rotasyonları
+    - Kullanıcı tercihi
+    - Otomatik güncelleme
+  - **Örnekler:**
+    - Rigid bodies
+    - Collisions
+    - Compound shapes
+    - All shapes
+    - Jenga
+    - Car constraints
+    - Vehicle
+  - **Gelecek Planları:**
+    - Daha iyi optimizasyonlar
+    - Concave shape decomposition
+    - Performans iyileştirmeleri
+    - Yeni özellikler
+
+### **Stats.js**
+- **Repository:** [mrdoob/stats.js](https://github.com/mrdoob/stats.js)
+- **Lisans:** MIT
+- **Açıklama:** JavaScript performans monitörü - kod performansını izlemek için basit bilgi kutusu
+- **İçerik:**
+  - **Temel Özellikler:**
+    - FPS (saniyede render edilen frame sayısı)
+    - MS (frame render etmek için gereken milisaniye)
+    - MB (ayrılan bellek miktarı)
+    - CUSTOM (kullanıcı tanımlı panel desteği)
+  - **Performans Metrikleri:**
+    - FPS: Yüksek sayı daha iyi
+    - MS: Düşük sayı daha iyi
+    - MB: Chrome'da `--enable-precise-memory-info` ile
+    - Gerçek zamanlı güncelleme
+  - **Kullanım:**
+    - NPM paketi olarak kurulum
+    - Bookmarklet desteği
+    - Three.js entegrasyonu
+    - requestAnimationFrame ile çalışma
+  - **Panel Türleri:**
+    - Panel 0: FPS göstergesi
+    - Panel 1: MS göstergesi
+    - Panel 2: MB göstergesi
+    - Panel 3+: Özel paneller
+  - **Entegrasyon:**
+    - begin() ve end() metodları
+    - DOM element olarak ekleme
+    - Otomatik güncelleme
+    - Cross-browser uyumluluk
+  - **Özellikler:**
+    - Hafif ve hızlı
+    - Kolay kurulum
+    - Görsel arayüz
+    - Gerçek zamanlı izleme
+
+### **Discover Three.js**
+- **Website:** [discoverthreejs.com](https://discoverthreejs.com)
+- **Repository:** [looeee/discoverthreejs-site](https://github.com/looeee/discoverthreejs-site)
+- **Lisans:** MIT
+- **Açıklama:** Three.js öğrenme kaynağı - kapsamlı kitap ve ipuçları koleksiyonu
+- **İçerik:**
+  - **Kitap Bölümleri:**
+    - Getting Started (Başlangıç)
+    - First Steps (İlk Adımlar)
+    - App Structure (Uygulama Yapısı)
+    - First Scene (İlk Sahne)
+    - World App (Dünya Uygulaması)
+    - Physically Based Rendering (Fiziksel Tabanlı Render)
+    - Transformations (Dönüşümler)
+    - Responsive Design (Duyarlı Tasarım)
+    - Animation Loop (Animasyon Döngüsü)
+    - Textures (Dokular)
+    - Camera Controls (Kamera Kontrolleri)
+    - Lighting (Işıklandırma)
+    - Organizing Scenes (Sahne Organizasyonu)
+    - Built-in Geometries (Yerleşik Geometriler)
+    - Loading Models (Model Yükleme)
+    - Animation System (Animasyon Sistemi)
+  - **İpuçları ve Püf Noktaları:**
+    - Başlangıç dostu ipuçları
+    - Genel performans ipuçları
+    - SI birimleri kullanımı
+    - Doğru renk yönetimi
+    - JavaScript optimizasyonları
+    - Model ve mesh ipuçları
+    - Kamera optimizasyonları
+    - Renderer ayarları
+    - Işıklandırma ipuçları
+    - Gölge optimizasyonları
+    - Materyal ipuçları
+    - Özel materyaller
+    - Geometri ipuçları
+    - Doku optimizasyonları
+    - Antialiasing
+    - Post-processing
+    - Obje temizleme
+    - Performans optimizasyonları
+  - **Özellikler:**
+    - Açık kaynak
+    - Çoklu dil desteği (İngilizce, Çince)
+    - İnteraktif örnekler
+    - Kod örnekleri
+    - Best practices
+    - Performance guidelines
+    - Community resources
+  - **Hedef Kitle:**
+    - Three.js yeni başlayanlar
+    - WebGL geliştiricileri
+    - 3D grafik meraklıları
+    - Web geliştiricileri
+    - Oyun geliştiricileri
+
+### **Three.js Manual**
+- **Website:** [threejs.org/manual](https://threejs.org/manual)
+- **Lisans:** MIT
+- **Açıklama:** Three.js resmi dokümantasyonu - kapsamlı API referansı ve öğreticiler
+- **İçerik:**
+  - **Dil Desteği:**
+    - İngilizce (en)
+    - Fransızca (fr)
+    - Rusça (ru)
+    - Korece (한국어)
+    - Çince (中文)
+    - Japonca (日本語)
+  - **Dokümantasyon Bölümleri:**
+    - API Reference (API Referansı)
+    - Examples (Örnekler)
+    - Manual (El Kitabı)
+    - Fundamentals (Temeller)
+    - Best Practices (En İyi Uygulamalar)
+  - **Öğretici İçerik:**
+    - Creating a Scene (Sahne Oluşturma)
+    - Geometries (Geometriler)
+    - Materials (Materyaller)
+    - Lights (Işıklar)
+    - Cameras (Kamerlar)
+    - Renderers (Render'lar)
+    - Controls (Kontroller)
+    - Loaders (Yükleyiciler)
+    - Post-processing (Son İşleme)
+    - Performance (Performans)
+  - **API Referansı:**
+    - Core (Çekirdek)
+    - Objects (Objeler)
+    - Materials (Materyaller)
+    - Lights (Işıklar)
+    - Cameras (Kamerlar)
+    - Renderers (Render'lar)
+    - Loaders (Yükleyiciler)
+    - Math (Matematik)
+    - Utils (Yardımcılar)
+  - **Özellikler:**
+    - Resmi dokümantasyon
+    - Güncel API bilgileri
+    - Kod örnekleri
+    - İnteraktif örnekler
+    - Çoklu dil desteği
+    - Arama fonksiyonu
+    - Kategorize edilmiş içerik
+
+---
+
+## 📰 Web Scraping ve Veri İşleme
+
+### **Oxylabs Google News Scraper**
+- **Repository:** [oxylabs/google-news-scraper](https://github.com/oxylabs/google-news-scraper)
+- **Lisans:** MIT
+- **Açıklama:** Google News'den makale kazıma aracı - ücretsiz ve API tabanlı çözümler
+- **İçerik:**
+  - **Ücretsiz Scraper:**
+    - Python 3.11 gereksinimi
+    - Make komutları ile kurulum
+    - Topic ID tabanlı kazıma
+    - CSV formatında çıktı
+    - Otomatik veri çıkarma
+  - **Özellikler:**
+    - Google News topic'lerini kazıma
+    - Makale başlıkları, URL'leri, tarihleri
+    - Kaynak bilgileri
+    - Gerçek zamanlı veri
+    - Lokalize sonuçlar
+  - **Kullanım:**
+    - Topic ID bulma
+    - Komut satırı arayüzü
+    - CSV dosya çıktısı
+    - Hata yönetimi
+    - Ölçeklenebilir çözümler
+  - **API Çözümü:**
+    - 7 günlük ücretsiz deneme
+    - 5K ücretsiz sonuç
+    - JSON/HTML format desteği
+    - Dashboard entegrasyonu
+    - Blok önleme
+  - **Teknolojiler:**
+    - Python requests
+    - Make build sistemi
+    - CSV işleme
+    - HTTP authentication
+    - RESTful API
+  - **İlgili Projeler:**
+    - Google Sheets scraping
+    - Google Shopping scraping
+    - Google Play scraper
+    - Google Jobs scraping
+    - Google Scholar scraping
+    - Google Flights scraping
+    - Google Images scraping
+    - Google Search scraping
+    - Google Trends scraping
+
+### **Scrapy**
+- **Repository:** [scrapy/scrapy](https://github.com/scrapy/scrapy)
+- **Lisans:** BSD-3-Clause
+- **Açıklama:** Yüksek seviyeli web crawling ve web scraping framework'ü - yapılandırılmış veri çıkarma
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Hızlı ve güçlü web scraping
+    - Asenkron request işleme
+    - Otomatik encoding algılama
+    - Çoklu format desteği (JSON, CSV, XML)
+    - Robust hata yönetimi
+  - **Spider Türleri:**
+    - Basic Spider (temel spider)
+    - CrawlSpider (otomatik link takibi)
+    - XMLFeedSpider (XML feed işleme)
+    - CSVFeedSpider (CSV feed işleme)
+    - SitemapSpider (sitemap tabanlı)
+  - **Veri Çıkarma:**
+    - CSS Selector desteği
+    - XPath expression desteği
+    - Regular expression desteği
+    - Selector sınıfı
+    - Otomatik veri temizleme
+  - **Mimari Bileşenler:**
+    - Engine (motor)
+    - Scheduler (zamanlayıcı)
+    - Downloader (indirici)
+    - Spiders (örümcekler)
+    - Item Pipelines (veri işleme)
+  - **Middleware Sistemi:**
+    - Downloader Middleware
+    - Spider Middleware
+    - Özel middleware geliştirme
+    - Request/Response işleme
+    - Hata yakalama
+  - **Özellikler:**
+    - Scrapy Shell (interaktif test)
+    - Telnet Console (uzaktan debug)
+    - Feed Exports (veri dışa aktarma)
+    - Media Pipeline (medya indirme)
+    - Caching DNS resolver
+  - **Deployment:**
+    - Scrapyd (açık kaynak server)
+    - Zyte Scrapy Cloud (bulut servisi)
+    - Docker desteği
+    - Dağıtık crawling
+  - **Teknolojiler:**
+    - Twisted (asenkron networking)
+    - lxml (XML/HTML işleme)
+    - BeautifulSoup entegrasyonu
+    - HTTP proxy desteği
+    - User authentication
+  - **Kullanım Alanları:**
+    - Data mining
+    - Information processing
+    - Historical archival
+    - Automated testing
+    - API data extraction
+
+### **ScrapeGraphAI**
+- **Repository:** [ScrapeGraphAI/Scrapegraph-ai](https://github.com/ScrapeGraphAI/Scrapegraph-ai)
+- **Lisans:** MIT
+- **Açıklama:** LLM ve grafik mantığı kullanan Python web scraping kütüphanesi - otomatik veri çıkarma
+- **İçerik:**
+  - **Temel Özellikler:**
+    - LLM tabanlı web scraping
+    - Grafik tabanlı pipeline'lar
+    - Otomatik veri çıkarma
+    - Çoklu format desteği (XML, HTML, JSON)
+    - Düşük bakım gereksinimi
+  - **Scraping Pipeline'ları:**
+    - SmartScraperGraph (tek sayfa scraper)
+    - SearchGraph (çoklu sayfa scraper)
+    - SpeechGraph (ses dosyası oluşturma)
+    - ScriptCreatorGraph (Python script oluşturma)
+    - SmartScraperMultiGraph (çoklu sayfa)
+    - ScriptCreatorMultiGraph (çoklu script)
+  - **LLM Desteği:**
+    - OpenAI (GPT-3.5, GPT-4, GPT-4o)
+    - Google (Gemini Pro, Gemini 1.5)
+    - Anthropic (Claude 2, Claude 3)
+    - Mistral AI (Mistral Large, Open Mistral)
+    - Ollama (yerel modeller)
+    - Azure OpenAI
+    - Groq
+    - Hugging Face
+  - **Token Limitleri:**
+    - GPT-4o: 128,000 tokens
+    - Claude 3: 200,000 tokens
+    - Gemini 1.5: 128,000 tokens
+    - Llama3: 8,192-128,000 tokens
+    - Mistral: 32,000-128,000 tokens
+  - **Özellikler:**
+    - Prompt tabanlı veri çıkarma
+    - Paralel LLM çağrıları
+    - Otomatik encoding algılama
+    - Hata yönetimi
+    - Verbose logging
+  - **Kullanım Alanları:**
+    - Web sitesi scraping
+    - Yerel dosya işleme
+    - Arama motoru sonuçları
+    - Ses özeti oluşturma
+    - Otomatik script üretimi
+  - **Dokümantasyon:**
+    - ReadTheDocs entegrasyonu
+    - Docusaurus sitesi
+    - Çoklu dil desteği
+    - Google Colab örnekleri
+    - Streamlit dashboard
+  - **Teknolojiler:**
+    - Python
+    - LangChain entegrasyonu
+    - Graph-based architecture
+    - Asenkron işleme
+    - RESTful API
+
+### **You-Get**
+- **Repository:** [soimort/you-get](https://github.com/soimort/you-get)
+- **Lisans:** MIT
+- **Açıklama:** Komut satırı medya indirme aracı - web'den video, ses ve görsel indirme
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Video, ses ve görsel indirme
+    - Çoklu site desteği
+    - Kalite seçimi
+    - Proxy desteği
+    - İndirme devam ettirme
+  - **Desteklenen Siteler:**
+    - YouTube, Vimeo, Dailymotion
+    - Twitter, Instagram, Facebook
+    - Tumblr, Pinterest, Flickr
+    - SoundCloud, Bandcamp
+    - Bilibili, Youku, Tudou
+    - TikTok, Douyin, Kuaishou
+    - Niconico, AcFun
+    - 100+ farklı site
+  - **İndirme Özellikleri:**
+    - Çoklu format desteği (MP4, WebM, 3GP)
+    - Kalite seçimi (HD, SD, audio-only)
+    - Altyazı indirme
+    - Toplu indirme
+    - İndirme hızı kontrolü
+  - **Kullanım Seçenekleri:**
+    - Bilgi görüntüleme (--info)
+    - Kalite seçimi (--itag)
+    - Çıktı dizini belirleme (-o)
+    - Dosya adı belirleme (-O)
+    - Proxy kullanımı (-x)
+  - **Gelişmiş Özellikler:**
+    - Media player entegrasyonu (-p)
+    - Cookie desteği (-c)
+    - Google arama entegrasyonu
+    - Otomatik format algılama
+    - Hata yönetimi
+  - **Teknolojiler:**
+    - Python 3.7+
+    - FFmpeg entegrasyonu
+    - RTMPDump desteği
+    - HTTP/HTTPS desteği
+    - Asenkron indirme
+  - **Kurulum Seçenekleri:**
+    - pip ile kurulum
+    - Git clone
+    - Homebrew (Mac)
+    - pkg (FreeBSD)
+    - Flox (cross-platform)
+  - **Özellikler:**
+    - Açık kaynak
+    - Cross-platform
+    - Shell completion
+    - Gitter topluluğu
+    - Kapsamlı dokümantasyon
+
+### **Portia**
+- **Repository:** [scrapinghub/portia](https://github.com/scrapinghub/portia)
+- **Lisans:** BSD-3-Clause
+- **Açıklama:** Görsel web scraping aracı - programlama bilgisi gerektirmeden web sitesi kazıma
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Görsel web scraping
+    - Programlama bilgisi gerektirmez
+    - Web sayfası annotation
+    - Otomatik veri çıkarma
+    - Benzer sayfalardan veri kazıma
+  - **Kullanım:**
+    - Web sayfasını annotation etme
+    - Veri alanlarını işaretleme
+    - Otomatik scraping kuralları
+    - Benzer sayfa desteği
+    - Görsel arayüz
+  - **Kurulum Seçenekleri:**
+    - Docker ile çalıştırma
+    - Docker-compose desteği
+    - Yerel kurulum
+    - Portia image kullanımı
+    - Proje dizini bağlama
+  - **Özellikler:**
+    - Web tabanlı arayüz
+    - Görsel annotation araçları
+    - Otomatik veri çıkarma
+    - Çoklu sayfa desteği
+    - Proje yönetimi
+  - **Dokümantasyon:**
+    - ReadTheDocs entegrasyonu
+    - Kurulum rehberleri
+    - Kullanım örnekleri
+    - API dokümantasyonu
+    - Topluluk desteği
+  - **Deployment:**
+    - Docker container
+    - Port 9001
+    - Proje verisi saklama
+    - Çoklu kullanıcı desteği
+    - Cloud deployment
+
+### **Twitter Scraper**
+- **Repository:** [bisguzar/twitter-scraper](https://github.com/bisguzar/twitter-scraper)
+- **Lisans:** MIT
+- **Açıklama:** Twitter'dan veri çıkarma aracı - tweet, kullanıcı ve etkileşim verilerini toplama
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Tweet verilerini çıkarma
+    - Kullanıcı profili bilgileri
+    - Etkileşim verileri (like, retweet, reply)
+    - Hashtag analizi
+    - Zaman damgası bilgileri
+  - **Veri Türleri:**
+    - Tweet metinleri
+    - Kullanıcı bilgileri
+    - Medya içerikleri
+    - Etkileşim istatistikleri
+    - Coğrafi konum verileri
+  - **Kullanım Alanları:**
+    - Sosyal medya analizi
+    - Trend analizi
+    - Kullanıcı davranış analizi
+    - Marka izleme
+    - Araştırma projeleri
+  - **Özellikler:**
+    - API kullanımı
+    - Rate limiting
+    - Hata yönetimi
+    - Veri formatları
+    - Filtreleme seçenekleri
+
+
+
+
+
+
+
+
+## 🚀 Trading ve Finans
+
+### **Jesse**
+- **Repository:** [jesse-ai/jesse](https://github.com/jesse-ai/jesse)
+- **Lisans:** MIT
+- **Açıklama:** Gelişmiş kripto trading framework'ü - backtesting, optimizasyon ve canlı trading için
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Basit Python syntax'ı
+    - Kapsamlı teknik indikatör kütüphanesi
+    - Akıllı sipariş sistemi
+    - Çoklu zaman dilimi desteği
+    - Self-hosted ve gizlilik odaklı
+  - **Trading Özellikleri:**
+    - Market, limit ve stop siparişleri
+    - Kaldıraçlı trading
+    - Short-selling desteği
+    - Partial fills
+    - Risk yönetimi araçları
+  - **Backtesting:**
+    - Yüksek doğruluklu backtest
+    - Look-ahead bias koruması
+    - Debug modu
+    - İnteraktif grafikler
+    - Detaylı performans metrikleri
+  - **Canlı Trading:**
+    - Paper trading
+    - Çoklu hesap desteği
+    - Gerçek zamanlı loglar
+    - Telegram, Slack, Discord bildirimleri
+    - Spot/futures trading
+  - **AI Özellikleri:**
+    - JesseGPT entegrasyonu
+    - Strateji yazma yardımı
+    - Otomatik optimizasyon
+    - Debug desteği
+    - Kod editörü
+  - **Optimizasyon:**
+    - Optuna kütüphanesi
+    - Cross-validation
+    - Hyperparameter tuning
+    - Batch backtesting
+    - Benchmark karşılaştırması
+  - **Teknolojiler:**
+    - Python
+    - 300+ teknik indikatör
+    - DEX desteği
+    - Docker desteği
+    - RESTful API
+  - **Dokümantasyon:**
+    - Kapsamlı dokümantasyon
+    - YouTube kanalı
+    - Discord topluluğu
+    - Help center
+    - Screencast tutorial'ları
+
+### **Python Binance**
+- **Repository:** [sammchardy/python-binance](https://github.com/sammchardy/python-binance)
+- **Lisans:** MIT
+- **Açıklama:** Binance API için Python wrapper - kripto trading ve hesap yönetimi
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Tüm Genel, Market Data ve Account endpoint'leri
+    - Asyncio implementasyonu
+    - Testnet desteği (Spot, Futures, Vanilla Options)
+    - RSA ve EDDSA key authentication
+    - Otomatik timestamp yönetimi
+    - RecvWindow desteği
+    - Response exception handling
+    - Özelleştirilebilir HTTP headers
+  - **Trading Özellikleri:**
+    - Spot trading
+    - Margin trading (Cross-margin ve Isolated margin)
+    - Futures trading
+    - Portfolio margin trading
+    - Vanilla options
+    - Order management (limit, market, OCO)
+    - Risk yönetimi araçları
+  - **Market Data:**
+    - Order book depth
+    - Recent ve historical trades
+    - Aggregate trades
+    - Kline/Candlestick verileri
+    - Ticker bilgileri
+    - 24 saat istatistikler
+    - Average price hesaplama
+  - **Websocket Desteği:**
+    - Reconnection ve multiplexed connections
+    - CRUD operations over websockets
+    - Symbol depth cache
+    - User socket (account, order, trade updates)
+    - Market data streams
+  - **Hesap Yönetimi:**
+    - Account bilgileri
+    - Asset balance
+    - Trade fees
+    - Withdraw/Deposit işlemleri
+    - Transfer işlemleri
+    - Sub-account yönetimi
+  - **Gelişmiş Özellikler:**
+    - Proxy desteği (REST ve WS)
+    - Orjson desteği (hızlı JSON parsing)
+    - Çoklu domain desteği (.us, .jp, vb.)
+    - Gift Card API desteği
+    - Historical kline fetching
+    - Helper fonksiyonlar
+  - **Güvenlik:**
+    - API key authentication
+    - Signature generation
+    - Rate limiting
+    - Error handling
+    - Testnet desteği
+
+### **Quant Trading**
+- **Repository:** [je-suis-tm/quant-trading](https://github.com/je-suis-tm/quant-trading)
+- **Lisans:** MIT
+- **Açıklama:** Kapsamlı algoritmik trading stratejileri koleksiyonu - teknik indikatörler ve quantamental analiz
+- **İçerik:**
+  - **Teknik İndikatör Stratejileri:**
+    - MACD Oscillator (momentum trading)
+    - Awesome Oscillator (gelişmiş MACD)
+    - Heikin-Ashi Candlestick (gürültü filtreleme)
+    - Bollinger Bands Pattern Recognition
+    - RSI Pattern Recognition (head-shoulder)
+    - Parabolic SAR (trend reversal)
+    - Dual Thrust (opening range breakout)
+    - London Breakout (intraday strategy)
+    - Shooting Star (candlestick pattern)
+  - **Quantamental Analiz Projeleri:**
+    - Monte Carlo Project (stokastik süreç simülasyonu)
+    - Oil Money Project (petrocurrency analizi)
+    - Pair Trading (statistical arbitrage)
+    - Portfolio Optimization Project (graph theory)
+    - Smart Farmers Project (convex optimization)
+    - Wisdom of Crowds Project (ensemble learning)
+  - **Options Stratejileri:**
+    - Options Straddle (event-driven strategy)
+    - VIX Calculator (volatilite endeksi)
+  - **Veri Kaynakları:**
+    - Bloomberg/Eikon
+    - CME/LME
+    - Histdata/FX Historical Data
+    - Macrotrends
+    - Stooq/Quandl
+    - Reddit WallStreetBets
+    - Yahoo Finance
+    - Web scraping araçları
+  - **Özellikler:**
+    - Historical backtesting
+    - Forward testing
+    - Frictionless trading assumption
+    - Global main() fonksiyonları
+    - Python tabanlı implementasyon
+    - Detaylı dokümantasyon
+    - Görsel sonuçlar
+  - **Strateji Kategorileri:**
+    - Momentum trading
+    - Mean reversion
+    - Breakout strategies
+    - Pattern recognition
+    - Statistical arbitrage
+    - Event-driven trading
+    - Portfolio optimization
+
+### **Nautilus Trader**
+- **Repository:** [nautechsystems/nautilus_trader](https://github.com/nautechsystems/nautilus_trader)
+- **Lisans:** Apache 2.0
+- **Açıklama:** Yüksek performanslı, production-grade algoritmik trading platformu - AI-first tasarım
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Rust tabanlı hızlı core bileşenler
+    - Asenkron networking (tokio)
+    - Type-safe ve thread-safe
+    - Redis-backed state persistence
+    - OS bağımsız (Linux, macOS, Windows)
+    - Docker deployment desteği
+  - **Trading Özellikleri:**
+    - Event-driven backtesting engine
+    - Live trading deployment
+    - Sandbox simulation
+    - Multi-venue trading
+    - High-frequency trading desteği
+    - Asset class agnostic (FX, Equities, Futures, Options, Crypto, Betting)
+  - **Order Yönetimi:**
+    - Gelişmiş order tipleri (IOC, FOK, GTC, GTD, DAY, AT_THE_OPEN, AT_THE_CLOSE)
+    - Execution instructions (post-only, reduce-only, icebergs)
+    - Contingency orders (OCO, OUO, OTO)
+    - Trailing-stop orders
+    - Conditional triggers
+  - **Backtesting:**
+    - Nanosecond resolution
+    - Multiple venues ve instruments
+    - Historical quote tick, trade tick, bar, order book data
+    - Custom data desteği
+    - AI training için yeterli hız
+  - **Risk Yönetimi:**
+    - Enhanced risk management
+    - Logical accuracy
+    - Type safety
+    - Operational risk reduction
+  - **Mimari:**
+    - Modular adapters (REST API, WebSocket)
+    - Message bus sistemi
+    - Custom components ve actors
+    - Cache infrastructure
+    - Extensible design
+  - **AI/ML Desteği:**
+    - AI-first tasarım
+    - Reinforcement learning training
+    - Evolutionary strategies
+    - Python-native environment
+    - Research/production parity
+
+### **Hummingbot**
+- **Repository:** [hummingbot/hummingbot](https://github.com/hummingbot/hummingbot)
+- **Lisans:** Apache 2.0
+- **Açıklama:** Açık kaynak kripto trading bot framework'ü - otomatik trading stratejileri geliştirme ve deploy etme
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Otomatik trading stratejileri tasarımı
+    - Çoklu exchange desteği (CEX ve DEX)
+    - $34+ milyar trading volume
+    - 140+ unique trading venue
+    - High-frequency trading demokratizasyonu
+    - Global algorithmic trading topluluğu
+  - **Exchange Connectors:**
+    - **CEX (Centralized Exchanges):**
+      - Binance, Gate.io, HTX, KuCoin, OKX
+      - Coinbase, Kraken, Bybit, Bitstamp
+      - MEXC, BitMart, Bitrue, BingX
+    - **DEX (Decentralized Exchanges):**
+      - dYdX, Hyperliquid, XRP Ledger
+      - Uniswap, SushiSwap, PancakeSwap
+      - Balancer, Curve, Carbon
+      - Injective, Vertex, Dexalot
+  - **Market Türleri:**
+    - CLOB Spot (Central Limit Order Book)
+    - CLOB Perpetual (Perpetual Futures)
+    - AMM (Automatic Market Maker)
+  - **Trading Stratejileri:**
+    - Market making
+    - Arbitrage
+    - Cross-exchange trading
+    - Liquidity mining
+    - Yield farming
+    - Custom strategies
+  - **Özellikler:**
+    - REST ve WebSocket API desteği
+    - Wallet key entegrasyonu (DEX)
+    - API key entegrasyonu (CEX)
+    - Real-time market data
+    - Order management
+    - Risk management
+    - Performance tracking
+  - **Deployment:**
+    - Docker desteği
+    - Cloud deployment
+    - Local installation
+    - Multi-instance management
+  - **Ekosistem:**
+    - Dashboard (web app)
+    - Quants Lab (Jupyter notebooks)
+    - Gateway (TypeScript API client)
+    - Deploy (Docker configurations)
+    - Documentation site
+
+### **Tools of the Trade**
+- **Repository:** [cjbarber/ToolsOfTheTrade](https://github.com/cjbarber/ToolsOfTheTrade)
+- **Lisans:** MIT
+- **Açıklama:** Hacker News'den derlenen kapsamlı geliştirici araçları koleksiyonu - SaaS ve self-hosted çözümler
+- **İçerik:**
+  - **İş Araçları:**
+    - **Ödemeler:** Accounting/Invoicing, Billing & Payment Processing, Payroll
+    - **Pazarlama:** SEO Tools, Social Media Marketing, Email Marketing, Ad Platforms
+    - **Verimlilik:** Chat Tools, Wiki, Password Management, Project Management
+    - **Analitik:** Business Analytics, Traffic Analytics, Income Analytics
+  - **Teknoloji Araçları:**
+    - **Veri:** Database-aaS, Storage, Database management
+    - **API:** API Builder, Other APIs, WebSockets-aaS
+    - **Test & Monitoring:** Browser/Email Testing, Load Testing, Server Monitoring
+    - **DevSecOps:** CI/CD, Security, Bug Tracking, Source Code Hosting
+  - **Hosting & Deployment:**
+    - **PaaS:** Heroku, Cloud Foundry, Google App Engine, OpenShift
+    - **VPS:** Linode, DigitalOcean, Vultr, OVH
+    - **AWS Tools:** Ylastic, Skeddly, GorillaStack
+    - **Deployment:** Chef, Puppet, Ansible, Vagrant
+  - **Geliştirici Araçları:**
+    - **Dokümantasyon:** Dash, Zeal, DevDocs
+    - **Boilerplates:** Yeoman, JHipster, Divjoy
+    - **Prototyping:** Figma, Sketch, InVision, Framer
+    - **Monitoring:** New Relic, Datadog, Pingdom, UptimeRobot
+  - **İletişim & İşbirliği:**
+    - **Chat:** Slack, Discord, Telegram, Matrix
+    - **Video:** Zoom, Skype, Google Hangouts, TeamViewer
+    - **Project Management:** Asana, Trello, Basecamp, JIRA
+    - **Time Tracking:** Toggl, Clockify, Hubstaff
+  - **Özel Kategoriler:**
+    - **CRM/Sales:** Salesforce, HubSpot, Pipedrive, Close.io
+    - **Customer Support:** Zendesk, Intercom, Freshdesk, HelpScout
+    - **Email Marketing:** MailChimp, SendGrid, Postmark, Customer.io
+    - **Analytics:** Google Analytics, Mixpanel, Amplitude, Heap
+  - **Güvenlik & Backup:**
+    - **Security:** Auth0, Okta, DuoSecurity, Tinfoil Security
+    - **Backup:** Tarsnap, Crashplan, SpiderOak, Arq
+    - **DNS:** Cloudflare, Route 53, DNSimple, NoIP
+    - **Monitoring:** Sentry, Rollbar, Bugsnag, HoneyBadger
+
+### **Trading Agents**
+- **Repository:** [TauricResearch/TradingAgents](https://github.com/TauricResearch/TradingAgents)
+- **Lisans:** MIT
+- **Açıklama:** Multi-agent LLM finansal trading framework'ü - gerçek dünya trading firmalarının dinamiklerini yansıtan AI agent'ları
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Multi-agent trading framework
+    - LLM-powered specialized agents
+    - Gerçek dünya trading firması simülasyonu
+    - Dinamik tartışma ve strateji optimizasyonu
+    - LangGraph tabanlı esnek mimari
+  - **Analyst Team:**
+    - Fundamentals Analyst (şirket finansalları ve performans metrikleri)
+    - Sentiment Analyst (sosyal medya ve kamuoyu analizi)
+    - News Analyst (küresel haberler ve makroekonomik göstergeler)
+    - Technical Analyst (teknik indikatörler ve trading pattern'leri)
+  - **Researcher Team:**
+    - Bullish ve Bearish researchers
+    - Yapılandırılmış tartışma sistemi
+    - Risk-fayda analizi
+    - Kritik değerlendirme süreci
+  - **Trader Agent:**
+    - Analist ve araştırmacı raporlarını birleştirme
+    - Bilgilendirilmiş trading kararları
+    - Zamanlama ve büyüklük belirleme
+    - Kapsamlı piyasa içgörüleri
+  - **Risk Management ve Portfolio Manager:**
+    - Sürekli portföy risk değerlendirmesi
+    - Piyasa volatilitesi ve likidite analizi
+    - Trading stratejilerini değerlendirme ve ayarlama
+    - İşlem onaylama/reddetme sistemi
+  - **Teknik Özellikler:**
+    - OpenAI API entegrasyonu (GPT-4o, o1-preview)
+    - FinnHub API ile finansal veri
+    - CLI arayüzü
+    - Python paketi olarak kullanım
+    - Özelleştirilebilir konfigürasyon
+  - **Kullanım Alanları:**
+    - Finansal araştırma
+    - Trading stratejisi geliştirme
+    - Risk yönetimi analizi
+    - Portföy optimizasyonu
+    - Eğitim ve simülasyon
+
+### **Backtrader**
+- **Repository:** [mementum/backtrader](https://github.com/mementum/backtrader)
+- **Lisans:** GPL-3.0
+- **Açıklama:** Python tabanlı canlı trading ve backtesting platformu - kapsamlı trading framework
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Canlı trading ve backtesting platformu
+    - Python tabanlı geliştirme
+    - Çoklu veri kaynağı desteği
+    - Çoklu strateji desteği
+    - Çoklu zaman dilimi desteği
+  - **Live Trading Desteği:**
+    - Interactive Brokers (IbPy gerektirir)
+    - Visual Chart (comtypes fork gerektirir)
+    - Oanda (oandapy gerektirir, REST API)
+    - Gerçek zamanlı veri akışı
+  - **Veri Kaynakları:**
+    - CSV dosyaları
+    - Online kaynaklar
+    - Pandas ve Blaze entegrasyonu
+    - Yahoo Finance API
+    - Özel veri filtreleri
+  - **Trading Özellikleri:**
+    - Market, Close, Limit, Stop siparişleri
+    - StopLimit, StopTrail, StopTrailLimit
+    - OCO (One-Cancels-Other) siparişleri
+    - Bracket order desteği
+    - Slippage simülasyonu
+    - Volume filling stratejileri
+  - **İndikatör Sistemi:**
+    - 122+ built-in indikatör
+    - TA-Lib desteği
+    - Özel indikatör geliştirme
+    - Teknik analiz araçları
+  - **Analiz Araçları:**
+    - TimeReturn analizi
+    - Sharpe Ratio hesaplama
+    - SQN (System Quality Number)
+    - Pyfolio entegrasyonu
+    - Özelleştirilebilir komisyon şemaları
+  - **Gelişmiş Özellikler:**
+    - Resampling ve Replaying
+    - Step-by-step backtesting
+    - Cheat-on-Close/Open modları
+    - Schedulers ve Trading Calendars
+    - Automated staking sizers
+    - Matplotlib ile plotting
+  - **Kurulum:**
+    - PyPI: `pip install backtrader`
+    - Plotting: `pip install backtrader[plotting]`
+    - Python >= 3.2 desteği
+    - PyPy ve PyPy3 desteği
+
+### **Zipline**
+- **Repository:** [quantopian/zipline](https://github.com/quantopian/zipline)
+- **Lisans:** Apache 2.0
+- **Açıklama:** Pythonic algoritmik trading kütüphanesi - event-driven backtesting sistemi
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Event-driven backtesting sistemi
+    - Pythonic API tasarımı
+    - Quantopian platform entegrasyonu
+    - Production-grade trading engine
+    - Kolay kullanım odaklı tasarım
+  - **"Batteries Included" Özellikler:**
+    - Moving average hesaplamaları
+    - Linear regression analizi
+    - Yaygın istatistiksel fonksiyonlar
+    - Built-in teknik indikatörler
+    - Hazır trading araçları
+  - **PyData Entegrasyonu:**
+    - Pandas DataFrame tabanlı veri girişi
+    - Performans istatistikleri çıktısı
+    - Mevcut PyData ekosistemi ile uyum
+    - NumPy ve SciPy entegrasyonu
+  - **Machine Learning Desteği:**
+    - Matplotlib ile görselleştirme
+    - SciPy ile bilimsel hesaplamalar
+    - Statsmodels ile istatistiksel analiz
+    - Scikit-learn ile makine öğrenmesi
+    - State-of-the-art trading sistemleri
+  - **Trading Özellikleri:**
+    - Dual moving average stratejileri
+    - Order management sistemi
+    - Portfolio tracking
+    - Risk yönetimi araçları
+    - Performance analizi
+  - **Veri Yönetimi:**
+    - Quandl veri kaynağı
+    - Historical pricing data
+    - Asset metadata
+    - Real-time data streaming
+    - Custom data sources
+  - **CLI Araçları:**
+    - `zipline ingest` (veri indirme)
+    - `zipline run` (algoritma çalıştırma)
+    - Performance pickle çıktısı
+    - Benchmark karşılaştırması
+  - **Kurulum:**
+    - Python 2.7, 3.5, 3.6 desteği
+    - Pip veya conda ile kurulum
+    - Development installation desteği
+    - Virtual environment önerisi
+
+### **CCXT**
+- **Repository:** [ccxt/ccxt](https://github.com/ccxt/ccxt)
+- **Lisans:** MIT
+- **Açıklama:** Kripto para borsaları ve ödeme işleme servisleri için kapsamlı trading kütüphanesi
+- **İçerik:**
+  - **Temel Özellikler:**
+    - 106+ kripto para borsası desteği
+    - Tam implementasyonlu public ve private API'lar
+    - Cross-exchange analytics için normalized data
+    - Out-of-the-box unified API
+    - Çoklu dil desteği (Node.js, Python, PHP, .NET, Go)
+  - **Desteklenen Diller:**
+    - Node.js 10.4+
+    - Python 3
+    - PHP 8.1+
+    - .NET Standard 2.0/2.1
+    - Go 1.20+
+    - Web browser
+  - **Public API Özellikleri:**
+    - Market data (piyasa verileri)
+    - Instruments/trading pairs (işlem çiftleri)
+    - Price feeds (döviz kurları)
+    - Order books (emir defterleri)
+    - Trade history (işlem geçmişi)
+    - Tickers (anlık fiyatlar)
+    - OHLC(V) for charting (grafik verileri)
+    - Diğer public endpoint'ler
+  - **Private API Özellikleri:**
+    - Kişisel hesap bilgilerini yönetme
+    - Hesap bakiyelerini sorgulama
+    - Market ve limit emirleri ile trading
+    - Fiat ve kripto para yatırma/çekme
+    - Kişisel emirleri sorgulama
+    - Ledger geçmişi
+    - Hesaplar arası transfer
+    - Merchant servisleri
+  - **Exchange Kategorileri:**
+    - CEX (Merkezi Borsalar)
+    - DEX (Merkezi Olmayan Borsalar)
+    - Certified exchanges (CCXT sertifikalı)
+    - Pro exchanges (CCXT Pro desteği)
+  - **Ülke Bazlı Kategoriler:**
+    - ABD, Avrupa, Asya, Avustralya
+    - Güney Amerika, Afrika
+    - 50+ ülke ve bölge
+  - **CCXT Pro Özellikleri:**
+    - WebSocket API desteği
+    - Real-time data streaming
+    - 46+ exchange WebSocket desteği
+    - Async/await syntax
+    - Incremental state management
+    - Throttling mode
+  - **Kullanım Alanları:**
+    - Algoritmik trading
+    - Strateji backtesting
+    - Bot programlama
+    - Veri analizi ve görselleştirme
+    - İndikatör geliştirme
+    - Arbitraj trading
+
+### **Freqtrade**
+- **Repository:** [freqtrade/freqtrade](https://github.com/freqtrade/freqtrade)
+- **Lisans:** GPL-3.0
+- **Açıklama:** Python tabanlı ücretsiz ve açık kaynak kripto trading bot - Telegram ve webUI kontrolü
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Python tabanlı kripto trading bot
+    - Tüm büyük borsaları destekler
+    - Telegram ve webUI kontrolü
+    - Backtesting, plotting ve para yönetimi araçları
+    - Makine öğrenmesi ile strateji optimizasyonu
+  - **Trading Modları:**
+    - Backtesting (geçmiş verilerle test)
+    - Hyperopting (parametre optimizasyonu)
+    - Dry mode (forward testing)
+    - Live trading (canlı trading)
+    - FreqAI (AI destekli trading)
+  - **Strateji Geliştirme:**
+    - Python tabanlı strateji yazımı
+    - Özelleştirilebilir entry/exit kuralları
+    - Teknik indikatör desteği
+    - Risk yönetimi araçları
+    - Strateji repository'si
+  - **Veri Yönetimi:**
+    - Historical candle (OHLCV) data
+    - Çoklu timeframe desteği
+    - Otomatik veri indirme
+    - Veri formatı dönüştürme
+    - Trade data analizi
+  - **Backtesting Özellikleri:**
+    - Geçmiş verilerle strateji testi
+    - Profit/loss hesaplamaları
+    - Drawdown analizi
+    - Sharpe ratio, CAGR, Calmar ratio
+    - Dynamic stake amount
+    - Backtest result caching
+  - **Exchange Desteği:**
+    - CCXT library tabanlı
+    - 100+ kripto para borsası
+    - Test edilmiş borsalar listesi
+    - Özel konfigürasyon desteği
+    - API key yönetimi
+  - **Analiz Araçları:**
+    - Plotting (grafik çizimi)
+    - Profit analizi
+    - Trade analizi
+    - Edge analizi
+    - Lookahead bias kontrolü
+  - **Kurulum ve Kullanım:**
+    - Docker desteği
+    - Systemd service
+    - Çoklu bot instance
+    - Logging konfigürasyonu
+    - Database desteği (SQLite, PostgreSQL, MariaDB, MySQL)
+
+https://www.hetzner.com/european-cloud
+
+## 🎨 3D Grafik ve Görselleştirme
+
+---
+
+## 🎯 Modern Web Uygulama Geliştirme
+
+### **@react-three/drei**
+- **Repository:** [pmndrs/drei](https://github.com/pmndrs/drei)
+- **Lisans:** MIT
+- **Açıklama:** React Three Fiber için kullanışlı yardımcılar ve soyutlamalar koleksiyonu
+- **İçerik:** 
+  - 3D modeller, materyaller ve geometriler
+  - Kamera kontrolleri ve ışıklandırma
+  - Yükleme araçları (GLTF, FBX, texture)
+  - Performans optimizasyonları
+  - Shader materyalleri ve efektler
+
+### **@react-three/fiber**
+- **Repository:** [pmndrs/react-three-fiber](https://github.com/pmndrs/react-three-fiber)
+- **Lisans:** MIT
+- **Açıklama:** Three.js için React renderer
+- **İçerik:**
+  - Declarative 3D sahne oluşturma
+  - React hooks ile Three.js entegrasyonu
+  - Event handling ve animasyonlar
+  - TypeScript desteği
+  - Performans optimizasyonları
+
+---
+
+## 🎯 Modern Web Uygulama Geliştirme
+
+### **Taxonomy (shadcn-ui)**
+- **Repository:** [shadcn-ui/taxonomy](https://github.com/shadcn-ui/taxonomy)
+- **Lisans:** MIT
+- **Açıklama:** Next.js 13 ile modern web uygulaması örneği
+- **İçerik:**
+  - App Router ve Server Components
+  - Authentication (NextAuth.js)
+  - Database (Prisma + PlanetScale)
+  - UI Components (Radix UI)
+  - Subscriptions (Stripe)
+  - MDX desteği ve blog sistemi
+
+### **Create T3 App**
+- **Repository:** [t3-oss/create-t3-app](https://github.com/t3-oss/create-t3-app)
+- **Lisans:** MIT
+- **Açıklama:** TypeScript tabanlı full-stack web uygulaması şablonu
+- **İçerik:**
+  - TypeScript, Next.js, Prisma
+  - tRPC ile type-safe API
+  - NextAuth.js authentication
+  - Tailwind CSS styling
+  - Zod validation
+  - Modüler yapı ve özelleştirilebilir şablonlar
+
+---
+
+## 🔧 Teknoloji Stack Özeti
+
+### **Frontend**
+- **React 18+** - Modern React özellikleri
+- **Next.js 13+** - App Router ve Server Components
+- **TypeScript** - Type-safe geliştirme
+- **Tailwind CSS** - Utility-first CSS framework
+
+### **3D Grafik**
+- **Three.js** - 3D grafik kütüphanesi
+- **React Three Fiber** - Three.js React wrapper
+- **Drei** - Yardımcı bileşenler ve soyutlamalar
+
+### **Backend & Database**
+- **Prisma** - Type-safe ORM
+- **tRPC** - End-to-end type safety
+- **NextAuth.js** - Authentication
+- **PlanetScale** - Serverless MySQL
+
+### **UI & UX**
+- **Radix UI** - Headless UI components
+- **shadcn/ui** - Modern component library
+- **Framer Motion** - Animasyonlar
+
+### **Deployment & Infrastructure**
+- **Vercel** - Hosting ve deployment
+- **Stripe** - Ödeme işlemleri
+- **Cloudinary** - Medya yönetimi
+
+---
+
+
+
+### **Kara Shop**
+- **Repository:** [mehrabmp/kara-shop](https://github.com/mehrabmp/kara-shop)
+- **Lisans:** MIT
+- **Açıklama:** T3 Stack ile geliştirilmiş tam özellikli e-ticaret uygulaması
+- **İçerik:**
+  - **Teknoloji Stack:**
+    - Next.js framework
+    - PostgreSQL veritabanı
+    - Prisma ORM
+    - NextAuth.js authentication
+    - Tailwind CSS styling
+    - Vercel deployment
+  - **Özellikler:**
+    - Full-stack e-ticaret uygulaması
+    - Modern ve responsive tasarım
+    - Kullanıcı authentication
+    - Ürün yönetimi
+    - Sepet sistemi
+    - Ödeme entegrasyonu
+  - **Kurulum:**
+    - Environment variables konfigürasyonu
+    - Database migration
+    - Seed data
+    - Development server
+  - **OAuth Desteği:**
+    - GitHub OAuth
+    - Google OAuth
+    - Twitter OAuth
+
+
+## 📖 Öğrenme Kaynakları
+
+---
+
+## 📖 Öğrenme Kaynakları
+
+### **Dokümantasyon**
+- [React Three Fiber Docs](https://docs.pmnd.rs/react-three-fiber)
+- [Drei Documentation](https://docs.pmnd.rs/drei)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+
+### **Tutorials**
+- [React Three Fiber Tutorials](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction)
+- [Three.js Fundamentals](https://threejs.org/manual/)
+- [Next.js App Router Guide](https://nextjs.org/docs/app)
+
+### **Community**
+- [React Three Fiber Discord](https://discord.gg/ZZjjNvJ)
+- [Three.js Forum](https://discourse.threejs.org/)
+- [Next.js Community](https://github.com/vercel/next.js/discussions)
+
+---
+
+## 🚀 Hızlı Başlangıç
+
+### **Yeni Proje Oluşturma**
+```bash
+# T3 App ile başlangıç
+npx create-t3-app@latest my-app --typescript --tailwind --prisma --nextAuth
+
+# Veya manuel kurulum
+npm create next-app@latest my-app --typescript --tailwind --app
+```
+
+### **3D Bileşen Ekleme**
+```bash
+# React Three Fiber kurulumu
+npm install @react-three/fiber @react-three/drei three
+
+# TypeScript tipleri
+npm install --save-dev @types/three
+```
+
+### **UI Bileşenleri**
+```bash
+# shadcn/ui kurulumu
+npx shadcn-ui@latest init
+
+# Bileşen ekleme
+npx shadcn-ui@latest add button card input
+```
+
+---
+
+### **Claude Task Master**
+- **Repository:** [eyaltoledano/claude-task-master](https://github.com/eyaltoledano/claude-task-master)
+- **Lisans:** MIT
+- **Açıklama:** AI destekli yazılım geliştirme sistemi - görev yönetimi ve proje planlama
+- **İçerik:**
+  - **Temel Özellikler:**
+    - AI ile otomatik görev oluşturma
+    - PRD (Product Requirements Document) analizi
+    - Görev karmaşıklık analizi
+    - Bağımlılık yönetimi
+    - Tag tabanlı görev listeleri
+  - **AI Özellikleri:**
+    - Doğal dil ile görev tanımlama
+    - Akıllı görev bölme
+    - Araştırma destekli geliştirme
+    - Context koruma
+    - Sürekli öğrenme
+  - **Entegrasyon:**
+    - MCP (Model Context Protocol) desteği
+    - CLI arayüzü
+    - Git entegrasyonu
+    - IDE entegrasyonu
+  - **Geliştirme Araçları:**
+    - Task complexity analysis
+    - Dependency resolution
+    - Research-driven updates
+    - Merge conflict çözümü
+    - Progress tracking
+  - **Kullanım Senaryoları:**
+    - Yeni proje başlatma
+    - Feature branch workflow
+    - Takım çalışması
+    - Solo geliştirme
+    - Proje yönetimi
+
+---
+
+Bu büyük kütüphaneler (langchain, llamaindex, langdroid vb.) tamamen gereksizdir ve kaçınılmaz olarak çözdüklerinden daha fazla soruna yol açacaktır. LLM uygulamaları oluşturmak için ihtiyacınız olan tek kütüphaneler şunlardır:
+
+
+LLM API -OpenAI API kütüphanesi,liteLLM(Ollama dahil hemen hemen tüm diğer API'ler için OpenAI uyumlu bir arayüz sağlar)
+
+2) Bir veri kütüphanesi - vectordb'ye ihtiyacınız varsa qdrant, basit tutmak istiyorsanız pola.rs veya mevcut altyapıyı kullanıyorsanız eski veritabanı kütüphaneniz
+
+3) Yerel çıkarım kütüphaneleri - Yerel çıkarım kullanıyorsanız, bunlar için doğal olarak kütüphanelere ihtiyacınız olacak
+
+4) Uygulamanızın geri kalan fonksiyonları için yapay zeka dışı kütüphaneler - arayüz, ağ, vb.
+
+Performanslı bir veritabanı yazmak zordur, bu yüzden tekerleği yeniden icat etmeyin. LLM API'leri zaten ek sarmalayıcılar gerektirmeyen üst düzey arayüzlerdir.
+
+
+### **Directus**
+- **Repository:** [directus/directus](https://github.com/directus/directus)
+- **Lisans:** GPL-3.0
+- **Açıklama:** Açık kaynak headless CMS ve data platform - veri yönetimi için kapsamlı çözüm
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Headless CMS çözümü
+    - Backend-as-a-Service
+    - Internal tool builder
+    - Data management ve analytics
+    - Open-source, modular, extensible
+  - **Teknoloji Stack:**
+    - TypeScript tabanlı
+    - Node.js backend
+    - Vue.js frontend
+    - SQL database desteği
+    - REST ve GraphQL API
+  - **Kullanım Alanları:**
+    - Headless CMS (içerik yönetimi)
+    - Learning Management System
+    - Product Inventory Management
+    - No-Code Data Platform
+    - Backend-as-a-Service
+  - **Özellikler:**
+    - Database introspection
+    - Dynamic API generation
+    - Role-based access control
+    - File asset management
+    - Real-time collaboration
+    - Webhook support
+  - **Entegrasyonlar:**
+    - Çoklu SQL vendor desteği
+    - File storage services
+    - Authentication methods
+    - Custom data providers
+
+### **ZXing Library**
+- **Repository:** [zxing-js/library](https://github.com/zxing-js/library)
+- **Lisans:** MIT
+- **Açıklama:** TypeScript tabanlı çok formatlı 1D/2D barkod görüntü işleme kütüphanesi
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Multi-format 1D/2D barcode scanning
+    - TypeScript port (Java'dan)
+    - Browser ve Node.js desteği
+    - Maintenance mode (sadece bug fix)
+  - **Desteklenen Formatlar:**
+    - **1D Product:** UPC-A, UPC-E, EAN-8, EAN-13
+    - **1D Industrial:** Code 39, Code 93, Code 128, Codabar, ITF, RSS-14
+    - **2D:** QR Code, Data Matrix, Aztec, PDF 417
+  - **Kullanım Alanları:**
+    - QR kod tarama
+    - Barkod okuma
+    - Kamera stream'den tarama
+    - Resim dosyalarından tarama
+    - Video dosyalarından tarama
+  - **Özellikler:**
+    - BrowserMultiFormatReader
+    - BrowserQRCodeReader
+    - BrowserBarcodeReader
+    - BrowserAztecCodeReader
+    - BrowserPDF417Reader
+    - BrowserDatamatrixCodeReader
+  - **Entegrasyon:**
+    - HTML5 video
+    - Canvas API
+    - WebRTC
+    - File API
+
+### **Tailwind CSS**
+- **Repository:** [tailwindlabs/tailwindcss](https://github.com/tailwindlabs/tailwindcss)
+- **Lisans:** MIT
+- **Açıklama:** Utility-first CSS framework - hızlı özel kullanıcı arayüzleri oluşturmak için
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Utility-first CSS framework
+    - Rapid custom UI development
+    - Low-level utility classes
+    - Highly customizable
+    - Mobile-first responsive design
+  - **Utility Sınıfları:**
+    - Layout (flexbox, grid, positioning)
+    - Spacing (margin, padding)
+    - Typography (font, text, line-height)
+    - Colors (background, text, border)
+    - Effects (shadows, opacity, transforms)
+    - Interactivity (hover, focus, active)
+  - **Özellikler:**
+    - JIT (Just-In-Time) compiler
+    - PurgeCSS entegrasyonu
+    - Dark mode desteği
+    - Custom properties (CSS variables)
+    - Plugin sistemi
+    - Component extraction
+  - **Entegrasyon:**
+    - PostCSS plugin
+    - Build tool desteği
+    - Framework entegrasyonları
+    - IDE desteği
+  - **Performans:**
+    - Minimal CSS output
+    - Tree-shaking
+    - Optimized production builds
+
+### **Awesome Tailwind CSS**
+- **Repository:** [aniftyco/awesome-tailwindcss](https://github.com/aniftyco/awesome-tailwindcss)
+- **Lisans:** MIT
+- **Açıklama:** Tailwind CSS için kapsamlı kaynak koleksiyonu - araçlar, bileşenler ve şablonlar
+- **İçerik:**
+  - **Kategoriler:**
+    - Useful links (faydalı linkler)
+    - IDE extensions (IDE eklentileri)
+    - Tools (araçlar)
+    - UI libraries, components & templates
+    - Plugins (eklentiler)
+  - **Resmi Kaynaklar:**
+    - Website ve repository
+    - Tailwind Plus (UI blocks)
+    - Headless UI (accessible components)
+    - Heroicons (SVG icons)
+    - Play (online playground)
+    - Discord community
+  - **Araçlar:**
+    - Color palette generators
+    - Conversion tools
+    - Framework integrations
+    - Browser extensions
+    - CLI tools
+  - **UI Kütüphaneleri:**
+    - shadcn UI
+    - Daisy UI
+    - Flowbite
+    - Headless UI
+    - Tremor (charts)
+  - **Şablonlar:**
+    - Admin templates
+    - E-commerce templates
+    - Blog templates
+    - Portfolio templates
+    - Starter kits
+  - **Eklentiler:**
+    - Typography plugin
+    - Forms plugin
+    - Themer plugin
+    - Custom utilities
+    - Component plugins
+
+## 🛒 E-ticaret Projeleri
+
+### **Django E-commerce**
+- **Repository:** [codingforentrepreneurs/eCommerce](https://github.com/codingforentrepreneurs/eCommerce)
+- **Lisans:** MIT
+- **Açıklama:** Django tabanlı tam özellikli e-ticaret sitesi - adım adım öğretici
+- **İçerik:**
+  - **Temel Bileşenler:**
+    - Products Component (CRUD, Model, Admin, Views)
+    - Templates (Base, Include, Bootstrap)
+    - Search Component (Q lookups, Tags)
+    - Cart Component (Sessions, Model Manager)
+    - Checkout Process (Orders, Billing, Addresses)
+  - **Gelişmiş Özellikler:**
+    - Stripe Integration (Payment processing)
+    - Mailchimp Integration (Email marketing)
+    - Custom Analytics (Object tracking)
+    - Custom User Model
+    - Digital Products (File downloads)
+  - **Frontend:**
+    - Bootstrap CSS framework
+    - jQuery AJAX functionality
+    - Auto search
+    - Cart updates
+    - Form handling
+  - **Deployment:**
+    - Heroku deployment
+    - AWS S3 for static files
+    - Custom domain & HTTPS
+    - Production environment setup
+  - **Analytics:**
+    - Sales graphs with Chart.js
+    - Order analytics
+    - User behavior tracking
+    - Revenue reporting
+
+### **Flutter E-commerce UI**
+- **Repository:** [abuanwar072/E-commerce-Complete-Flutter-UI](https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI)
+- **Lisans:** MIT
+- **Açıklama:** Flutter ile geliştirilmiş tam özellikli e-ticaret UI tasarımı
+- **İçerik:**
+  - **UI Bileşenleri:**
+    - Modern ve responsive tasarım
+    - Material Design 3
+    - Custom animations
+    - Dark/Light theme
+    - Product cards ve grids
+  - **Sayfalar:**
+    - Ana sayfa (Home)
+    - Ürün detayları (Product Details)
+    - Kategori sayfaları (Category)
+    - Sepet (Cart)
+    - Ödeme (Checkout)
+    - Profil (Profile)
+  - **Özellikler:**
+    - Cross-platform (iOS/Android)
+    - State management
+    - Navigation
+    - Form validation
+    - Image handling
+    - Localization support
+
+### **Svelte E-commerce**
+- **Repository:** [itswadesh/svelte-commerce](https://github.com/itswadesh/svelte-commerce)
+- **Lisans:** MIT
+- **Açıklama:** Svelte/SvelteKit tabanlı modern e-ticaret uygulaması
+- **İçerik:**
+  - **Teknoloji Stack:**
+    - SvelteKit framework
+    - TypeScript
+    - Tailwind CSS
+    - Vite build tool
+    - Svelte stores
+  - **Özellikler:**
+    - Server-side rendering (SSR)
+    - Static site generation (SSG)
+    - API routes
+    - Database integration
+    - Authentication
+    - Payment processing
+  - **Performans:**
+    - Lightweight bundle
+    - Fast loading
+    - SEO optimized
+    - Progressive enhancement
+
+### **Next.js Template**
+- **Repository:** [blefnk/relivator-nextjs-template](https://github.com/blefnk/relivator-nextjs-template)
+- **Lisans:** MIT
+- **Açıklama:** Next.js tabanlı modern web uygulaması template'i
+- **İçerik:**
+  - **Teknoloji Stack:**
+    - Next.js 14+ (App Router)
+    - TypeScript
+    - Tailwind CSS
+    - Shadcn/ui components
+    - Prisma ORM
+    - NextAuth.js
+  - **Özellikler:**
+    - Full-stack development
+    - Database integration
+    - Authentication system
+    - API routes
+    - Component library
+    - Development tools
+
+### **Tailwind UI Components**
+- **Repository:** [TailGrids/tailwind-ui-components](https://github.com/TailGrids/tailwind-ui-components)
+- **Lisans:** MIT
+- **Açıklama:** Tailwind CSS ile geliştirilmiş hazır UI bileşenleri koleksiyonu
+- **İçerik:**
+  - **Bileşen Kategorileri:**
+    - Navigation components
+    - Hero sections
+    - Feature sections
+    - Pricing tables
+    - Contact forms
+    - Footer components
+  - **Özellikler:**
+    - Responsive design
+    - Customizable
+    - Accessibility ready
+    - Modern design patterns
+    - Easy integration
+    - Documentation
+
+### **Refine**
+- **Repository:** [refinedev/refine](https://github.com/refinedev/refine)
+- **Lisans:** MIT
+- **Açıklama:** React tabanlı headless admin framework - hızlı admin paneli geliştirme
+- **İçerik:**
+  - **Temel Özellikler:**
+    - Headless admin framework
+    - React tabanlı geliştirme
+    - TypeScript desteği
+    - Plugin-based architecture
+    - Rapid development
+  - **Özellikler:**
+    - CRUD operations
+    - Authentication
+    - Authorization
+    - Data providers
+    - UI frameworks integration
+    - Custom hooks
+  - **Entegrasyonlar:**
+    - Ant Design
+    - Material-UI
+    - Chakra UI
+    - Mantine
+    - Custom UI libraries
+  - **Backend Desteği:**
+    - REST API
+    - GraphQL
+    - Strapi
+    - Supabase
+    - Firebase
+    - Custom data providers
+
+
+## 📝 Notlar
+
+- Tüm kaynaklar MIT lisansı altında yayınlanmıştır
+- Proje geliştirme sürecinde güncel versiyonlar kullanılmalıdır
+- TypeScript kullanımı zorunludur
+- Performans optimizasyonları dikkate alınmalıdır
+- Accessibility (erişilebilirlik) standartlarına uyulmalıdır
+
+## 📊 Proje Teknoloji Stack Analizi ve Uyumluluk Değerlendirmesi
+
+### 🔧 Mevcut Proje Stack'i (MDC Kurallarından Çıkarım)
+
+**Temel Teknolojiler:**
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS
+- **Backend:** Node.js, tRPC, Prisma ORM
+- **Database:** PostgreSQL, SQLite (development)
+- **Testing:** Jest, Playwright (E2E)
+- **Build Tools:** Vite, Turbo
+- **State Management:** Zustand
+- **Validation:** Zod
+- **Styling:** Tailwind CSS, Shadcn/ui
+- **Deployment:** Docker, Vercel
+- **Monitoring:** Sentry
+- **Development:** ESLint, Prettier
+
+### 📋 Proje Kategorileri ve Uyumluluk Analizi
+
+#### 🟢 **Yüksek Uyumlu - Doğrudan Kullanılabilir**
+
+**Frontend & UI Kütüphaneleri:**
+- **Shadcn UI** - ✅ Mevcut stack ile tam uyumlu
+- **Tailwind CSS** - ✅ Zaten kullanılıyor
+- **Vue Vben Admin** - ⚠️ Vue.js tabanlı, React stack'e geçiş gerekli
+- **Create T3 App** - ✅ Next.js + TypeScript + tRPC stack'i
+- **Taxonomy** - ✅ Shadcn/ui tabanlı
+
+**Backend & API:**
+- **Directus** - ✅ Headless CMS, REST/GraphQL API
+- **Refine** - ✅ React tabanlı admin framework
+
+**E-ticaret:**
+- **Kara Shop** - ✅ T3 Stack ile geliştirilmiş
+- **Django E-commerce** - ⚠️ Python tabanlı, Node.js'e port gerekli
+
+#### 🟡 **Orta Uyumlu - Adaptasyon Gerekli**
+
+**3D Grafik:**
+- **Three.js** - ✅ JavaScript/TypeScript uyumlu
+- **React Three Fiber** - ✅ React entegrasyonu mevcut
+- **Physijs** - ✅ Three.js eklentisi
+
+**Web Scraping:**
+- **Scrapy** - ⚠️ Python tabanlı, Node.js alternatifi gerekli
+- **ScrapeGraphAI** - ⚠️ Python tabanlı
+- **You-Get** - ⚠️ Python tabanlı
+
+**Trading & Finans:**
+- **Jesse** - ⚠️ Python tabanlı
+- **Python Binance** - ⚠️ Python tabanlı
+- **CCXT** - ✅ JavaScript/TypeScript desteği mevcut
+
+#### 🔴 **Düşük Uyumlu - Büyük Değişiklik Gerekli**
+
+**Python Tabanlı Projeler:**
+- **Newspaper3k** - ❌ Python tabanlı
+- **Manim** - ❌ Python tabanlı
+- **Hummingbot** - ❌ Python tabanlı
+- **Backtrader** - ❌ Python tabanlı
+- **Zipline** - ❌ Python tabanlı
+
+**Diğer Diller:**
+- **Stendhal** - ❌ Java tabanlı
+- **Sunshine** - ❌ C++ tabanlı
+
+### 🎯 **Önerilen Kullanım Stratejisi**
+
+#### **1. Doğrudan Entegrasyon (Hemen Kullanılabilir)**
+```typescript
+// Shadcn/ui bileşenleri
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+
+// Tailwind CSS utility classes
+<div className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
+```
+
+#### **2. Referans Olarak Kullanım (Koddan Esinlenme)**
+- **Vue Vben Admin** → React/Next.js'e port edilebilir
+- **Django E-commerce** → Node.js/Prisma ile yeniden yazılabilir
+- **Python trading projeleri** → CCXT kütüphanesi kullanılabilir
+
+#### **3. Mikroservis Yaklaşımı**
+```typescript
+// Python servisleri için API wrapper
+// trading-service.ts
+export class TradingService {
+  async getBinanceData() {
+    // CCXT kullanarak JavaScript'te implement
+  }
+}
+```
+
+### 📚 **Kütüphane Kurulum Öncelikleri**
+
+#### **Zorunlu Kurulumlar:**
+```bash
+# Mevcut stack ile uyumlu
+npm install @radix-ui/react-icons
+npm install @hookform/resolvers
+npm install react-hook-form
+npm install @tanstack/react-query
+
+# 3D grafik için
+npm install three @types/three
+npm install @react-three/fiber @react-three/drei
+
+# QR kod tarama için
+npm install @zxing/library
+```
+
+#### **Opsiyonel Kurulumlar:**
+```bash
+# Headless CMS
+npm install @directus/sdk
+
+# Trading için
+npm install ccxt
+
+# Admin panel için
+npm install @refinedev/core @refinedev/react
+```
+
+### 🔄 **Port Stratejisi (Python → Node.js)**
+
+#### **Web Scraping Alternatifleri:**
+```typescript
+// Scrapy yerine
+npm install puppeteer
+npm install cheerio
+npm install axios
+
+// ScrapeGraphAI yerine
+npm install @microsoft/playwright
+```
+
+#### **Trading Alternatifleri:**
+```typescript
+// Python trading projeleri yerine
+npm install ccxt
+npm install technicalindicators
+npm install @tensorflow/tfjs-node
+```
+
+### 📈 **Performans ve Güvenlik Değerlendirmesi**
+
+#### **Mevcut Stack Avantajları:**
+- ✅ TypeScript tip güvenliği
+- ✅ Next.js SSR/SSG optimizasyonu
+- ✅ tRPC end-to-end type safety
+- ✅ Prisma ORM güvenliği
+- ✅ Jest + Playwright test coverage
+
+#### **Entegrasyon Riskleri:**
+- ⚠️ Python servisleri için API gateway gerekli
+- ⚠️ 3D grafik performans optimizasyonu
+- ⚠️ Real-time trading için WebSocket entegrasyonu
+
+### 🎯 **Sonuç ve Öneriler**
+
+1. **Öncelik 1:** Shadcn/ui, Tailwind CSS, Three.js gibi doğrudan uyumlu kütüphaneleri kullan
+2. **Öncelik 2:** Vue Vben Admin, Django E-commerce gibi projelerden UI/UX pattern'lerini öğren
+3. **Öncelik 3:** Python projelerini referans alarak Node.js alternatiflerini geliştir
+4. **Öncelik 4:** Mikroservis mimarisi ile farklı dil tabanlı servisleri entegre et
+
+Bu analiz, projenizin mevcut teknoloji stack'i ile maksimum uyumluluğu sağlayacak şekilde kaynakları değerlendirmenize yardımcı olacaktır.

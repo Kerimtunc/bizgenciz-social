@@ -1,0 +1,55 @@
+# Task ID: 2
+# Title: FAZ 2: Veritabanı Şeması Tasarımı ve Multi-Tenant Yapı
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Multi-tenant temel yapı, Ciro Partnerliği veri yapıları, operasyonel tablolar, kurye yönetimi ve analitik tabloların tasarımı
+# Details:
+Bu faz, projenin veri altyapısını oluşturacak kapsamlı veritabanı tasarımını içerir. Multi-tenant temel yapı için tenants, users, business_profiles, plans, features ve plan_features tabloları tasarlanacak. Ciro Partnerliği için commissions, loyalty_programs, business_loyalty_settings, credit_transactions ve partner_subsidies tabloları oluşturulacak. Operasyonel tablolar (categories, products, orders, order_items, customers, tables, staff) ve kurye yönetimi tabloları (business_couriers, courier_assignments, courier_performance, courier_locations, emergency_alerts) tasarlanacak. Analitik tablolar (daily_sales_metrics, weekly_sales_metrics, monthly_sales_metrics, product_performance_metrics, customer_segment_metrics, table_efficiency_metrics) OLAP yapısında oluşturulacak. Sistem yönetimi tabloları (audit_logs, feature_flags, tenant_feature_flags, app_settings, notification_settings, tax_rates, commission_rates) ve süperadmin özellik atama tabloları (features, tenant_features, feature_usage_logs, feature_dependencies, feature_templates, feature_template_items, superadmin_users, superadmin_audit_logs) tasarlanacak. Her tablo için detaylı ilişkiler, index'ler ve constraint'ler belirlenecek.
+
+# Test Strategy:
+Veritabanı şeması ERD (Entity Relationship Diagram) ile görselleştirilecek. Her tablo için örnek veriler oluşturulacak ve ilişkiler test edilecek. Performans testleri yapılacak. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.
+
+# Subtasks:
+## 1. insaedilecekler.md Veritabanı Mimarisi Kontrolü ve Multi-Tenant Temel Yapı Tasarımı [done]
+### Dependencies: None
+### Description: insaedilecekler.md dosyasındaki veritabanı mimarisi bölümünün kontrolü ve multi-tenant temel yapının tasarımı
+### Details:
+insaedilecekler.md dosyasının 2. bölümündeki veritabanı mimarisi detaylıca kontrol edilecek. Multi-tenancy zorunluluğu, soft-delete politikası, OLTP/OLAP ayrımı, ETL pipeline sistemi incelenecek. Ana tablolar (users, business_profiles, categories, products, orders, order_items, customers, tables, staff) ve ilişkileri analiz edilecek. Bu analiz sonucunda multi-tenant temel yapı için tenants, users, business_profiles, plans, features, plan_features tabloları tasarlanacak. Her tablo için detaylı ilişkiler, index'ler ve constraint'ler belirlenecek. Tenant isolation stratejisi, CNAME desteği, domain mapping yapısı tasarlanacak. prdplan.txt'deki veritabanı şeması kontrolleri ile uyumlu hale getirilecek.
+
+## 2. insaedilecekler.md Ekosistem Kontrolü ve Ciro Partnerliği Veri Yapıları Tasarımı [done]
+### Dependencies: None
+### Description: insaedilecekler.md dosyasındaki ekosistem ve gelir mimarisi bölümünün kontrolü ve Ciro Partnerliği veri yapılarının tasarımı
+### Details:
+insaedilecekler.md dosyasının 1. bölümündeki ekosistem ve gelir mimarisi detaylıca kontrol edilecek. Çift yönlü ekosistem (B2B + B2C), Ciro Partnerliği sistemi, Lezzet Kredisi mekanizması, multi-tenant veri yapıları incelenecek. Bu analiz sonucunda Ciro Partnerliği için commissions, loyalty_programs, business_loyalty_settings, credit_transactions, partner_subsidies tabloları tasarlanacak. Komisyon hesaplama algoritmaları, sübvansiyon yönetimi, kredi sistemi, partner finansal mutabakat yapıları oluşturulacak. Her tablo için detaylı ilişkiler, index'ler ve constraint'ler belirlenecek. prdplan.txt'deki Ciro Partnerliği kontrolleri ile uyumlu hale getirilecek.
+
+## 3. insaedilecekler.md Backend API Kontrolü ve Operasyonel Tablolar Tasarımı [done]
+### Dependencies: None
+### Description: insaedilecekler.md dosyasındaki backend API mimarisi bölümünün kontrolü ve operasyonel tabloların tasarımı
+### Details:
+insaedilecekler.md dosyasının 3. bölümündeki backend API mimarisi detaylıca kontrol edilecek. API endpoint grupları (dashboard, orders, menu management, customer management, staff management, kitchen management, table management, reservation management, notification system, business management, analytics and reporting, system management) incelenecek. Bu analiz sonucunda operasyonel tablolar (categories, products, orders, order_items, customers, tables, staff, reservations, notifications, business_settings) tasarlanacak. Her API endpoint'in ihtiyaç duyduğu veri yapıları analiz edilecek. Tablo ilişkileri, foreign key'ler, index'ler ve constraint'ler belirlenecek. prdplan.txt'deki operasyonel tablolar kontrolleri ile uyumlu hale getirilecek.
+
+## 4. insaedilecekler.md İş Mantığı Kontrolü ve Kurye Yönetimi Tabloları Tasarımı [done]
+### Dependencies: None
+### Description: insaedilecekler.md dosyasındaki iş mantığı pipeline'ları bölümünün kontrolü ve kurye yönetimi tablolarının tasarımı
+### Details:
+insaedilecekler.md dosyasının 4. bölümündeki iş mantığı pipeline'ları detaylıca kontrol edilecek. Customer journey, staff management, kitchen management pipeline'ları incelenecek. Bu analiz sonucunda kurye yönetimi tabloları (business_couriers, courier_assignments, courier_performance, courier_locations, emergency_alerts, courier_payments, courier_ratings) tasarlanacak. Hibrit kurye sistemi (işletme kuryeleri + platform kuryeleri), performans takibi, maliyet yönetimi, konum takibi, acil durum bildirimleri için veri yapıları oluşturulacak. Her tablo için detaylı ilişkiler, index'ler ve constraint'ler belirlenecek. prdplan.txt'deki kurye yönetimi kontrolleri ile uyumlu hale getirilecek.
+
+## 5. insaedilecekler.md Sistem Yönetimi Kontrolü ve Analitik Tablolar Tasarımı [done]
+### Dependencies: None
+### Description: insaedilecekler.md dosyasındaki sistem yönetimi bölümünün kontrolü ve analitik tabloların tasarımı
+### Details:
+insaedilecekler.md dosyasının 6. bölümündeki sistem yönetimi detaylıca kontrol edilecek. Süper admin paneli, loglama, monitoring, backup stratejileri incelenecek. Bu analiz sonucunda analitik tablolar (daily_sales_metrics, weekly_sales_metrics, monthly_sales_metrics, product_performance_metrics, customer_segment_metrics, table_efficiency_metrics, courier_performance_metrics, financial_metrics) OLAP yapısında tasarlanacak. ETL pipeline'ları, data warehouse tasarımı, performans optimizasyonu için gerekli yapılar oluşturulacak. Sistem yönetimi tabloları (audit_logs, feature_flags, tenant_feature_flags, app_settings, notification_settings, tax_rates, commission_rates) tasarlanacak. Her tablo için detaylı ilişkiler, index'ler ve constraint'ler belirlenecek. prdplan.txt'deki analitik tablolar kontrolleri ile uyumlu hale getirilecek.
+
+## 6. prdplan.txt Süperadmin Özellik Atama Tabloları Kontrolü ve Tasarımı [done]
+### Dependencies: None
+### Description: prdplan.txt dosyasındaki süperadmin özellik atama sistemi kontrollerinin uygulanması ve tabloların tasarımı
+### Details:
+prdplan.txt dosyasındaki süperadmin özellik atama sistemi kontrolleri detaylıca uygulanacak. Merkezi kontrol mimarisi, feature flags, granular permission model, dynamic UI rendering, real-time updates kontrolleri yapılacak. Bu kontroller sonucunda süperadmin özellik atama tabloları (features, tenant_features, feature_usage_logs, feature_dependencies, feature_templates, feature_template_items, superadmin_users, superadmin_audit_logs) tasarlanacak. Feature kategorileri (Menü Yönetimi, Analitik, Finansal, Personel, Müşteri İlişkileri, Operasyonel, Gelişmiş Özellikler) tanımlanacak. Dependency management, usage analytics, audit trail, template system yapıları oluşturulacak. Her tablo için detaylı ilişkiler, index'ler ve constraint'ler belirlenecek. prdplan.txt'deki süperadmin kontrolleri ile tam uyumlu hale getirilecek.
+
+## 7. Veritabanı Şeması ERD Oluşturma ve Dokümantasyon [done]
+### Dependencies: None
+### Description: Tüm tasarlanan tabloların ERD (Entity Relationship Diagram) ile görselleştirilmesi ve dokümantasyonu
+### Details:
+Tüm tasarlanan tablolar için kapsamlı ERD (Entity Relationship Diagram) oluşturulacak. Multi-tenant temel yapı, Ciro Partnerliği, operasyonel tablolar, kurye yönetimi, analitik tablolar ve süperadmin özellik atama tabloları görselleştirilecek. Tablo ilişkileri, foreign key'ler, cardinality'ler net bir şekilde gösterilecek. Her tablo için örnek veriler oluşturulacak ve ilişkiler test edilecek. Performans optimizasyonu için index stratejileri belirlenecek. Veritabanı şeması dokümantasyonu oluşturulacak. prdplan.txt'deki veritabanı şeması kontrolleri ile uyumlu hale getirilecek. ERD, veriler.md dosyasına kaydedilecek.
+

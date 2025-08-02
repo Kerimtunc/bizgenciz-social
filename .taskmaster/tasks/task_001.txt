@@ -1,0 +1,37 @@
+# Task ID: 1
+# Title: FAZ 1: Mevcut Durum Analizi ve Eksiklik Tespiti
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: insaedilecekler.md dosyasının detaylı analizi, kurtarma klasörünün incelenmesi ve eksikliklerin tespit edilmesi
+# Details:
+Bu faz, projenin temelini oluşturacak analiz çalışmasını içerir. insaedilecekler.md dosyasındaki sistem prensipleri, veritabanı mimarisi, backend API'leri, iş mantığı pipeline'ları, finansal sistem ve güvenlik yaklaşımları detaylıca incelenecek. Kurtarma klasöründeki 25+ modern UI component, 17 ana modül, 11 sayfa ve 4 panel analiz edilecek. Multi-tenant altyapı, B2C platform entegrasyonu, Ciro Partnerliği sistemi, kurye yönetimi, mobil uygulama altyapısı, gelişmiş analitik ve süperadmin özellik atama sistemi gibi eksiklikler tespit edilecek. Bu analiz sonucunda projenin tam kapsamı belirlenecek ve PRD'nin hangi alanlarının geliştirilmesi gerektiği netleşecek.
+
+# Test Strategy:
+Analiz raporu oluşturulacak ve tespit edilen eksiklikler dokümante edilecek. Her eksiklik için detaylı açıklama ve öneriler sunulacak. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.
+
+# Subtasks:
+## 1. insaedilecekler.md Dosyasının Detaylı Analizi [done]
+### Dependencies: None
+### Description: Sistem prensipleri, veritabanı mimarisi, backend API'leri, iş mantığı pipeline'ları, finansal sistem ve güvenlik yaklaşımlarının incelenmesi
+### Details:
+insaedilecekler.md dosyasındaki tüm bölümler detaylıca analiz edilecek. Veri öncelikli yaklaşım, multi-tenancy, API-first mimari prensipleri incelenecek. OLTP/OLAP ayrımı, ETL pipeline, analitik tablolar yapısı analiz edilecek. 42KB menu management, 32KB staff module, 35KB reservation module gibi backend API'leri değerlendirilecek. Customer journey, staff management, kitchen management pipeline'ları incelenecek. Revenue hesaplamaları, rollback mantığı, vergi esnekliği gibi finansal sistem detayları analiz edilecek. RBAC, audit logging, data protection gibi güvenlik yaklaşımları değerlendirilecek.
+
+## 2. Kurtarma Klasörünün Kapsamlı İncelenmesi [done]
+### Dependencies: None
+### Description: 25+ modern UI component, 17 ana modül, 11 sayfa ve 4 panel analizi
+### Details:
+Kurtarma klasöründeki tüm dosyalar sistematik olarak incelenecek. Components klasöründeki 25+ modern UI component (admin-floating-menu, analytics-widget, particle-canvas, metric-card, modern-card, status-widget vb.) analiz edilecek. Modules klasöründeki 17 ana modül (orders, tables, menu-management, loyalty, kitchen, staff, reservations, feedback, notifications, communications, calendar, help, inventory, reports, customers, settings) detaylıca incelenecek. Pages klasöründeki 11 sayfa (home, menu, login, register, business-settings, hours-settings, user-settings, cookies vb.) analiz edilecek. Panel klasöründeki 4 panel (admin-panel, menu-management-panel, settings-panel, panel-main) değerlendirilecek. Menu Management Components alt klasöründeki 13 alt component (product-modal, category-management, archive-management, changelog-management, empty-state, menu-templates, metadata-management, product-card, product-management, ready-categories, ui-components, upsell-crosssell-management) incelenecek.
+
+## 3. Eksiklik Tespiti ve Geliştirme Alanlarının Belirlenmesi [done]
+### Dependencies: None
+### Description: Multi-tenant altyapı, B2C platform entegrasyonu, Ciro Partnerliği sistemi ve diğer eksikliklerin tespit edilmesi
+### Details:
+Analiz sonuçlarına göre eksiklikler tespit edilecek. Multi-tenant altyapı eksiklikleri (tenant isolation, CNAME desteği, domain mapping) belirlenecek. B2C platform entegrasyonu eksiklikleri (yemek siparişi platformu, konum bazlı hizmetler) tespit edilecek. Ciro Partnerliği sistemi eksiklikleri (Lezzet Kredisi, sübvansiyon yönetimi, komisyon hesaplamaları) belirlenecek. Kurye yönetimi eksiklikleri (hibrit kurye sistemi, performans takibi, maliyet yönetimi) tespit edilecek. Mobil uygulama altyapısı eksiklikleri (PWA desteği, push notifications, offline çalışma) belirlenecek. Gelişmiş analitik eksiklikleri (machine learning, predictive analytics, anomaly detection) tespit edilecek. Süperadmin özellik atama sistemi eksiklikleri (merkezi kontrol, granular permissions, dynamic UI) belirlenecek.
+
+## 4. Analiz Raporu Oluşturma ve Dokümantasyon [done]
+### Dependencies: None
+### Description: Tespit edilen eksikliklerin detaylı raporlanması ve önerilerin sunulması
+### Details:
+Tüm analiz sonuçları birleştirilerek kapsamlı bir analiz raporu oluşturulacak. Her eksiklik için detaylı açıklama ve öneriler sunulacak. insaedilecekler.md dosyasının güçlü yanları ve bu projeye aktarılacak özellikler belirlenecek. Kurtarma klasöründeki mevcut implementasyonların değerlendirmesi yapılacak. Eksikliklerin öncelik sırası belirlenecek. Her eksiklik için çözüm önerileri ve implementasyon yaklaşımları sunulacak. Rapor, PRD'nin hangi alanlarının geliştirilmesi gerektiğini net bir şekilde ortaya koyacak. Analiz sonuçları kontroller.md dosyasına kaydedilecek.
+

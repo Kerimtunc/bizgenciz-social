@@ -1,0 +1,11 @@
+# Task ID: 11
+# Title: insaedilecekler.md Sistem Prensipleri Kontrolü ve In-House Çözümler
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: insaedilecekler.md dosyasındaki sistem prensipleri ve in-house çözümlerin detaylı kontrolü ve implementasyon planının hazırlanması
+# Details:
+insaedilecekler.md dosyasının 0. bölümündeki sistem prensipleri detaylıca kontrol edilecek. Veri öncelikli yaklaşım (Önce Veri, Sonra Kod), Kiracı İzolasyonu, API-First Yaklaşımı, Bakımı Kolay ve Sağlam Dijital Miras, Güvenlik Önceliği, Çevresel Tutarlılık prensipleri incelenecek. In-house çözümler (Setup Script'leri, Git Hooks, In-Memory Cache, Jobs Tablosu) analiz edilecek. Mock data yasak politikası, hardcoded değer yasak politikası, veri öncelikli sistem kurgusu değerlendirilecek. Güvenlik ve performans prensipleri, test ve kalite güvencesi, deployment ve operasyon yaklaşımları kontrol edilecek. Bu analiz sonucunda sistem prensiplerinin implementasyon planı hazırlanacak ve eksiklikler tespit edilecek.
+
+# Test Strategy:
+Sistem prensiplerinin implementasyon kontrolü yapılacak. Her prensip için compliance testleri yazılacak. In-house çözümlerin çalışma testleri gerçekleştirilecek. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

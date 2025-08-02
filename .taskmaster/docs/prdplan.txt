@@ -1,0 +1,500 @@
+# YemekZen QR Menu Elite Edition - PRD Oluşturma Planı
+
+## 📋 GENEL BAKIŞ
+Bu plan, `insaedilecekler.md` dosyasındaki tüm özellikleri ve `kurtarma/` klasöründeki mevcut implementasyonları analiz ederek, kapsamlı bir Product Requirements Document (PRD) oluşturmayı hedefler. Plan, adım adım kontrol listesi formatında hazırlanmıştır.
+
+## 🎯 ANA HEDEFLER
+1. **Multi-Tenant Platform**: Her restoran/kafe için izole edilmiş tenant sistemi
+2. **Çift Yönlü Ekosistem**: B2B (QR Menü + Panel) + B2C (Yemek Siparişi Platformu)
+3. **Ciro Partnerliği**: "Lezzet Kredisi" sistemi ile hibrit gelir modeli
+4. **Kapsamlı Yönetim**: 17 ana modül ile tam işletme yönetimi
+5. **Mobil-First Tasarım**: Responsive ve PWA destekli arayüz
+
+---
+
+## 🔍 FAZ 1: MEVCUT DURUM ANALİZİ
+
+### 1.1 İnsaedilecekler.md Analizi
+- [ ] **Sistem Prensipleri İncelemesi**: Veri öncelikli yaklaşım, multi-tenancy, API-first mimari
+- [ ] **Veritabanı Mimarisi**: OLTP/OLAP ayrımı, ETL pipeline, analitik tablolar
+- [ ] **Backend API Analizi**: 42KB menu management, 32KB staff module, 35KB reservation module
+- [ ] **İş Mantığı Pipeline'ları**: Customer journey, staff management, kitchen management
+- [ ] **Finansal Sistem**: Revenue hesaplamaları, rollback mantığı, vergi esnekliği
+- [ ] **Güvenlik ve Yetkilendirme**: RBAC, audit logging, data protection
+
+### 1.2 Kurtarma Klasörü Analizi
+- [ ] **Component Analizi**: 25+ modern UI component (admin-floating-menu, analytics-widget, particle-canvas)
+- [ ] **Module Analizi**: 17 ana modül (orders, tables, menu-management, loyalty, kitchen, staff)
+- [ ] **Page Analizi**: 11 sayfa (home, menu, login, register, business-settings)
+- [ ] **Panel Analizi**: 4 panel (admin-panel, menu-management-panel, settings-panel)
+- [ ] **Menu Management Detayları**: 13 alt component (product-modal, category-management, archive-management)
+
+### 1.3 Eksiklik Tespiti ve Geliştirme Alanları
+- [ ] **Multi-Tenant Altyapı**: Tenant isolation, CNAME desteği, domain mapping
+- [ ] **B2C Platform Entegrasyonu**: Yemek siparişi platformu, konum bazlı hizmetler
+- [ ] **Ciro Partnerliği Sistemi**: Lezzet Kredisi, sübvansiyon yönetimi, komisyon hesaplamaları
+- [ ] **Kurye Yönetimi**: Hibrit kurye sistemi, performans takibi, maliyet yönetimi
+- [ ] **Mobil Uygulama Altyapısı**: PWA desteği, push notifications, offline çalışma
+- [ ] **Gelişmiş Analitik**: Machine learning, predictive analytics, anomaly detection
+- [ ] **Süperadmin Özellik Atama Sistemi**: Merkezi kontrol, granular permissions, dynamic UI
+  - [ ] **Feature Flags Infrastructure**: Platform genelinde özellik kontrol sistemi
+  - [ ] **Tenant-Feature Assignment**: İşletme bazlı özellik atama ve yönetimi
+  - [ ] **Granular Permission Model**: Görme, kullanma, yönetme seviyeleri
+  - [ ] **Dynamic UI Rendering**: Atama yapılmamış özelliklerin otomatik gizlenmesi
+  - [ ] **Bulk Operations**: Toplu özellik atama ve güncelleme işlemleri
+  - [ ] **Feature Dependency Management**: Özellik bağımlılıklarının yönetimi
+  - [ ] **Usage Analytics**: Özellik kullanım istatistikleri ve performans takibi
+  - [ ] **Audit Trail**: Tüm atama değişikliklerinin detaylı loglanması
+  - [ ] **Real-time Updates**: WebSocket ile anlık özellik güncellemeleri
+  - [ ] **Template System**: Önceden tanımlanmış özellik paketleri
+  - [ ] **Süperadmin Security**: Multi-factor authentication, IP whitelisting, session management
+
+---
+
+## 📊 FAZ 2: VERİTABANI ŞEMASI TASARIMI
+
+### 2.1 Multi-Tenant Temel Yapı
+- [ ] **Tenants Tablosu**: tenant_type (BUSINESS, CONSUMER, SUPER_ADMIN), status, subscription_status
+- [ ] **Users Tablosu**: tenant_id, role_id, credit_balance, loyalty_points, is_active
+- [ ] **Business_Profiles Tablosu**: tenant_id, business_name, business_type, theme_settings
+- [ ] **Plans Tablosu**: price, interval, max_products, max_categories, max_staff
+- [ ] **Features Tablosu**: category, api_endpoint, is_active, feature_code
+- [ ] **Plan_Features Tablosu**: plan_id, feature_id, is_included, limit_value
+
+### 2.2 Ciro Partnerliği Veri Yapıları
+- [ ] **Commissions Tablosu**: commission_type, rate, is_percentage, min_amount, max_amount
+- [ ] **Loyalty_Programs Tablosu**: program_type, earning_rules, redemption_rules, credit_value
+- [ ] **Business_Loyalty_Settings Tablosu**: tenant_id, loyalty_program_id, is_active
+- [ ] **Credit_Transactions Tablosu**: user_id, transaction_type, amount, order_id, description
+- [ ] **Partner_Subsidies Tablosu**: business_tenant_id, order_id, credit_spent, subsidy_amount
+
+### 2.3 Operasyonel Tablolar
+- [ ] **Categories Tablosu**: tenant_id, name, description, icon, color, order_index, seasonality
+- [ ] **Products Tablosu**: tenant_id, category_id, name, description, price, image_url, is_featured
+- [ ] **Orders Tablosu**: tenant_id, customer_id, table_id, order_type, status, total_amount
+- [ ] **Order_Items Tablosu**: order_id, product_id, quantity, unit_price, total_price, customizations
+- [ ] **Customers Tablosu**: tenant_id, name, email, phone, loyalty_tier_id, total_orders, total_spent
+- [ ] **Tables Tablosu**: tenant_id, table_number, location, capacity, status, qr_code
+- [ ] **Staff Tablosu**: tenant_id, user_id, name, role, phone, email, shift_start, shift_end
+
+### 2.4 Kurye Yönetimi Tabloları
+- [ ] **Business_Couriers Tablosu**: tenant_id, name, phone, vehicle_type, license_plate, status
+- [ ] **Courier_Assignments Tablosu**: order_id, courier_id, assignment_type, status, assigned_at
+- [ ] **Courier_Performance Tablosu**: courier_id, period, delivery_count, avg_delivery_time, rating
+- [ ] **Courier_Locations Tablosu**: courier_id, latitude, longitude, timestamp, status
+- [ ] **Emergency_Alerts Tablosu**: courier_id, alert_type, location, timestamp, status
+
+### 2.5 Analitik Tablolar (OLAP)
+- [ ] **Daily_Sales_Metrics Tablosu**: date, tenant_id, total_revenue, total_orders, total_customers
+- [ ] **Weekly_Sales_Metrics Tablosu**: week_start_date, tenant_id, total_revenue, growth_rate
+- [ ] **Monthly_Sales_Metrics Tablosu**: month_start_date, tenant_id, total_revenue, seasonal_factor
+- [ ] **Product_Performance_Metrics Tablosu**: product_id, period, sales_count, revenue_generated
+- [ ] **Customer_Segment_Metrics Tablosu**: segment_id, period, customer_count, retention_rate
+- [ ] **Table_Efficiency_Metrics Tablosu**: table_id, total_revenue, turnover_rate, revenue_per_hour
+
+### 2.6 Sistem Yönetimi Tabloları
+- [ ] **Audit_Logs Tablosu**: user_id, tenant_id, action_type, table_name, record_id, old_value, new_value
+- [ ] **Feature_Flags Tablosu**: name, is_active, description
+- [ ] **Tenant_Feature_Flags Tablosu**: tenant_id, feature_flag_id, is_active
+- [ ] **App_Settings Tablosu**: key, value, description
+- [ ] **Notification_Settings Tablosu**: tenant_id, notification_type, is_active, template
+- [ ] **Tax_Rates Tablosu**: tax_type, rate, is_active, effective_date
+- [ ] **Commission_Rates Tablosu**: commission_type, rate, is_active, effective_date
+
+### 2.7 Süperadmin Özellik Atama Tabloları
+- [ ] **Features Tablosu**: feature_code, name, description, category, is_active, dependencies, created_at
+- [ ] **Tenant_Features Tablosu**: tenant_id, feature_id, is_visible, is_usable, is_manageable, assigned_by, assigned_at
+- [ ] **Feature_Usage_Logs Tablosu**: tenant_id, feature_id, user_id, action_type, timestamp
+- [ ] **Feature_Dependencies Tablosu**: feature_id, depends_on_feature_id, dependency_type
+- [ ] **Feature_Templates Tablosu**: template_name, description, is_active, created_by
+- [ ] **Feature_Template_Items Tablosu**: template_id, feature_id, is_visible, is_usable, is_manageable
+- [ ] **Superadmin_Users Tablosu**: user_id, role, permissions, last_login, is_active
+- [ ] **Superadmin_Audit_Logs Tablosu**: admin_user_id, action_type, target_tenant_id, target_feature_id, old_value, new_value, timestamp
+
+---
+
+## 🏗️ FAZ 3: API MİMARİSİ TASARIMI
+
+### 3.1 Multi-Tenant API Middleware
+- [ ] **Tenant Validation Middleware**: Her request'te tenant_id kontrolü
+- [ ] **Tenant Isolation Middleware**: Cross-tenant veri erişimi engelleme
+- [ ] **Feature Flag Middleware**: Tenant bazlı özellik kontrolü
+- [ ] **Rate Limiting Middleware**: Tenant bazlı rate limiting
+- [ ] **Audit Logging Middleware**: Tüm işlemlerin loglanması
+
+### 3.2 B2B API Endpoint Grupları
+- [ ] **Dashboard API'leri**: GET /api/dashboard/stats, GET /api/dashboard/business-intelligence
+- [ ] **Orders API'leri**: GET /api/orders, POST /api/orders, GET /api/orders/stats
+- [ ] **Menu Management API'leri**: CRUD operations for categories and products
+- [ ] **Customer Management API'leri**: Customer CRUD, feedback, journey tracking
+- [ ] **Staff Management API'leri**: Staff CRUD, performance tracking, scheduling
+- [ ] **Kitchen Management API'leri**: Kitchen orders, preparation tracking, quality control
+- [ ] **Table Management API'leri**: Table sessions, QR codes, status updates
+- [ ] **Reservation Management API'leri**: Reservation CRUD, availability checking
+- [ ] **Notification System API'leri**: Multi-channel notifications, templates
+- [ ] **Business Management API'leri**: Business profile, settings, branding
+- [ ] **Analytics and Reporting API'leri**: KPIs, real-time metrics, historical data
+- [ ] **System Management API'leri**: Health checks, cache management, error monitoring
+
+### 3.3 B2C API Endpoint Grupları
+- [ ] **Restaurant Discovery API'leri**: GET /api/restaurants/nearby, GET /api/restaurants/search
+- [ ] **Menu API'leri**: GET /api/restaurants/{id}/menu, GET /api/products/{id}
+- [ ] **Order Flow API'leri**: POST /api/orders, POST /api/payments, GET /api/orders/{id}/status
+- [ ] **User Profile API'leri**: GET /api/users/profile, PUT /api/users/profile
+- [ ] **Credit System API'leri**: GET /api/users/credits/balance, POST /api/orders/use-credits
+- [ ] **Location Services API'leri**: GET /api/location/current, POST /api/delivery/calculate
+- [ ] **Notification API'leri**: POST /api/notifications/push, PUT /api/notifications/settings
+
+### 3.4 Ciro Partnerliği API'leri
+- [ ] **Credit Management API'leri**: POST /api/credits/earn, POST /api/credits/refund
+- [ ] **Subsidy Management API'leri**: POST /api/subsidies/calculate, PUT /api/subsidies/{id}/cancel
+- [ ] **Commission API'leri**: GET /api/commissions/calculate, PUT /api/commissions/{id}/adjust
+- [ ] **Loyalty Program API'leri**: GET /api/loyalty/programs, POST /api/loyalty/points
+
+### 3.5 Kurye Yönetimi API'leri
+- [ ] **Courier Registration API'leri**: POST /api/couriers/register, PUT /api/couriers/{id}/approve
+- [ ] **Courier Assignment API'leri**: POST /api/couriers/auto-assign, POST /api/couriers/manual-assign
+- [ ] **Courier Performance API'leri**: GET /api/couriers/{id}/performance, GET /api/couriers/{id}/monthly-report
+- [ ] **Courier Communication API'leri**: POST /api/couriers/{id}/notify, POST /api/couriers/emergency-alert
+- [ ] **Courier Payment API'leri**: POST /api/couriers/{id}/payment, GET /api/couriers/payment-schedule
+
+### 3.6 Modern API Standartları
+- [ ] **Idempotency Desteği**: POST ve PUT endpoint'leri için Idempotency-Key header
+- [ ] **Asenkron İşlem Yönetimi**: POST /api/jobs/reports, GET /api/jobs/{jobId}/status
+- [ ] **Global Health Check**: GET /health endpoint'i
+- [ ] **API Dokümantasyonu**: Swagger/OpenAPI 3.0 standardında JSDoc yorumları
+- [ ] **Error Handling**: Structured error responses, proper HTTP status codes
+- [ ] **Rate Limiting**: API abuse koruması, tenant bazlı limitler
+
+### 3.7 Süperadmin API Endpoint'leri
+- [ ] **Tenant Management API'leri**: GET /api/superadmin/tenants, PUT /api/superadmin/tenants/:id
+- [ ] **Feature Management API'leri**: GET /api/superadmin/features, POST /api/superadmin/features
+- [ ] **Feature Assignment API'leri**: POST /api/superadmin/tenants/:id/features, DELETE /api/superadmin/tenants/:id/features/:featureId
+- [ ] **Bulk Operations API'leri**: POST /api/superadmin/bulk/assign-features, POST /api/superadmin/bulk/update-tenants
+- [ ] **Analytics API'leri**: GET /api/superadmin/analytics/platform, GET /api/superadmin/analytics/features
+- [ ] **System Management API'leri**: GET /api/superadmin/system/health, POST /api/superadmin/system/maintenance
+- [ ] **Template Management API'leri**: GET /api/superadmin/templates, POST /api/superadmin/templates/:id/apply
+- [ ] **Audit Logs API'leri**: GET /api/superadmin/audit-logs, GET /api/superadmin/audit-logs/:tenantId
+
+---
+
+## 🎨 FAZ 4: FRONTEND MİMARİSİ TASARIMI
+
+### 4.1 B2B Yönetim Paneli (17 Ana Modül)
+- [ ] **Dashboard Modülü**: Real-time metrikler, trend analizi, performans karşılaştırması
+- [ ] **Orders Modülü**: Sipariş listesi, sipariş detay modalı, filtreleme seçenekleri
+- [ ] **Tables Modülü**: Masa haritası, QR kod yönetimi, oturum takibi
+- [ ] **Menu Management Modülü**: Kategori yönetimi, ürün ekleme/düzenleme, fiyat yönetimi
+- [ ] **Inventory Modülü**: Stok takibi, tedarikçi yönetimi, düşük stok uyarıları
+- [ ] **Reports Modülü**: Satış raporları, analitik grafikler, özelleştirilebilir raporlar
+- [ ] **Customers Modülü**: Müşteri listesi, profil yönetimi, sipariş geçmişi
+- [ ] **Loyalty Modülü**: Sadakat programı yönetimi, puan sistemi, ödül kataloğu
+- [ ] **Kitchen Modülü**: Mutfak sipariş ekranı, hazırlama istasyonları, zaman takibi
+- [ ] **Staff Modülü**: Personel listesi, vardiya yönetimi, performans takibi
+- [ ] **Reservations Modülü**: Rezervasyon takvimi, masa müsaitlik kontrolü, onay sistemi
+- [ ] **Feedback Modülü**: Müşteri geribildirimleri, değerlendirme analizi, yanıt sistemi
+- [ ] **Notifications Modülü**: Bildirim ayarları, şablon yönetimi, gönderim geçmişi
+- [ ] **Communications Modülü**: İletişim kanalları, mesaj şablonları, gönderim takibi
+- [ ] **Calendar Modülü**: Etkinlik takvimi, etkinlik yönetimi, hatırlatma sistemi
+- [ ] **Help Modülü**: Yardım makaleleri, destek talepleri, SSS
+- [ ] **Settings Modülü**: Sistem ayarları, işletme ayarları, kullanıcı tercihleri
+
+### 4.1.1 Süperadmin Yönetim Paneli
+- [ ] **Platform Overview Dashboard**: Toplam işletme sayısı, aktif kullanıcılar, gelir metrikleri
+- [ ] **Tenant Management Module**: İşletme listesi, detay yönetimi, toplu işlemler
+- [ ] **Feature Assignment Module**: Özellik kataloğu, atama matrisi, permission yönetimi
+- [ ] **System Analytics Module**: Platform performansı, özellik kullanım analizi
+- [ ] **Financial Management Module**: Gelir takibi, komisyon yönetimi, faturalama
+- [ ] **Security & Compliance Module**: Güvenlik ayarları, uyumluluk takibi, audit logs
+- [ ] **Support & Operations Module**: Destek talepleri, sistem izleme, bakım planlama
+- [ ] **Template Management Module**: Özellik şablonları, paket yönetimi, hızlı atama
+
+### 4.2 B2C Yemek Siparişi Platformu
+- [ ] **Ana Sayfa**: Konuma göre restoran listesi, popüler restoranlar, "Ciro Partneri" rozeti
+- [ ] **Restoran Arama**: Mutfak türü filtresi, puan filtresi, fiyat aralığı, "Lezzet Kredisi Kabul Edenler" filtresi
+- [ ] **Restoran Detay**: Menü görüntüleme, adres bilgileri, çalışma saatleri, kullanıcı yorumları
+- [ ] **Sipariş Akışı**: Sepet yönetimi, "Lezzet Kredisi" kullanımı, online ödeme, sipariş onayı
+- [ ] **Kullanıcı Profili**: Sipariş geçmişi, "Lezzet Kredisi" bakiye, favori restoranlar, adres yönetimi
+
+### 4.3 Modern UI Component Sistemi
+- [ ] **Layout Components**: ModernLayout, DashboardHeader, DesktopSidebar, MobileSidebar
+- [ ] **Navigation Components**: NavItem, StatusItem, ActionButton, AdminFloatingMenu
+- [ ] **Data Display Components**: MetricCard, ModernCard, StatusWidget, AnalyticsWidget
+- [ ] **Form Components**: ProductModal, CategoryModal, UserSettings, BusinessSettings
+- [ ] **Feedback Components**: FeedbackItem, StaffMessage, NotificationCenter
+- [ ] **Special Components**: ParticleCanvas, RightSidebar, POSModule
+
+### 4.4 Responsive ve Mobile-First Tasarım
+- [ ] **Mobile-First Yaklaşım**: Her component önce mobilde mükemmel olmalı
+- [ ] **Responsive Breakpoints**: sm (640px), md (768px), lg (1024px), xl (1280px), 2xl (1536px)
+- [ ] **Touch-Friendly Interface**: Minimum 44px touch targets, gesture support
+- [ ] **Progressive Web App (PWA)**: Offline çalışma, push notifications, app-like experience
+- [ ] **Performance Optimization**: Lazy loading, code splitting, image optimization
+
+### 4.5 Design System ve Styling
+- [ ] **Color Palette**: Primary (Indigo #6366F1), Secondary, Semantic colors
+- [ ] **Typography System**: Inter font family, consistent font sizes and weights
+- [ ] **Spacing System**: Consistent margin and padding scales
+- [ ] **Component Library**: shadcn/ui components, custom component variants
+- [ ] **Icon System**: Lucide React icons, consistent icon usage
+- [ ] **Animation System**: Smooth transitions, loading states, micro-interactions
+
+---
+
+## 🔧 FAZ 5: İŞ MANTIĞI VE PIPELINE'LAR
+
+### 5.1 Customer Journey Pipeline
+- [ ] **QR Kod Okutma**: QR Scanner Component → QR Decode Service → tables tablosu
+- [ ] **Menü Görüntüleme**: MenuPage Component → Menu Service → categories, products tabloları
+- [ ] **Ürün Seçimi**: ProductCard Component → Product Service → products tablosu
+- [ ] **Sepete Ekleme**: AddToCart Component → Cart Service → cart_items tablosu
+- [ ] **Sipariş Onayı**: Checkout Component → Order Service → orders, order_items tabloları
+- [ ] **Ödeme**: Payment Component → Payment Service → payments tablosu
+- [ ] **Sipariş Takibi**: OrderStatus Component → Order Service → orders tablosu
+
+### 5.2 Staff Management Pipeline
+- [ ] **Vardiya Başlangıcı**: Staff login → ShiftService → staff tablosu
+- [ ] **Masa Kontrolü**: Table monitor → TableMonitorService → tables, table_sessions tabloları
+- [ ] **Garson Çağırısı**: Waiter call button → WaiterCallService → table_sessions, staff tabloları
+- [ ] **Sipariş Alma**: Order form → OrderService → orders, order_items tabloları
+- [ ] **Mutfak Bildirimi**: Kitchen notification → KitchenNotificationService → kitchen_orders tablosu
+- [ ] **Sipariş Servis**: Service interface → ServiceService → orders, table_sessions tabloları
+
+### 5.3 Kitchen Management Pipeline
+- [ ] **Sipariş Alma**: Kitchen display → KitchenOrderService → kitchen_orders, orders tabloları
+- [ ] **Malzeme Hazırlama**: Ingredient management → IngredientService → inventory, ingredients tabloları
+- [ ] **Hazırlama Başlama**: Cooking interface → CookingService → kitchen_orders tablosu
+- [ ] **Pişirme Süreci**: Cooking timer → CookingService → kitchen_orders, cooking_process tabloları
+- [ ] **Kalite Kontrol**: Quality check interface → QualityControlService → kitchen_orders, quality_metrics tabloları
+- [ ] **Hazır Bildirimi**: Ready notification → KitchenNotificationService → kitchen_orders, orders tabloları
+
+### 5.4 Financial Pipeline
+- [ ] **Gelir Kaydı**: Successful payment trigger → RevenueRecordingService → revenue_records, orders tabloları
+- [ ] **Maliyet Kaydı**: Stock usage trigger → CostCalculationService → cost_records tablosu
+- [ ] **Gün Sonu İşlemi**: Scheduled task → EndOfDayService → daily_financials tablosu
+- [ ] **Kar/Zarar Analizi**: Period end trigger → ProfitLossService → profit_loss_analysis tablosu
+
+### 5.5 Ciro Partnerliği Pipeline
+- [ ] **Kredi Kullanımı**: Order placement → CreditUsageService → credit_transactions tablosu
+- [ ] **Sübvansiyon Hesaplama**: Credit usage trigger → SubsidyCalculationService → partner_subsidies tablosu
+- [ ] **Komisyon Hesaplama**: Order completion → CommissionCalculationService → commissions tablosu
+- [ ] **Finansal Mutabakat**: Period end → FinancialReconciliationService → reconciliation_records tablosu
+
+### 5.6 Kurye Yönetimi Pipeline
+- [ ] **Kurye Kayıt**: Registration form → CourierRegistrationService → business_couriers tablosu
+- [ ] **Kurye Atama**: Order placement → CourierAssignmentService → courier_assignments tablosu
+- [ ] **Teslimat Takibi**: Location updates → LocationTrackingService → courier_locations tablosu
+- [ ] **Performans Değerlendirme**: Delivery completion → PerformanceEvaluationService → courier_performance tablosu
+
+### 5.7 Süperadmin Özellik Atama Pipeline
+- [ ] **Yeni İşletme Onboarding**: Registration → AutoFeatureAssignmentService → tenant_features tablosu
+- [ ] **Özellik Atama**: Admin request → FeatureAssignmentService → tenant_features, feature_usage_logs tabloları
+- [ ] **Toplu Güncelleme**: Bulk operation → BulkFeatureAssignmentService → multiple tenant_features tabloları
+- [ ] **Dependency Check**: Feature assignment → DependencyValidationService → feature_dependencies tablosu
+- [ ] **Usage Tracking**: Feature usage → UsageTrackingService → feature_usage_logs tablosu
+- [ ] **Audit Logging**: Any change → AuditLoggingService → superadmin_audit_logs tablosu
+- [ ] **Real-time Updates**: Feature change → WebSocketService → Real-time UI updates
+- [ ] **Template Application**: Template selection → TemplateApplicationService → tenant_features tablosu
+
+---
+
+## 🛡️ FAZ 6: GÜVENLİK VE PERFORMANS
+
+### 6.1 Güvenlik Katmanları
+- [ ] **Authentication**: JWT tabanlı kimlik doğrulama, multi-factor authentication
+- [ ] **Authorization**: Role-based access control (RBAC), tenant isolation
+- [ ] **Input Validation**: Tüm kullanıcı girdilerinin doğrulanması, SQL injection koruması
+- [ ] **Data Encryption**: Hassas veri şifreleme, payment data security
+- [ ] **Audit Logging**: Tüm işlemlerin detaylı loglanması, security monitoring
+- [ ] **Rate Limiting**: API abuse koruması, DDoS protection
+
+### 6.1.1 Süperadmin Güvenlik Önlemleri
+- [ ] **Multi-Factor Authentication**: Çok faktörlü kimlik doğrulama (SMS, Email, Authenticator App)
+- [ ] **IP Whitelisting**: Sadece güvenilir IP adreslerinden erişim
+- [ ] **Session Management**: Güvenli oturum yönetimi, otomatik logout
+- [ ] **Emergency Access**: Acil durum erişim protokolleri ve break-glass procedures
+- [ ] **Privileged Access Management**: Süperadmin yetkilerinin yönetimi ve kontrolü
+- [ ] **Data Encryption**: Süperadmin verilerinin end-to-end şifrelenmesi
+- [ ] **Audit Trail**: Tüm süperadmin işlemlerinin detaylı kaydı
+- [ ] **Access Monitoring**: Süperadmin erişimlerinin gerçek zamanlı izlenmesi
+
+### 6.2 Performans Optimizasyonu
+- [ ] **Database Indexing**: Kritik sorgular için index'ler, query optimization
+- [ ] **Caching Strategy**: In-memory cache, Redis alternative, cache invalidation
+- [ ] **Pagination**: Büyük veri setleri için sayfalama, infinite scroll
+- [ ] **Lazy Loading**: Gereksiz veri yüklemesini önleme, code splitting
+- [ ] **CDN Integration**: Static asset delivery, image optimization
+- [ ] **Database Connection Pooling**: Efficient connection management
+
+### 6.3 Monitoring ve Logging
+- [ ] **Error Tracking**: Sentry integration, error categorization
+- [ ] **Performance Monitoring**: Response time tracking, bottleneck identification
+- [ ] **Health Checks**: System health monitoring, automated alerts
+- [ ] **Structured Logging**: JSON format logging, log aggregation
+- [ ] **Business Metrics**: Custom business metrics, KPI tracking
+- [ ] **Real-time Monitoring**: Live system monitoring, alert system
+
+---
+
+## 🧪 FAZ 7: TEST VE KALİTE GÜVENCESİ
+
+### 7.1 Test Stratejisi
+- [ ] **Unit Tests**: Jest ile business logic testleri, %90+ kapsam hedefi
+- [ ] **Integration Tests**: Supertest ile API endpoint testleri, %100 endpoint kapsamı
+- [ ] **E2E Tests**: Playwright ile kritik kullanıcı akışları, %80+ akış kapsamı
+- [ ] **Performance Tests**: Load testing, stress testing, scalability testing
+- [ ] **Security Tests**: Penetration testing, vulnerability scanning
+- [ ] **Accessibility Tests**: WCAG compliance, screen reader testing
+
+### 7.2 Test Otomasyonu
+- [ ] **CI/CD Pipeline**: GitHub Actions ile otomatik test çalıştırma
+- [ ] **Pre-commit Hooks**: Kod kalitesi kontrolü, linting, formatting
+- [ ] **Test Raporları**: Detaylı test sonuçları, coverage raporları
+- [ ] **Test Veritabanı**: Ayrı test veritabanı, test data management
+- [ ] **Mock Servisleri**: Dış servisler için mock implementasyonları
+- [ ] **Visual Regression Testing**: UI değişikliklerinin otomatik tespiti
+
+### 7.3 Kod Kalitesi
+- [ ] **TypeScript**: Tam tip güvenliği, strict mode
+- [ ] **ESLint**: Kod standartları kontrolü, custom rules
+- [ ] **Prettier**: Kod formatı standardizasyonu
+- [ ] **Code Review**: Her değişiklik için review süreci
+- [ ] **Documentation**: JSDoc, README, API documentation
+- [ ] **Architecture Review**: Mimari kararların review edilmesi
+
+---
+
+## 🚀 FAZ 8: DEPLOYMENT VE OPERASYON
+
+### 8.1 Environment Management
+- [ ] **Development Environment**: Local development setup, hot reloading
+- [ ] **Staging Environment**: Pre-production testing, integration testing
+- [ ] **Production Environment**: Production deployment, monitoring
+- [ ] **Environment Variables**: Secure configuration management
+- [ ] **Database Migrations**: Version controlled schema changes
+- [ ] **Backup Strategy**: Automated database backups, disaster recovery
+
+### 8.2 Deployment Stratejisi
+- [ ] **Build Process**: Optimized build configuration, asset optimization
+- [ ] **Deployment Pipeline**: Automated deployment, rollback capability
+- [ ] **Health Checks**: Application health monitoring, automated recovery
+- [ ] **Load Balancing**: Traffic distribution, high availability
+- [ ] **SSL/TLS**: Secure communication, certificate management
+- [ ] **Domain Management**: CNAME support, custom domain configuration
+
+### 8.3 Operasyonel Süreçler
+- [ ] **Monitoring**: System health monitoring, performance tracking
+- [ ] **Alerting**: Automated alerts, incident response
+- [ ] **Logging**: Centralized logging, log analysis
+- [ ] **Backup**: Automated backups, data recovery procedures
+- [ ] **Security**: Security monitoring, vulnerability management
+- [ ] **Compliance**: GDPR compliance, data protection
+
+---
+
+## 📈 FAZ 9: ANALİTİK VE RAPORLAMA
+
+### 9.1 Business Intelligence
+- [ ] **Dashboard Analytics**: Real-time business metrics, KPI tracking
+- [ ] **Sales Analytics**: Revenue analysis, trend identification
+- [ ] **Customer Analytics**: Behavior analysis, segmentation
+- [ ] **Product Analytics**: Performance tracking, popularity analysis
+- [ ] **Operational Analytics**: Efficiency metrics, process optimization
+- [ ] **Financial Analytics**: Profit/loss analysis, cost optimization
+
+### 9.2 Reporting System
+- [ ] **Automated Reports**: Scheduled report generation, email delivery
+- [ ] **Custom Reports**: User-defined reports, flexible parameters
+- [ ] **Export Functionality**: PDF, Excel, CSV export options
+- [ ] **Report Templates**: Pre-built report templates, customization
+- [ ] **Data Visualization**: Charts, graphs, interactive dashboards
+- [ ] **Drill-down Capability**: Detailed data exploration, root cause analysis
+
+### 9.3 Predictive Analytics
+- [ ] **Demand Forecasting**: Sales prediction, inventory optimization
+- [ ] **Customer Churn Prediction**: Retention analysis, intervention strategies
+- [ ] **Revenue Optimization**: Pricing optimization, promotion effectiveness
+- [ ] **Operational Efficiency**: Process optimization, resource allocation
+- [ ] **Anomaly Detection**: Unusual patterns, fraud detection
+- [ ] **Machine Learning Models**: Custom ML models, continuous improvement
+
+---
+
+## 🔄 FAZ 10: SÜREKLİ İYİLEŞTİRME
+
+### 10.1 Feedback Loop
+- [ ] **User Feedback Collection**: In-app feedback, survey integration
+- [ ] **Performance Monitoring**: User experience tracking, performance metrics
+- [ ] **Error Tracking**: Bug reporting, error analysis
+- [ ] **Feature Usage Analytics**: Feature adoption, usage patterns
+- [ ] **A/B Testing**: Feature testing, optimization experiments
+- [ ] **User Research**: User interviews, usability testing
+
+### 10.2 Iterative Development
+- [ ] **Sprint Planning**: Agile development, iterative releases
+- [ ] **Feature Prioritization**: Backlog management, priority scoring
+- [ ] **Release Management**: Version control, release notes
+- [ ] **Hotfix Process**: Critical bug fixes, emergency releases
+- [ ] **Rollback Strategy**: Safe rollback procedures, data integrity
+- [ ] **Documentation Updates**: Continuous documentation improvement
+
+### 10.3 Scalability Planning
+- [ ] **Performance Optimization**: Continuous performance improvement
+- [ ] **Infrastructure Scaling**: Horizontal scaling, load balancing
+- [ ] **Database Optimization**: Query optimization, indexing strategy
+- [ ] **Caching Strategy**: Multi-level caching, cache optimization
+- [ ] **CDN Integration**: Global content delivery, edge computing
+- [ ] **Microservices Architecture**: Service decomposition, API gateway
+
+---
+
+## 📋 KONTROL LİSTESİ ÖZETİ
+
+### ✅ Tamamlanması Gereken Kontroller
+- [ ] **Toplam Kontrol Sayısı**: 150+ detaylı kontrol maddesi
+- [ ] **Kritik Kontroller**: 50+ kritik sistem kontrolü
+- [ ] **Güvenlik Kontrolleri**: 20+ güvenlik ve performans kontrolü
+- [ ] **Test Kontrolleri**: 30+ test ve kalite kontrolü
+- [ ] **Deployment Kontrolleri**: 25+ deployment ve operasyon kontrolü
+- [ ] **Süperadmin Kontrolleri**: 35+ süperadmin özellik atama sistemi kontrolü
+  - [ ] **Feature Flags Infrastructure**: 8 kontrol maddesi
+  - [ ] **Tenant-Feature Assignment**: 10 kontrol maddesi
+  - [ ] **Süperadmin Security**: 8 kontrol maddesi
+  - [ ] **API Endpoints**: 8 kontrol maddesi
+  - [ ] **UI Components**: 6 kontrol maddesi
+
+### 🎯 Başarı Kriterleri
+- **Test Coverage**: %80+ genel test kapsamı
+- **Performance**: <200ms API response time
+- **Security**: Zero critical vulnerabilities
+- **Uptime**: %99.9+ system availability
+- **User Experience**: Mobile-first, responsive design
+- **Scalability**: Support for 1000+ concurrent users
+
+### 📊 Proje Metrikleri
+- **Development Timeline**: 6-8 months for full implementation
+- **Team Size**: 3-5 developers recommended
+- **Technology Stack**: Next.js 15, Express.js, Supabase, TypeScript
+- **Architecture**: Multi-tenant, microservices-ready
+- **Deployment**: Cloud-native, container-ready
+
+---
+
+## 🚨 ÖNEMLİ NOTLAR
+
+### ⚠️ Kritik Dikkat Edilecek Noktalar
+1. **Multi-Tenant İzolasyon**: Her tenant'ın verisi tamamen izole edilmeli
+2. **Veri Bütünlüğü**: Tüm işlemler transaction içinde yapılmalı
+3. **Güvenlik**: JWT authentication, RBAC, input validation zorunlu
+4. **Performans**: Database indexing, caching, query optimization kritik
+5. **Test Coverage**: %80+ test kapsamı zorunlu
+6. **Mobile-First**: Tüm arayüzler mobile-first tasarlanmalı
+
+### 🔄 Sürekli Güncelleme
+Bu plan, proje geliştirme sürecinde sürekli güncellenecek ve yeni gereksinimler eklenecektir. Her faz tamamlandığında plan gözden geçirilecek ve gerekli düzenlemeler yapılacaktır.
+
+### 📞 İletişim ve Koordinasyon
+- **Plan Güncellemeleri**: Her hafta plan durumu gözden geçirilecek
+- **Risk Yönetimi**: Kritik riskler tespit edildiğinde anında müdahale
+- **Kalite Kontrolü**: Her faz sonunda kalite kontrolü yapılacak
+- [ ] **Dokümantasyon**: Tüm değişiklikler dokümante edilecek

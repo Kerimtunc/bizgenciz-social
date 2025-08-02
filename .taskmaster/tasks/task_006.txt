@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: FAZ 6: Güvenlik ve Performans Optimizasyonu
+# Status: done
+# Dependencies: 5
+# Priority: high
+# Description: Güvenlik katmanları, performans optimizasyonu, monitoring ve logging, süperadmin güvenlik önlemleri
+# Details:
+Bu faz, projenin güvenlik ve performans altyapısını oluşturacak kapsamlı optimizasyon çalışmasını içerir. Güvenlik katmanları (authentication, authorization, input validation, data encryption, audit logging, rate limiting) uygulanacak. Süperadmin güvenlik önlemleri (multi-factor authentication, IP whitelisting, session management, emergency access, privileged access management, data encryption, audit trail, access monitoring) geliştirilecek. Performans optimizasyonu (database indexing, caching strategy, pagination, lazy loading, CDN integration, database connection pooling) uygulanacak. Monitoring ve logging (error tracking, performance monitoring, health checks, structured logging, business metrics, real-time monitoring) geliştirilecek. Güvenlik testleri (penetration testing, vulnerability scanning, security audit) gerçekleştirilecek. Performans testleri (load testing, stress testing, scalability testing) yapılacak.
+
+# Test Strategy:
+Güvenlik testleri için OWASP Top 10 kontrol listesi kullanılacak. Performans testleri için JMeter veya benzeri araçlar kullanılacak. Monitoring dashboard'ları oluşturulacak. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

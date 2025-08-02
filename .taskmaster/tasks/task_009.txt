@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: FAZ 9: Analitik ve Raporlama Sistemi
+# Status: done
+# Dependencies: 8
+# Priority: medium
+# Description: Business intelligence, reporting system, predictive analytics, machine learning modelleri
+# Details:
+Bu faz, projenin analitik ve raporlama altyapısını oluşturacak kapsamlı BI sistemini içerir. Business intelligence (dashboard analytics, sales analytics, customer analytics, product analytics, operational analytics, financial analytics) geliştirilecek. Reporting system (automated reports, custom reports, export functionality, report templates, data visualization, drill-down capability) oluşturulacak. Predictive analytics (demand forecasting, customer churn prediction, revenue optimization, operational efficiency, anomaly detection, machine learning models) uygulanacak. Real-time analytics dashboard'ları geliştirilecek. Custom KPI'lar tanımlanacak. Data warehouse tasarımı yapılacak. ETL pipeline'ları kurulacak.
+
+# Test Strategy:
+Analitik dashboard'ları test edilecek. Report generation testleri yapılacak. Data accuracy testleri gerçekleştirilecek. Performance testleri yapılacak. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

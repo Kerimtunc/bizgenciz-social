@@ -1,0 +1,22 @@
+# Hadolint Configuration
+# Dockerfile linting için konfigürasyon
+
+# Ignore specific rules
+ignored:
+  - DL3008  # Pin versions in apt get install
+  - DL3009  # Delete the apt-get lists
+  - DL3018  # Pin versions in apk add
+  - DL4001  # Either use Wget or Curl but not both
+  - DL4006  # Set the SHELL option -o pipefail before RUN with a pipe in
+
+# Trusted registries
+trustedRegistries:
+  - docker.io
+  - gcr.io
+  - quay.io
+
+# Label schema
+labelSchema:
+  maintainer: "YemekZen Team <team@yemekzen.com>"
+  version: "1.0.0"
+  description: "YemekZen QR Menu Elite Edition" 

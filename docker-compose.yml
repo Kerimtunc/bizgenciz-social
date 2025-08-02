@@ -1,0 +1,113 @@
+version: '3.9'
+
+services:
+  # Application - Development
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: ${PROJECT_NAME:-yemekzen}-app
+    command: npm run dev
+    ports:
+      - "${APP_PORT_HOST:-3000}:${APP_PORT_CONTAINER:-3000}"
+    volumes:
+      - .:/app # Kod değişikliklerinin anında yansıması için
+      - /app/node_modules # Performans için named volume
+      - /app/.next # Build cache
+      - /app/.turbo # Turbo cache
+    networks:
+      - internal_network
+    env_file:
+      - .env # Tüm çevre değişkenlerini buradan al
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT_CONTAINER:-3000}/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15.3-alpine@sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+    container_name: ${PROJECT_NAME:-yemekzen}-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-yemekzen_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-yemekzen_password}
+      POSTGRES_DB: ${POSTGRES_DB:-yemekzen_db}
+    ports:
+      - "${POSTGRES_PORT_HOST:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-yemekzen_user} -d ${POSTGRES_DB:-yemekzen_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # Redis Cache
+  redis:
+    image: redis:7.2-alpine@sha256:abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890
+    container_name: ${PROJECT_NAME:-yemekzen}-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT_HOST:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Reverse Proxy (Production)
+  nginx:
+    image: nginx:1.25-alpine@sha256:7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456
+    container_name: ${PROJECT_NAME:-yemekzen}-nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT_HTTP:-80}:80"
+      - "${NGINX_PORT_HTTPS:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./uploads:/var/www/uploads
+    depends_on:
+      - app
+    networks:
+      - internal_network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  internal_network:
+    driver: bridge 

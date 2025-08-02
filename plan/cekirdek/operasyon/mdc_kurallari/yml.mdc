@@ -1,0 +1,83 @@
+---
+description: This rule file governs all .yml files within the project. It assumes that a .yml file is most likely a Docker Compose configuration, a GitHub Actions workflow, or another infrastructure-as-code definition. It enforces strict rules for security, clarity, and consistency, following the project's "in-house" philosophy for containerization and orchestration.
+globs: *.yml,*.yaml
+---
+
+# Rule Set: YAML Configuration Files (.yml, .yaml)
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (Identify Intent):** Before modifying a `.yml` file, first identify its purpose by its filename or content. Is it `docker-compose.yml` (local environment orchestration), a GitHub Actions workflow (`.github/workflows/ci.yml`), or another configuration? Your actions must be consistent with the file's intent.
+- **Directive 2 (The Law of Explicitness):** Do not use implicit or "magical" configurations. Every service, step, and environment variable must be explicitly defined. Use comments (`#`) to explain non-obvious configurations or choices.
+- **Directive 3 (The Law of Containerization Philosophy):** A `.yml` file defines "what" services run and "how" they are connected, but it does not define the "internals" of a service. For any task involving the creation or modification of the container image itself (i.e., the `build:` section or `Dockerfile`), you **MUST** follow the project's "in-house" containerization principles: refer to the Engineering Constitution's "Environmental Consistency" principle and examine existing Dockerfile examples in the project root for guidance on containerization logic and structure.
+
+## 2. Unbreakable `docker-compose.yml` Constitution
+- **Rule 2.1 (Local Development Focus):** The primary `docker-compose.yml` at the project root is for **local development ONLY**. It should be optimized for a seamless developer experience (e.g., using bind mounts for hot-reloading). It is not a production deployment file.
+- **Rule 2.2 (Environment Variable Parity):** All services defined in `docker-compose.yml` MUST receive their configuration through the `environment` key, which sources variables from a `.env` file. Hardcoding connection strings, ports, or secrets within the `.yml` file is strictly forbidden.
+    ```yaml
+    # CORRECT
+    services:
+      postgres:
+        environment:
+          POSTGRES_USER: ${POSTGRES_USER} # Sourced from .env
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ```
+- **Rule 2.3 (Service Health Dependency):** Services that depend on others (e.g., the `backend` depending on `postgres`) MUST use the `depends_on` key with a `condition: service_healthy` check. This prevents race conditions where the application starts before the database is ready.
+- **Rule 2.4 (Data Persistence):** All stateful services, especially the database (`postgres`), MUST use named `volumes` to persist data across container restarts. Using anonymous volumes for persistent data is forbidden.
+- **Rule 2.5 (Service Dependency Clarity):** All `docker-compose.yml` files MUST explicitly define service dependencies using `depends_on` and `healthcheck` configurations. This ensures clear orchestration logic and prevents startup race conditions.
+- **Rule 2.6 (Resource Constraints):** All services MUST have explicit resource limits (`memory`, `cpu`) defined to prevent resource exhaustion and ensure predictable performance in shared environments.
+
+## 3. Unbreakable CI/CD Workflow (`.github/workflows/*.yml`) Constitution
+- **Rule 3.1 (Job Granularity):** Workflows should be broken down into logical, granular jobs (e.g., `lint`, `test`, `build`, `deploy`). A single, monolithic job is an anti-pattern.
+- **Rule 3.2 (Secret Management):** All secrets (API keys, tokens, cloud credentials) MUST be accessed via the platform's secret management system (e.g., GitHub Secrets: `${{ secrets.MY_SECRET }}`). Printing secrets to logs or hardcoding them is a critical security violation.
+- **Rule 3.3 (Container Security Integration):** Any job that builds or uses container images MUST follow the project's containerization security principles: implement vulnerability scanning, layer caching optimization, and multi-stage builds as demonstrated in existing project Dockerfile examples.
+    ```yaml
+    # CORRECT
+    - name: Scan image for vulnerabilities
+      uses: aquasecurity/trivy-action@v0.1.0
+      with:
+        image-ref: 'my-image:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
+    ```
+
+## 4. Proactive Quality & Optimization Protocol (BugBot Mode) for `.yml` Files
+- **Security Audit:**
+    - "Is any service exposing a port (`ports:`) to the host machine that is not strictly necessary for local development (e.g., exposing the database port `5432:5432` is acceptable for local debugging, but a Redis port might not be)?"
+    - "Is any service running with elevated privileges (`privileged: true`)? This is a massive security risk and requires explicit justification."
+    - "Does this CI/CD workflow file log any secrets or sensitive environment variables? If so, they must be masked."
+- **Performance Analysis:**
+    - "Does this `docker-compose.yml` use bind mounts (`volumes: ./:/app`) for a production-like build? This is inefficient. Propose a multi-stage `Dockerfile` that copies only the necessary build artifacts."
+    - "Does this CI/CD workflow run tests sequentially when they could be run in parallel to save time?"
+    - "Are all service dependencies properly defined with `depends_on` and `healthcheck` to prevent startup race conditions?"
+    - "Do all services have appropriate resource constraints to prevent resource exhaustion?"
+- **Maintainability Check:**
+    - "Are the service names in `docker-compose.yml` clear and descriptive (e.g., `backend`, `db`, `worker`)?"
+    - "Is this `.yml` file becoming too long (>100 lines)? Can it be broken down into multiple files using `extends` or other platform features?"
+- **Automated Refactoring Suggestion:** If a `docker-compose.yml` file is detected without `healthcheck`s for its database service, propose adding the correct `healthcheck` and the corresponding `depends_on` condition to the application service. Additionally, suggest adding resource constraints and explicit service dependency definitions following the project's containerization principles.
+
+### SCENARIO E: Technical Debt & Refactoring
+
+#### 1. Diagnosis & Targeting
+*   **Function:** Identify and log technical debt.
+*   **Process:** Identify performance issues via CI reports or Sentry. Log the issue and a measurable target in the `technical_debt_backlog` table.
+
+## 5. CI Standard: Performance Benchmarking
+# Rationale: To proactively detect performance regressions.
+# The CI pipeline is responsible for more than just pass/fail; it must generate data.
+
+.github/workflows/ci.yml:
+  jobs:
+    performance_test:
+      name: "Run and Report Performance Tests"
+      steps:
+        # ... (checkout, setup, build steps)
+        - name: "Execute Benchmark Tests"
+          run: "npm run test:benchmark" # Assumes a benchmark script exists
+        - name: "Upload Performance Artifact"
+          uses: actions/upload-artifact@v3
+          with:
+            name: performance-report
+            path: ./benchmark-results.json

@@ -1,0 +1,81 @@
+---
+description: This is the Genesis Block. It defines the immutable physical laws of the data universe for all .sql files. Every table, column, and relationship is forged here with security, integrity, and self-awareness built-in. This blueprint is the absolute source of truth upon which all logic is built.
+globs: *.sql
+---
+
+# Rule Set: The Genesis Block - SQL & Database Consciousness
+
+## 0. Database Access Hierarchy Rule - Constitutional Exception
+**Default Rule:** All application database access MUST use Prisma Client for type safety and SQL injection protection.
+
+**Exception Rule (Raw SQL):** Raw SQL via `prisma.$queryRaw` is ONLY permitted for:
+- Complex reporting queries that exceed Prisma's capabilities
+- PostgreSQL-specific features (e.g., PostGIS)
+- Extreme performance optimization scenarios requiring custom SQL
+
+**Requirement:** Any raw SQL usage MUST be justified with a code comment explaining why Prisma Client is insufficient, and all parameters MUST be safely passed using parameterized queries.
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (The Law of Evidence):** No table or column shall be created without explicit justification referencing a feature or principle in the `Engineering Constitution`. If evidence is lacking, construction halts.
+- **Directive 2 (The Law of Explicitness):** Assumption is the root of all corruption. Do not assume nullability; if not `NOT NULL`, justify it in a comment. Do not assume uniqueness; enforce it with `UNIQUE` constraints. All rules must be explicit.
+- **Directive 3 (The Law of Causality):** A `FOREIGN KEY` error is not a bug; it is a logical proof that a prerequisite entity does not exist. Stop. Identify the missing entity in the causal chain and request its creation based on the master plan.
+
+## 2. Unbreakable Schema (DDL) Constitution
+- **Rule 2.1 (Sanctity of Tenancy - Constitution Principle #3):** EVERY table containing tenant-owned data (`orders`, `products`, etc.) MUST include a `tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE` column. This is non-negotiable.
+- **Rule 2.2 (Data Permanence - Soft Deletion):** To protect historical integrity, EVERY core entity table (`users`, `products`, `orders`, etc.) MUST include a `deleted_at TIMESTAMPTZ DEFAULT NULL` column. The `DELETE` command is forbidden in application code.
+- **Rule 2.3 (Identity Security):** The `users` table MUST NOT contain a `password` column. It will only contain `password_hash TEXT NOT NULL` and `salt TEXT NOT NULL`.
+- **Rule 2.4 (Relational Integrity):** All logically related tables MUST be linked with `FOREIGN KEY` constraints. The database enforces its own integrity.
+- **Rule 2.5 (Naming Standard):** Table names are plural and `snake_case` (e.g., `business_profiles`). Column names are singular and `snake_case` (e.g., `primary_color`).
+
+## 3. The Consciousness Column: `_meta_description`
+- **Rule 3.1 (Mandatory Self-Awareness):** **EVERY TABLE** must include a `_meta_description TEXT` column. This column is not for application use; it is for the system's self-documentation and the AI's contextual understanding.
+- **Rule 3.2 (Content Protocol):** The `_meta_description` column for each table MUST be filled during the seeding process with a markdown-formatted text containing these sections:
+    - **`## Purpose:`**: What real-world entity does this table represent? Why does it exist? (e.g., "Represents a subscription plan offered to businesses.")
+    - **`## Key Relationships:`**: How does this table connect to others? (e.g., "Links `plans` to `features` in a many-to-many relationship.")
+    - **`## Business Impact:`**: What happens if data here is wrong? (e.g., "Incorrect data here leads to wrong billing and customer dissatisfaction.")
+    - **`## Critical Operations:`**: What are the most sensitive operations involving this table? (e.g., "Creation of a new subscription; cancellation logic.")
+    - **`## AVOID:`**: What common mistakes should be avoided? (e.g., "Avoid creating plans without linking them to features.")
+
+## 4. Data Seeding & Simulation Protocol
+- **Rule 4.1 (Hyper-Realistic Simulation):** Seeding data must be a realistic microcosm of the live application. It must include:
+    - Multiple tenants of each type (`SUPER_ADMIN`, `BUSINESS`, `CONSUMER`).
+    - Users with every possible role (`ADMIN`, `MANAGER`, `STAFF`).
+    - Orders in every possible status (`PENDING`, `DELIVERED`, `CANCELLED`, `REFUNDED`).
+    - Data specifically designed to test edge cases for the "Revenue Partnership" and "Loyalty" programs.
+- **Rule 4.2 (Consciousness Seeding):** The seeding script is responsible for populating the `_meta_description` for every table according to Rule 3.2.
+
+## 5. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Rule 5.1 (Performance Analysis):** Before finalizing a `CREATE TABLE` statement, ask: "Will queries on this table involve large datasets? Do the columns in potential `WHERE`, `JOIN`, or `ORDER BY` clauses require an `INDEX`?"
+- **Rule 5.2 (Data Type Scrutiny):** For each column, ask: "Is this the most efficient and precise data type? Could `INTEGER` be `SMALLINT`? Is `TEXT` appropriate, or should `VARCHAR(255)` be used to enforce limits?"
+- **Rule 5.3 (Normalization Check):** Ask: "Is there redundant data in this table that could be moved to a separate table to improve normalization (e.g., storing an address string instead of linking to an `addresses` table)?"
+
+## 6. Technical Debt Management
+### **Schema: Technical Debt Backlog**
+/*
+ Rationale: To make technical debt visible, measurable, and manageable.
+ This table is a persistent record of known issues and improvement targets,
+ independent of any specific task runner or sprint board.
+*/
+CREATE TABLE technical_debt_backlog (
+    id SERIAL PRIMARY KEY,
+    component_path VARCHAR(255) NOT NULL, -- e.g., 'src/services/PaymentService.ts'
+    issue_description TEXT NOT NULL,       -- e.g., 'High latency in processPayment method'
+    metric_before VARCHAR(50),             -- e.g., '250ms'
+    metric_target VARCHAR(50) NOT NULL,    -- e.g., '<50ms'
+    status VARCHAR(20) DEFAULT 'open',   -- 'open', 'in_progress', 'completed'
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    completed_at TIMESTAMPTZ
+);
+
+### **Technical Debt Management Protocol**
+- **Rule 6.1 (Debt Registry Mandate):** If you implement a temporary solution (e.g., a `// HACK:`), an improvement note (e.g., `// TODO:`), or a known performance issue, you MUST log this as a new entry in the `teknik_borc.md` file.
+- **Rule 6.2 (Debt Format):** The entry must follow the standard format:
+    ```markdown
+    ### Debt ID: [DEBT-XXX]
+    - **Location:** `path/to/file.ts:line_number`
+    - **Description:** [A clear explanation of the temporary solution and what the ideal solution should be.]
+    - **Impact:** [High/Medium/Low - e.g., "Slows down user interface."]
+    - **Estimated Effort to Fix:** [e.g., "4 hours"]
+    - **Status:** Open
+    ```
+- **Rule 6.3 (Periodic Reporting):** The list of "Open" technical debts will be reviewed at the beginning of each planning cycle to prioritize their resolution.

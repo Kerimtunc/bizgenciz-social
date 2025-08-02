@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: FAZ 8: Deployment ve Operasyon
+# Status: done
+# Dependencies: 7
+# Priority: medium
+# Description: Environment management, deployment stratejisi, operasyonel süreçler, monitoring ve alerting
+# Details:
+Bu faz, projenin deployment ve operasyon altyapısını oluşturacak kapsamlı deployment stratejisini içerir. Environment management (development, staging, production environments, environment variables, database migrations, backup strategy) kurulacak. Deployment stratejisi (build process, deployment pipeline, health checks, load balancing, SSL/TLS, domain management) uygulanacak. Operasyonel süreçler (monitoring, alerting, logging, backup, security, compliance) geliştirilecek. CI/CD pipeline kurulacak. Container orchestration (Docker, Kubernetes) uygulanacak. Infrastructure as Code (IaC) yaklaşımı benimsenecek. Disaster recovery planları oluşturulacak.
+
+# Test Strategy:
+Deployment pipeline testleri yapılacak. Rollback testleri gerçekleştirilecek. Disaster recovery testleri yapılacak. Monitoring dashboard'ları oluşturulacak. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

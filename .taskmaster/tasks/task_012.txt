@@ -1,0 +1,11 @@
+# Task ID: 12
+# Title: insaedilecekler.md Ekosistem ve Gelir Mimarisi Kontrolü
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: insaedilecekler.md dosyasındaki ekosistem ve gelir mimarisinin detaylı kontrolü ve Ciro Partnerliği sisteminin analizi
+# Details:
+insaedilecekler.md dosyasının 1. bölümündeki ekosistem ve gelir mimarisi detaylıca kontrol edilecek. Çift yönlü ekosistem (B2B + B2C), platform mimarisi, gelir modeli (özellik bazlı abonelikler, komisyon modeli, hibrit modeller) incelenecek. Ekosistem veri yapıları (Tenants, Users, Plans, Features, Plan_Features, Subscriptions) analiz edilecek. Ciro Partnerliği veri yapıları (Commissions, Loyalty_Programs, Business_Loyalty_Settings, Credit_Transactions, Partner_Subsidies) değerlendirilecek. Sistem yönetimi (Süper Admin) arayüzü ve modülleri kontrol edilecek. Bu analiz sonucunda ekosistem mimarisinin implementasyon planı hazırlanacak ve eksiklikler tespit edilecek.
+
+# Test Strategy:
+Ekosistem mimarisinin implementasyon kontrolü yapılacak. Gelir modeli testleri yazılacak. Ciro Partnerliği sistemi testleri gerçekleştirilecek. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

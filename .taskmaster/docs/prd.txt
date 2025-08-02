@@ -1,0 +1,843 @@
+# YemekZen QR Menu Elite Edition - Product Requirements Document
+
+## 📋 GENEL BAKIŞ
+
+YemekZen QR Menu Elite Edition, restoranlar ve kafeler için gelişmiş multi-tenant QR kod tabanlı dijital menü sistemi. Bu sistem, geleneksel fiziksel menülerin yerini alarak, müşterilere interaktif, güncel ve zengin içerikli bir deneyim sunar. İşletme sahiplerine ise kapsamlı yönetim paneli, analitik ve operasyonel verimlilik sağlar.
+
+### 🎯 ÇÖZÜLEN PROBLEMLER
+- Fiziksel menü maliyetleri ve güncelleme zorlukları
+- Müşteri deneyiminin sınırlı olması
+- İşletme sahiplerinin menü performansını takip edememesi
+- Operasyonel verimliliğin düşük olması
+- Multi-tenant platform eksikliği
+- B2B/B2C entegrasyon eksikliği
+- Gelişmiş analitik ve raporlama eksikliği
+- **Süperadmin kontrol eksikliği**: İşletmelerin hangi özellikleri kullanabileceğinin merkezi kontrolü
+
+### 🎯 HEDEF KULLANICILAR
+- **Restoran ve Kafe Sahipleri**: Multi-tenant platform üzerinden hizmet alan işletmeler
+- **Müşteriler**: QR kod ile menüye erişen ve B2C platformdan sipariş veren tüketiciler
+- **İşletme Personeli**: Menü yönetimi, sipariş takibi, mutfak yönetimi yapan çalışanlar
+- **Platform Yöneticileri (Süperadmin)**: Platform genelini yöneten, işletmelere özellik atayan ekip
+
+---
+
+## 🏗️ SİSTEM MİMARİSİ
+
+### 1.1 Multi-Tenant Platform Mimarisi
+
+**Çift Yönlü Ekosistem:**
+- **B2B Platform**: QR Menü + İşletme Yönetim Paneli (17 Ana Modül)
+- **B2C Platform**: Yemek Siparişi Platformu + Mobil Uygulama
+- **Cross-Platform Entegrasyon**: Tek sistem, iki yüz, tam entegrasyon
+
+**Tenant Yapısı:**
+- **BUSINESS**: Restoran ve kafeler (ana hedef kitle)
+- **CONSUMER**: Tüketiciler (B2C platform kullanıcıları)
+- **SUPER_ADMIN**: Platform yöneticileri (sistem geneli yönetim)
+
+**Domain Yönetimi:**
+- **CNAME Desteği**: İşletmelerin kendi alan adlarını kullanabilmesi
+- **Subdomain Sistemi**: `restaurant.yemekzen.com` formatında alt alan adları
+- **Custom Domain**: Tam özelleştirilebilir domain yönetimi
+
+### 1.2 Süperadmin Özellik Atama Sistemi
+
+**Merkezi Kontrol Mimarisi:**
+- **Feature Flags Sistemi**: Platform genelinde özellik kontrolü
+- **Granular Permission Model**: Görme, kullanma, yönetme seviyeleri
+- **Dynamic UI Rendering**: Atama yapılmamış özellikler otomatik gizlenir
+- **Real-time Updates**: WebSocket ile anlık özellik güncellemeleri
+
+**Veritabanı Yapısı:**
+```sql
+-- Özellik tanımları
+CREATE TABLE features (
+    id INTEGER PRIMARY KEY,
+    feature_code VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    category VARCHAR(50) NOT NULL,
+    is_active BOOLEAN DEFAULT true,
+    dependencies JSON, -- Bağımlılık listesi
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tenant-özellik atamaları
+CREATE TABLE tenant_features (
+    id INTEGER PRIMARY KEY,
+    tenant_id INTEGER NOT NULL,
+    feature_id INTEGER NOT NULL,
+    is_visible BOOLEAN DEFAULT false,
+    is_usable BOOLEAN DEFAULT false,
+    is_manageable BOOLEAN DEFAULT false,
+    assigned_by INTEGER NOT NULL, -- Süperadmin user_id
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id),
+    FOREIGN KEY (feature_id) REFERENCES features(id),
+    FOREIGN KEY (assigned_by) REFERENCES users(id)
+);
+
+-- Özellik kullanım logları
+CREATE TABLE feature_usage_logs (
+    id INTEGER PRIMARY KEY,
+    tenant_id INTEGER NOT NULL,
+    feature_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    action_type VARCHAR(50) NOT NULL, -- 'view', 'use', 'manage'
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id),
+    FOREIGN KEY (feature_id) REFERENCES features(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Özellik bağımlılıkları
+CREATE TABLE feature_dependencies (
+    id INTEGER PRIMARY KEY,
+    feature_id INTEGER NOT NULL,
+    depends_on_feature_id INTEGER NOT NULL,
+    dependency_type VARCHAR(20) NOT NULL, -- 'required', 'optional', 'conflicts'
+    FOREIGN KEY (feature_id) REFERENCES features(id),
+    FOREIGN KEY (depends_on_feature_id) REFERENCES features(id)
+);
+```
+
+**Süperadmin Panel Özellikleri:**
+- **Bulk Operations**: Toplu özellik atama (birden fazla işletmeye aynı anda)
+- **Feature Categories**: Özellikleri kategorilere ayırma (Menü, Analitik, Finans, vb.)
+- **Dependency Management**: Özellik bağımlılıklarını yönetme
+- **Usage Analytics**: Hangi özelliklerin ne kadar kullanıldığının takibi
+- **Audit Trail**: Tüm atama değişikliklerinin detaylı loglanması
+- **Template System**: Önceden tanımlanmış özellik paketleri
+
+**API Middleware Sistemi:**
+```javascript
+// Feature Flag Middleware
+const featureFlagMiddleware = (requiredFeature, permissionLevel = 'usable') => {
+    return async (req, res, next) => {
+        const tenantId = req.user.tenant_id;
+        const hasPermission = await checkFeaturePermission(tenantId, requiredFeature, permissionLevel);
+        
+        if (!hasPermission) {
+            return res.status(403).json({
+                error: 'Feature not available',
+                feature: requiredFeature,
+                required_permission: permissionLevel
+            });
+        }
+        next();
+    };
+};
+
+// Dynamic UI Component
+const FeatureGate = ({ feature, permission = 'usable', children, fallback = null }) => {
+    const { hasPermission } = useFeaturePermission(feature, permission);
+    return hasPermission ? children : fallback;
+};
+```
+
+**Özellik Kategorileri ve Örnekler:**
+- **Menü Yönetimi**: QR kod oluşturma, kategori yönetimi, ürün ekleme
+- **Analitik ve Raporlama**: Satış raporları, müşteri analizi, performans metrikleri
+- **Finansal Yönetim**: Gelir takibi, maliyet analizi, vergi hesaplamaları
+- **Personel Yönetimi**: Çalışan kayıtları, vardiya yönetimi, performans takibi
+- **Müşteri İlişkileri**: Sadakat programı, geri bildirim sistemi, iletişim araçları
+- **Operasyonel Araçlar**: Masa yönetimi, rezervasyon sistemi, mutfak yönetimi
+- **Gelişmiş Özellikler**: Three.js entegrasyonu, AI destekli öneriler, predictive analytics
+
+**Süperadmin İş Akışları:**
+1. **Yeni İşletme Kaydı**: Otomatik temel özellik ataması
+2. **Özellik Yükseltme**: İşletme talebi üzerine ek özellik atama
+3. **Toplu Güncelleme**: Birden fazla işletmeye aynı anda özellik atama
+4. **Kullanım Analizi**: Hangi özelliklerin popüler olduğunu takip etme
+5. **Performans Optimizasyonu**: Kullanılmayan özellikleri tespit etme
+
+### 1.3 Veritabanı Mimarisi (Database-First Approach)
+
+**OLTP/OLAP Ayrımı:**
+- **Operasyonel Veritabanı (OLTP)**: Günlük işlemler için optimize edilmiş
+- **Analitik Veritabanı (OLAP)**: Raporlama ve analiz için optimize edilmiş
+- **ETL Pipeline**: Geceleri çalışan otomatik veri dönüştürme süreci
+
+**Multi-Tenant Veri İzolasyonu:**
+- Her tabloda `tenant_id` kolonu zorunlu
+- Cross-tenant veri erişimi kesinlikle yasak
+- Tenant-specific cache ve session yönetimi
+
+**Soft-Delete Politikası:**
+- Tüm tablolarda `deleted_at` kolonu
+- Veri kaybını önlemek için kalıcı silme yok
+- Audit trail için tam geçmiş takibi
+
+### 1.4 API-First Mimari
+
+**Backend Sadece JSON API:**
+- Frontend ve backend tamamen ayrık
+- Tek API hem web hem mobil için
+- RESTful standartlarına uygun endpoint'ler
+- JWT tabanlı authentication
+
+**Modern API Standartları:**
+- Idempotency desteği (POST/PUT endpoint'leri)
+- Asenkron işlem yönetimi (job queue sistemi)
+- Global health check endpoint'i
+- Swagger/OpenAPI 3.0 dokümantasyonu
+
+---
+
+## 🎨 TEMEL ÖZELLİKLER
+
+### 2.1 QR Kod Tabanlı Menü Sistemi (B2B)
+
+**Dinamik QR Kod Yönetimi:**
+- Her masa için benzersiz QR kod
+- Real-time QR kod güncelleme
+- QR kod analitikleri ve takibi
+- Offline QR kod desteği
+
+**Mobil Uyumlu Responsive Menü:**
+- Mobile-first tasarım yaklaşımı
+- Progressive Web App (PWA) desteği
+- Offline çalışma özelliği
+- Touch-friendly arayüz
+
+**Gerçek Zamanlı Güncellemeler:**
+- WebSocket tabanlı real-time güncellemeler
+- Menü değişikliklerinin anında yansıması
+- Stok durumu real-time gösterimi
+- Fiyat güncellemelerinin anlık yansıması
+
+### 2.2 B2C Yemek Siparişi Platformu
+
+**Restoran Keşif Sistemi:**
+- Konum bazlı restoran arama
+- Filtreleme seçenekleri (mutfak türü, puan, fiyat)
+- "Ciro Partneri" rozeti ile öne çıkarma
+- "Lezzet Kredisi Kabul Edenler" filtresi
+
+**Sipariş ve Ödeme Akışı:**
+- Sepet yönetimi ve ürün özelleştirme
+- "Lezzet Kredisi" kullanımı
+- Çoklu ödeme yöntemi desteği
+- Sipariş takibi ve bildirimler
+
+**Kullanıcı Profili ve Sadakat:**
+- Sipariş geçmişi ve favori restoranlar
+- "Lezzet Kredisi" bakiye yönetimi
+- Adres yönetimi ve teslimat takibi
+- Kişiselleştirilmiş öneriler
+
+### 2.3 Ciro Partnerliği Sistemi
+
+**Lezzet Kredisi Mekanizması:**
+- Tüketiciler için kredi kazanma sistemi
+- İşletmeler için sübvansiyon programı
+- Platform için komisyon geliri
+- Hibrit gelir modeli
+
+**Finansal Entegrasyon:**
+- Otomatik sübvansiyon hesaplama
+- Komisyon oranları yönetimi
+- Finansal mutabakat sistemi
+- Vergi ve regülasyon esnekliği
+
+### 2.4 Kapsamlı İşletme Yönetim Paneli (17 Ana Modül)
+
+**1. Dashboard Modülü:**
+- Real-time metrikler ve KPI'lar
+- Trend analizi ve performans karşılaştırması
+- Alarm sistemi ve kritik durum uyarıları
+- Özelleştirilebilir widget'lar
+
+**2. Orders Modülü:**
+- Sipariş listesi ve detay yönetimi
+- Sipariş durumu takibi ve güncelleme
+- Filtreleme ve arama seçenekleri
+- Sipariş geçmişi ve analitik
+
+**3. Tables Modülü:**
+- Masa haritası ve görsel yönetim
+- QR kod oluşturma ve yönetimi
+- Oturum takibi ve masa durumu
+- Masa verimlilik analizi
+
+**4. Menu Management Modülü:**
+- Kategori yönetimi ve hiyerarşi
+- Ürün ekleme/düzenleme ve fiyat yönetimi
+- Ürün varyantları ve özelleştirmeler
+- Menü şablonları ve hazır kategoriler
+
+**5. Inventory Modülü:**
+- Stok takibi ve otomatik uyarılar
+- Tedarikçi yönetimi ve sipariş sistemi
+- Maliyet analizi ve kar marjı hesaplama
+- Stok hareket geçmişi
+
+**6. Reports Modülü:**
+- Satış raporları ve gelir analizi
+- Müşteri davranış analizi
+- Personel performans raporları
+- Özelleştirilebilir rapor şablonları
+
+**7. Customers Modülü:**
+- Müşteri listesi ve profil yönetimi
+- Sipariş geçmişi ve tercih analizi
+- Müşteri segmentasyonu
+- İletişim geçmişi ve notlar
+
+**8. Loyalty Modülü:**
+- Sadakat programı yönetimi
+- Puan sistemi ve kazanma kuralları
+- Ödül kataloğu ve kullanım takibi
+- Seviye sistemi ve özel kampanyalar
+
+**9. Kitchen Modülü:**
+- Mutfak sipariş ekranı
+- Hazırlama istasyonları yönetimi
+- Zaman takibi ve performans metrikleri
+- Kalite kontrol ve onay sistemi
+
+**10. Staff Modülü:**
+- Personel listesi ve profil yönetimi
+- Vardiya yönetimi ve programlama
+- Performans takibi ve değerlendirme
+- Yetki yönetimi ve rol atamaları
+
+**11. Reservations Modülü:**
+- Rezervasyon takvimi ve yönetimi
+- Masa müsaitlik kontrolü
+- Rezervasyon onay sistemi
+- Otomatik hatırlatmalar
+
+**12. Feedback Modülü:**
+- Müşteri geribildirimleri yönetimi
+- Değerlendirme analizi ve raporlama
+- Yanıt sistemi ve takip
+- Kalite iyileştirme önerileri
+
+**13. Notifications Modülü:**
+- Bildirim ayarları ve şablonları
+- Çoklu kanal desteği (SMS, Email, Push)
+- Gönderim geçmişi ve analitik
+- Otomatik bildirim kuralları
+
+**14. Communications Modülü:**
+- İletişim kanalları yönetimi
+- Mesaj şablonları ve otomasyon
+- Müşteri iletişim geçmişi
+- Kampanya yönetimi
+
+**15. Calendar Modülü:**
+- Etkinlik takvimi ve yönetimi
+- Özel günler ve kampanyalar
+- Hatırlatma sistemi
+- Takvim entegrasyonları
+
+**16. Help Modülü:**
+- Yardım makaleleri ve kılavuzlar
+- Destek talepleri yönetimi
+- SSS ve çözüm veritabanı
+- Video eğitimler
+
+**17. Settings Modülü:**
+- Sistem ayarları ve konfigürasyon
+- İşletme profili ve branding
+- Kullanıcı tercihleri
+- Entegrasyon ayarları
+
+### 2.5 Süperadmin Yönetim Paneli
+
+**Platform Geneli Kontrol Merkezi:**
+- **Tenant Management**: Tüm işletmelerin merkezi yönetimi
+- **Feature Assignment**: Özellik atama ve kontrol sistemi
+- **System Analytics**: Platform geneli performans metrikleri
+- **Financial Oversight**: Gelir takibi ve finansal raporlama
+- **Security Management**: Güvenlik ayarları ve izleme
+
+**Süperadmin Dashboard:**
+- **Platform Overview**: Toplam işletme sayısı, aktif kullanıcılar, gelir metrikleri
+- **Feature Usage Analytics**: Hangi özelliklerin ne kadar kullanıldığı
+- **System Health**: Platform performansı ve sağlık durumu
+- **Recent Activities**: Son işlemler ve değişiklikler
+- **Alerts & Notifications**: Kritik durumlar ve uyarılar
+
+**Tenant Management Sistemi:**
+- **Tenant List**: Tüm işletmelerin listesi ve durumları
+- **Tenant Details**: Her işletmenin detaylı bilgileri
+- **Bulk Operations**: Toplu işlemler (özellik atama, durum değiştirme)
+- **Tenant Analytics**: İşletme bazlı performans analizi
+- **Support Management**: Destek talepleri ve çözüm takibi
+
+**Feature Assignment Interface:**
+- **Feature Catalog**: Tüm mevcut özelliklerin kataloğu
+- **Assignment Matrix**: İşletme-özellik atama matrisi
+- **Permission Levels**: Görme, kullanma, yönetme seviyeleri
+- **Dependency Management**: Özellik bağımlılıklarını yönetme
+- **Template System**: Önceden tanımlanmış özellik paketleri
+
+**System Configuration:**
+- **Global Settings**: Platform geneli ayarlar
+- **Feature Flags**: Özellik açma/kapama kontrolleri
+- **API Management**: API limitleri ve erişim kontrolleri
+- **Security Policies**: Güvenlik politikaları ve kuralları
+- **Backup & Recovery**: Yedekleme ve kurtarma ayarları
+
+**Financial Management:**
+- **Revenue Tracking**: Platform gelirlerinin takibi
+- **Commission Management**: Komisyon oranları ve hesaplamaları
+- **Billing System**: Faturalama ve ödeme takibi
+- **Financial Reports**: Detaylı finansal raporlar
+- **Tax Management**: Vergi hesaplamaları ve raporlama
+
+**Analytics & Reporting:**
+- **Platform Analytics**: Platform geneli kullanım analizi
+- **Feature Performance**: Özellik performans metrikleri
+- **User Behavior**: Kullanıcı davranış analizi
+- **Business Intelligence**: İş zekası ve tahminleme
+- **Custom Reports**: Özelleştirilebilir raporlar
+
+**Security & Compliance:**
+- **Access Control**: Erişim kontrolü ve yetkilendirme
+- **Audit Logging**: Tüm işlemlerin detaylı loglanması
+- **Data Protection**: Veri koruma ve şifreleme
+- **Compliance Monitoring**: Uyumluluk takibi
+- **Incident Response**: Güvenlik olaylarına müdahale
+
+**Support & Operations:**
+- **Support Tickets**: Destek talepleri yönetimi
+- **System Monitoring**: Sistem izleme ve uyarılar
+- **Performance Optimization**: Performans optimizasyonu
+- **Maintenance Scheduling**: Bakım planlaması
+- **Disaster Recovery**: Felaket kurtarma planları
+
+**Süperadmin İş Akışları:**
+
+**1. Yeni İşletme Onboarding:**
+- İşletme kaydı ve doğrulama
+- Temel özellik paketinin atanması
+- Domain ve branding ayarları
+- İlk kullanıcı hesabının oluşturulması
+- Eğitim materyallerinin gönderilmesi
+
+**2. Özellik Yükseltme Süreci:**
+- İşletme talebinin değerlendirilmesi
+- Özellik uygunluğunun kontrol edilmesi
+- Bağımlılıkların kontrol edilmesi
+- Özelliğin atanması ve test edilmesi
+- Kullanıcı eğitiminin sağlanması
+
+**3. Toplu Güncelleme İşlemleri:**
+- Hedef işletme grubunun seçilmesi
+- Güncellenecek özelliklerin belirlenmesi
+- Test ortamında doğrulama
+- Canlı ortamda uygulama
+- Sonuçların izlenmesi
+
+**4. Performans İzleme:**
+- Platform metriklerinin takibi
+- Özellik kullanım analizi
+- Kullanıcı memnuniyet ölçümü
+- Sistem performans optimizasyonu
+- İyileştirme önerilerinin uygulanması
+
+**5. Güvenlik ve Uyumluluk:**
+- Düzenli güvenlik taramaları
+- Uyumluluk kontrolleri
+- Veri koruma denetimleri
+- Güvenlik güncellemelerinin uygulanması
+- Eğitim ve farkındalık programları
+
+**Süperadmin API Endpoints:**
+
+```javascript
+// Tenant Management
+GET /api/superadmin/tenants - Tüm işletmeleri listele
+GET /api/superadmin/tenants/:id - İşletme detayları
+PUT /api/superadmin/tenants/:id - İşletme güncelle
+POST /api/superadmin/tenants/:id/features - Özellik ata
+DELETE /api/superadmin/tenants/:id/features/:featureId - Özellik kaldır
+
+// Feature Management
+GET /api/superadmin/features - Tüm özellikleri listele
+POST /api/superadmin/features - Yeni özellik ekle
+PUT /api/superadmin/features/:id - Özellik güncelle
+DELETE /api/superadmin/features/:id - Özellik sil
+
+// Bulk Operations
+POST /api/superadmin/bulk/assign-features - Toplu özellik atama
+POST /api/superadmin/bulk/update-tenants - Toplu işletme güncelleme
+
+// Analytics
+GET /api/superadmin/analytics/platform - Platform analitikleri
+GET /api/superadmin/analytics/features - Özellik kullanım analizi
+GET /api/superadmin/analytics/tenants - İşletme performans analizi
+
+// System Management
+GET /api/superadmin/system/health - Sistem sağlık durumu
+POST /api/superadmin/system/maintenance - Bakım modu
+GET /api/superadmin/system/logs - Sistem logları
+```
+
+**Süperadmin Güvenlik Önlemleri:**
+- **Multi-Factor Authentication**: Çok faktörlü kimlik doğrulama
+- **IP Whitelisting**: Sadece güvenilir IP'lerden erişim
+- **Session Management**: Güvenli oturum yönetimi
+- **Audit Trail**: Tüm işlemlerin detaylı kaydı
+- **Emergency Access**: Acil durum erişim protokolleri
+- **Data Encryption**: Hassas verilerin şifrelenmesi
+
+### 2.6 Gelişmiş Analitik ve Raporlama
+
+**Business Intelligence:**
+- Real-time dashboard metrikleri
+- Trend analizi ve tahminleme
+- Karşılaştırmalı performans analizi
+- Özelleştirilebilir KPI'lar
+
+**Predictive Analytics:**
+- Talep tahminleme ve stok optimizasyonu
+- Müşteri churn tahminleme
+- Gelir optimizasyonu ve fiyatlandırma
+- Anomali tespiti ve fraud detection
+
+**Operational Analytics:**
+- Operasyonel verimlilik metrikleri
+- Süreç optimizasyonu önerileri
+- Kaynak tahsisi ve planlama
+- Performans karşılaştırmaları
+
+---
+
+## 🔧 TEKNİK MİMARİ
+
+### 3.1 Frontend Teknolojileri
+
+**Next.js 15 (App Router):**
+- Server-side rendering ve static generation
+- API routes ve middleware desteği
+- TypeScript ile tip güvenliği
+- Optimized build ve deployment
+
+**Modern UI Framework:**
+- Tailwind CSS ile utility-first styling
+- Shadcn/UI component library
+- Lucide React icon sistemi
+- Responsive ve mobile-first tasarım
+
+**State Management:**
+- Zustand ile hafif state management
+- React Context API
+- Server state management (TanStack Query)
+- Optimistic updates
+
+### 3.2 Backend Teknolojileri
+
+**Express.js Framework:**
+- RESTful API endpoints
+- Middleware sistemi ve validation
+- Error handling ve logging
+- Rate limiting ve security
+
+**Database Layer:**
+- Supabase (PostgreSQL) production
+- SQLite development
+- Prisma ORM ile type-safe queries
+- Database migrations ve seeding
+
+**Authentication & Authorization:**
+- JWT tabanlı authentication
+- Role-based access control (RBAC)
+- Multi-factor authentication (MFA)
+- Session management
+
+### 3.3 Real-time Teknolojileri
+
+**WebSocket Integration:**
+- Socket.io ile real-time communication
+- Event-driven architecture
+- Live updates ve notifications
+- Connection management
+
+**Real-time Features:**
+- Live order updates
+- Real-time inventory tracking
+- Live customer notifications
+- Real-time analytics dashboard
+
+### 3.4 Security ve Performance
+
+**Security Measures:**
+- JWT authentication ve authorization
+- Input validation ve sanitization
+- SQL injection koruması
+- XSS ve CSRF koruması
+- Rate limiting ve DDoS protection
+
+**Performance Optimization:**
+- Database indexing ve query optimization
+- Caching strategy (Redis alternative)
+- CDN integration
+- Image optimization ve lazy loading
+- Code splitting ve tree shaking
+
+---
+
+## 📊 KULLANICI DENEYİMİ
+
+### 4.1 Müşteri Personası
+
+**Ahmet (35, Teknoloji Meraklısı):**
+- Hızlı, görsel olarak çekici menüler arar
+- QR kod kullanımına aşina
+- Mobil uygulama tercih eder
+- Real-time güncellemeler bekler
+
+**Ayşe (28, Sağlık Bilinçli):**
+- Detaylı ürün bilgileri ve besin değerleri ister
+- Alerjen bilgilerine dikkat eder
+- Kalori takibi yapar
+- Özelleştirme seçenekleri arar
+
+**Mehmet (45, Geleneksel):**
+- Basit ve anlaşılır arayüz tercih eder
+- Güvenilir ödeme sistemi ister
+- Müşteri hizmetleri desteği arar
+- Sadakat programlarına ilgi duyar
+
+### 4.2 Ana Kullanıcı Akışları
+
+**QR Menü Akışı:**
+1. QR kod tarama → Menü açılır
+2. Kategori seçimi → Ürün listesi
+3. Ürün detayı → Sepete ekleme
+4. Sipariş onayı → Ödeme
+5. Sipariş takibi → Hazır bildirimi
+
+**B2C Platform Akışı:**
+1. Restoran arama → Filtreleme
+2. Restoran seçimi → Menü görüntüleme
+3. Ürün seçimi → Sepet yönetimi
+4. Adres ve ödeme → Sipariş onayı
+5. Teslimat takibi → Değerlendirme
+
+**Admin Panel Akışı:**
+1. Giriş yapma → Dashboard
+2. Modül seçimi → İşlem yapma
+3. Veri güncelleme → Kaydetme
+4. Rapor görüntüleme → Analiz
+5. Ayarlar → Konfigürasyon
+
+---
+
+## 🚀 GELİŞTİRME YOL HARİTASI
+
+### 5.1 Faz 1: Temel Altyapı (MVP) - 2 Ay
+- Multi-tenant veritabanı şeması
+- Temel API yapısı ve authentication
+- QR kod sistemi ve menü görüntüleme
+- Basit admin paneli
+
+### 5.2 Faz 2: B2B Platform Geliştirme - 3 Ay
+- 17 ana modül implementasyonu
+- Real-time özellikler
+- Analitik ve raporlama sistemi
+- Kurye yönetimi
+
+### 5.3 Faz 3: B2C Platform Geliştirme - 2 Ay
+- Yemek siparişi platformu
+- Ciro Partnerliği sistemi
+- Mobil uygulama altyapısı
+- Ödeme entegrasyonları
+
+### 5.4 Faz 4: Gelişmiş Özellikler - 2 Ay
+- Three.js entegrasyonu
+- Predictive analytics
+- Machine learning modelleri
+- Gelişmiş güvenlik özellikleri
+
+### 5.5 Faz 5: Optimizasyon ve Launch - 1 Ay
+- Performance optimization
+- Security audit
+- User testing
+- Production deployment
+
+---
+
+## 🛡️ GÜVENLİK VE UYUMLULUK
+
+### 6.1 Veri Güvenliği
+- **GDPR Uyumluluğu**: Kişisel veri koruma
+- **KVKK Uyumluluğu**: Türkiye veri koruma kanunu
+- **PCI DSS**: Ödeme kartı güvenliği
+- **Encryption**: End-to-end şifreleme
+
+### 6.2 Sistem Güvenliği
+- **Authentication**: Multi-factor authentication
+- **Authorization**: Role-based access control
+- **Audit Logging**: Tüm işlemlerin loglanması
+- **Vulnerability Management**: Düzenli güvenlik taramaları
+
+### 6.3 Uyumluluk
+- **Accessibility**: WCAG 2.1 AA uyumluluğu
+- **Mobile Standards**: Progressive Web App standartları
+- **API Standards**: RESTful API best practices
+- **Performance Standards**: Core Web Vitals uyumluluğu
+
+---
+
+## 📈 BAŞARI METRİKLERİ
+
+### 7.1 Teknik Metrikler
+- **Performance**: <200ms API response time
+- **Uptime**: %99.9+ system availability
+- **Test Coverage**: %80+ kod kapsamı
+- **Security**: Zero critical vulnerabilities
+
+### 7.2 İş Metrikleri
+- **User Adoption**: %60+ kullanıcı kabul oranı
+- **Retention**: %80+ aylık aktif kullanıcı
+- **Revenue Growth**: %200+ yıllık büyüme
+- **Customer Satisfaction**: 4.5+ ortalama puan
+
+### 7.3 Operasyonel Metrikler
+- **Order Processing**: <30 saniye sipariş işleme
+- **Support Response**: <2 saat destek yanıtı
+- **System Scalability**: 1000+ concurrent users
+- **Data Accuracy**: %99.9+ veri doğruluğu
+
+---
+
+## 🔄 SÜREKLİ İYİLEŞTİRME
+
+### 8.1 Feedback Loop
+- **User Feedback**: In-app feedback sistemi
+- **Analytics**: Kullanıcı davranış analizi
+- **A/B Testing**: Özellik testleri
+- **Performance Monitoring**: Sürekli performans izleme
+
+### 8.2 Iterative Development
+- **Agile Methodology**: Sprint-based development
+- **Continuous Integration**: Otomatik test ve deployment
+- **Feature Flags**: Güvenli özellik rollout
+- **Rollback Strategy**: Hızlı geri alma mekanizması
+
+### 8.3 Scalability Planning
+- **Horizontal Scaling**: Yatay ölçeklendirme
+- **Microservices**: Servis bazlı mimari
+- **Cloud Native**: Bulut tabanlı deployment
+- **Global Expansion**: Uluslararası genişleme
+
+---
+
+## 📋 RİSK YÖNETİMİ
+
+### 9.1 Teknik Riskler
+- **Performance Issues**: Database optimization ve caching
+- **Security Vulnerabilities**: Düzenli güvenlik audit'leri
+- **Scalability Challenges**: Load testing ve capacity planning
+- **Integration Complexity**: API-first yaklaşım ve documentation
+
+### 9.2 İş Riskleri
+- **Market Competition**: Unique value proposition
+- **User Adoption**: Comprehensive onboarding
+- **Regulatory Changes**: Flexible architecture
+- **Economic Factors**: Diversified revenue streams
+
+### 9.3 Operasyonel Riskler
+- **Team Scaling**: Knowledge sharing ve documentation
+- **Technology Changes**: Modern tech stack
+- **Data Loss**: Comprehensive backup strategy
+- **Service Disruption**: High availability architecture
+
+---
+
+## 📞 İLETİŞİM VE DESTEK
+
+### 10.1 Destek Sistemi
+- **24/7 Support**: Sürekli teknik destek
+- **Documentation**: Kapsamlı kullanım kılavuzları
+- **Training**: İşletme personeli eğitimi
+- **Community**: Kullanıcı topluluğu ve forum
+
+### 10.2 İletişim Kanalları
+- **Email Support**: Teknik destek email'i
+- **Live Chat**: Canlı destek sistemi
+- **Phone Support**: Acil durum telefon desteği
+- **Social Media**: Sosyal medya kanalları
+
+---
+
+## 📊 EK BİLGİLER
+
+### 11.1 Araştırma Bulguları
+- QR kod kullanımı %40 artış göstermiştir
+- Mobil menü tercihi %65'e ulaşmıştır
+- 3D görüntüleme müşteri ilgisini %30 artırır
+- Multi-tenant platformlar %50 daha verimlidir
+
+### 11.2 Teknik Özellikler
+- Cross-platform uyumluluk
+- Offline çalışma desteği
+- Progressive Web App (PWA) özellikleri
+- SEO optimizasyonu
+- Real-time synchronization
+- Advanced analytics
+
+### 11.3 Gelecek Planları
+- **AI Integration**: Yapay zeka destekli özellikler
+- **IoT Integration**: Akıllı cihaz entegrasyonu
+- **Blockchain**: Güvenli işlem sistemi
+- **AR/VR**: Artırılmış gerçeklik deneyimi
+- **Voice Interface**: Sesli komut sistemi
+- **Predictive Analytics**: Gelişmiş tahminleme
+
+---
+
+## 📋 KONTROL LİSTESİ
+
+### ✅ Tamamlanması Gereken Özellikler
+- [ ] Multi-tenant altyapı kurulumu
+- [ ] 17 ana modül implementasyonu
+- [ ] B2C platform geliştirme
+- [ ] Ciro Partnerliği sistemi
+- [ ] Kurye yönetimi
+- [ ] Real-time özellikler
+- [ ] Analitik ve raporlama
+- [ ] Güvenlik ve performans optimizasyonu
+- [ ] Test ve kalite güvencesi
+- [ ] Deployment ve operasyon
+- [ ] **Süperadmin Özellik Atama Sistemi**
+  - [ ] Feature Flags veritabanı yapısı
+  - [ ] Tenant-özellik atama tabloları
+  - [ ] Süperadmin yönetim paneli
+  - [ ] Feature assignment API'leri
+  - [ ] Dynamic UI rendering sistemi
+  - [ ] Bulk operations (toplu atama)
+  - [ ] Feature dependency management
+  - [ ] Usage analytics ve audit logging
+  - [ ] Real-time feature updates
+  - [ ] Granular permission model (görme, kullanma, yönetme)
+- [ ] **Süperadmin Güvenlik Önlemleri**
+  - [ ] Multi-factor authentication
+  - [ ] IP whitelisting
+  - [ ] Session management
+  - [ ] Audit trail sistemi
+  - [ ] Emergency access protokolleri
+  - [ ] Data encryption
+
+### 🎯 Başarı Kriterleri
+- **Technical Excellence**: Modern tech stack, best practices
+- **User Experience**: Intuitive, responsive, accessible
+- **Business Value**: Measurable ROI, user satisfaction
+- **Scalability**: Future-proof architecture
+- **Security**: Enterprise-grade security
+- **Performance**: Fast, reliable, efficient
+- **Süperadmin Control**: Merkezi özellik kontrolü ve yönetimi
+
+### 📊 Proje Metrikleri
+- **Development Timeline**: 10 ay toplam süre
+- **Team Size**: 5-7 kişilik geliştirme ekibi
+- **Technology Stack**: Next.js 15, Express.js, Supabase, TypeScript
+- **Architecture**: Multi-tenant, microservices-ready, cloud-native
+- **Deployment**: Automated CI/CD, container orchestration
+- **Süperadmin Features**: 50+ özellik, 7 kategori, granular permissions 

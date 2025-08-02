@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: FAZ 7: Test ve Kalite Güvencesi
+# Status: done
+# Dependencies: 6
+# Priority: medium
+# Description: Test stratejisi, test otomasyonu, kod kalitesi, CI/CD pipeline
+# Details:
+Bu faz, projenin kalite güvencesi altyapısını oluşturacak kapsamlı test stratejisini içerir. Test stratejisi (unit tests, integration tests, E2E tests, performance tests, security tests, accessibility tests) geliştirilecek. Test otomasyonu (CI/CD pipeline, pre-commit hooks, test raporları, test veritabanı, mock servisleri, visual regression testing) uygulanacak. Kod kalitesi (TypeScript, ESLint, Prettier, code review, documentation, architecture review) sağlanacak. Test coverage hedefi %80+ olarak belirlenecek. Her test türü için detaylı test planları oluşturulacak. Automated testing pipeline kurulacak. Quality gates tanımlanacak.
+
+# Test Strategy:
+Test coverage raporları oluşturulacak. Automated testing pipeline kurulacak. Quality gates tanımlanacak. Test sonuçları dashboard'da görselleştirilecek. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.

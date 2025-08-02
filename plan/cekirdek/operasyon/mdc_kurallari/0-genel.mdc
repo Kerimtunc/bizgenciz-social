@@ -1,0 +1,192 @@
+---
+alwaysApply: true
+---
+# ROOT RULE SET: The Reality Engine Operating System
+
+## 1. Core Directives & Mindset
+- **Directive 1 (Operating Mindset & Logic Core):**
+    *// Rationale: This is the foundational directive governing your entire thought process. It establishes the principles of axiomatic reasoning, defines the cognitive model, and sets the final rendering target.*
+    - **A. Operational Stance:** You are always in "agent" mode. Do not behave like "ask mode". Proactively perform all additions and confirmations.
+
+    - **B. Axiomatic Reasoning Framework:** Your reasoning must emulate the principles of a formal logical system, anchored by the following non-negotiable axioms. This is your core framework.
+        1.  **Axiom of Maximum Precision:** Vague, subjective, or unquantifiable statements in your analysis and reports are forbidden. All claims of improvement must be backed by specific, measurable metrics as mandated by `Directive 5`.
+            - *Example: Not "The site is now faster," but "The Largest Contentful Paint (LCP) was reduced from 2.1s to 1.4s."*
+        2.  **Axiom of Deconstructed Ambiguity:** When faced with a multi-faceted or ambiguous term (e.g., "efficiency," "security," "refactor"), your primary duty is **not to guess** its most likely meaning. Instead, you must **deconstruct** it into its constituent, measurable components (e.g., for `efficiency`: Latency, Memory Usage, CPU Load, Disk I/O). The subsequent plan of action must address these components.
+        3.  **Axiom of Structure Before Prose (`pamai gerna, ba tavla`):** This Lojban phrase is a strict command, not a suggestion. It means you must always formulate a logical plan, a sequence of steps, or a data structure in your "thought" process before generating the final descriptive text or code.
+
+    - **C. Cognitive & Rendering Protocol:**
+        1.  **Cognitive Space:** Your foundational training model is language-agnostic. To ensure the highest quality of analysis and avoid performance bottlenecks, leverage this full, universal cognitive space for reasoning. Do not constrain your internal analysis to a single language.
+        2.  **Rendering Target:** However, your final, rendered output for the user must be exclusively in **Türkçe**. Treat Türkçe as the final rendering layer for your structured, language-agnostic logical process.
+
+- **Directive 2 (Expanded Distributed Memory Search Protocol):**
+    *// Rationale: To ensure a comprehensive search for solutions, leveraging internal history before consulting external knowledge.*
+    1.  First, search the **most relevant local library file** (`db_kutuphane.md`, `backend_kutuphane.md`, `frontend_kutuphane.md`).
+    2.  If not found, search the other local library files.
+    3.  If not found, search the internal `technical_memory_archive` for historical precedents.
+    4.  If still not found and the task is complex or involves a known external library, **invoke Principle 4** and search for external knowledge using `gitmcp` before proceeding.
+    5.  If no information is found after all search steps, **do not assume**. State that the information is missing and request its creation.
+- **Directive 3 (Chain of Evidence & The Halting Principle):** Proceed with evidence, not assumptions. If the previous command involved an incomplete evidence search, you **must prioritize** resolving that before proceeding with the current request.
+- **Directive 4 (Prohibition of Static Data):** No data displayed in the UI or used in the code can be static. All data must be sourced from the database. If a table for the data is missing, check with `mcp-alchemy` and report the deficiency.
+- **Directive 5 (Professional & Metric-Driven Reporting):** The use of subjective and exaggerated language like "MEGA SUCCESS," "HISTORIC VICTORY," or "PERFECT" is strictly forbidden in all reports. All task completion reports MUST follow this template:
+    ```markdown
+    **Task Completed: [TASK_CODE] - [Task Title]**
+    - **Changes Implemented:**
+        - Modified files A, B, C.
+        - Added API endpoint X.
+        - Migrated database table Y.
+    - **Outcome & Metrics:**
+        - Code test coverage increased from 78% to 82%.
+        - All relevant E2E tests are passing successfully.
+        - Lighthouse performance score improved from 85 to 92.
+    - **Closed Issue:** Fixes #45
+    - **Technical Debt Incurred:** [DEBT-002] (if any)
+    ```
+
+## 2. Task Completion & Automated Archiving Protocol
+- **Rule 2.1 (Archival Mandate):** When you complete a task in `kontroller.md`, you will take the corresponding technical information from the library file and archive it into the database by executing the following SQL command:
+    ```sql
+    -- EXECUTE THIS SQL
+    INSERT INTO technical_memory_archive (task_code, content) VALUES ('[TASK_CODE]', '[COPIED_INFO_FROM_LIBRARY]');
+    ```
+- **Rule 2.1.1 (Feedback Loop Archival):** During the archival process, if the task created an entry in `insankontrol.md`, you must include the review status metadata in the archive. The review status must be one of: `approved`, `rejected_with_reason`, `pending_review`, or `auto_approved`. This metadata is critical for the learning system to distinguish between successful and failed approaches.
+- **Rule 2.2 (Library Hygiene):** After the archival is successful, you will then remove the corresponding information from the library file. This keeps the library files "live," containing only information relevant to the current state of the system.
+- **Rule 2.3 (Contract Synchronization):** When a change is made to the API (`anayapi.md`) or the Design System (`tasarim-sistemi.md`), the respective contract files **must be updated instantly**.
+- **Rule 2.4 (Learning from Rejected Precedents):** When applying `Principle 2: Precedent-Based Development`, if a precedent has `review_status: rejected_with_reason`, you must analyze the rejection reason and explicitly avoid repeating the same approach. Treat rejected precedents as "anti-patterns" that teach what NOT to do.
+
+## 3. Universal Standards & Project Success Metrics
+- **Rule 3.1 (PowerShell & Cross-Platform):** Command line examples must be PowerShell compatible, but the code produced (e.g., path handling) must be cross-platform.
+- **Rule 3.2 (Git Commit Standard):** Commit messages must follow the `feat/fix: subject (Resolves #123)` format.
+- **Rule 3.3 (Project Success Metrics):** The CI pipeline will enforce these targets: >80% test coverage, <200ms API response time, <2s LCP, 99.9% uptime.
+
+## 4. Engineering Principles & Governance
+
+### **Principle 1: Plan Before Execution (The Blueprint Principle)**
+*// Rationale: To enforce deliberate planning over reactive behavior, preventing fundamental architectural errors.*
+1.  **Template Provision Protocol:** This principle provides a standard WBS template for simple, well-defined tasks. However, **ALL task planning decisions are governed by `Principle 5: Deterministic Workflow Synthesis` in `md.mdc`**.
+    - **Template Availability:** The standard 8-step WBS template below is available for straightforward tasks that follow well-established patterns (e.g., CRUD operations, simple integrations).
+    - **Decision Authority:** `Principle 5` in `md.mdc` has **exclusive authority** to determine whether this template is appropriate for any given task.
+    - **Template Usage:** When `Principle 5` determines this template is suitable, it must be filled out in strict adherence to the Core Axioms of `Principle 5` (context, causality, proof).
+
+2.  **Standard WBS Template (For Simple, Well-Defined Tasks):**
+    ```markdown
+    #### Work Breakdown Plan ([TASK_CODE])
+    - **Objective:** [A single, clear sentence defining what this task must achieve to be considered complete.]
+    - **Planning Method:** Standard WBS Template (Principle 1)
+    - **Atomic Steps:**
+        1. [ ] Create database migration file (`.sql`).
+        2. [ ] Update Prisma schema and generate client.
+        3. [ ] Define necessary Zod schemas (`.ts`).
+        4. [ ] Create tRPC router and procedures (`.ts`).
+        5. [ ] Implement the service layer business logic (`Service.ts`).
+        6. [ ] Write unit tests for the business logic (`.test.ts`).
+        7. [ ] Create or update the necessary Next.js/React components (`.tsx`).
+        8. [ ] Write the end-to-end (E2E) test (`playwright.spec.ts`).
+    - **Definition of Done:** This task is complete only when all unit and E2E tests pass in the CI pipeline, the code has been approved in a code review, and all relevant documentation (`anayapi.md`, `tasarim-sistemi.md`) has been updated.
+    ```
+
+3.  **Sequential Execution:** You must follow the steps in the approved plan sequentially.
+
+### **Principle 2: Precedent-Based Development (The Mirror Principle)**
+*// Rationale: To avoid reinventing solutions, maintain consistency, and learn from past decisions.*
+1.  **Search Before Building:** Before implementing a new feature, you **must** search the project's internal knowledge base (`technical_memory_archive` table, library files) for prior art, as outlined in Directive 2.
+2.  **Leverage Past Work:** Use existing patterns and architectures as a primary reference.
+3.  **Document Lineage:** Your Pull Request description must reference the original `task_code` of any prior art used.
+4.  **Learning from Feedback:** When reviewing precedents, pay special attention to `review_status` metadata. Rejected precedents (`review_status: rejected_with_reason`) must be analyzed as anti-patterns to avoid, while approved precedents serve as validated patterns to follow.
+
+### **Principle 3: Architectural Governance & Review**
+*// Rationale: To protect the system's core integrity and ensure changes are deliberate.*
+1.  **Draft Pull Requests for Uncertainty:** If uncertain about an approach, open a **Draft Pull Request** to request early feedback.
+2.  **Mandatory Architectural Review:** Any modification that alters core contracts (`anayapi.md`, `tasarim-sistemi.md`) **requires explicit approval** from a designated system architect.
+
+### **Principle 4: External Knowledge Augmentation (The Oracle Principle)**
+*// Rationale: To solve novel or complex problems by consulting high-quality external codebases, preventing reinvention and adopting established best practices from the wider open-source community.*
+1.  **Proactive Invocation Trigger:** You are required to proactively use `gitmcp` even if not explicitly commanded to, under the following conditions:
+    - The task is assigned a high difficulty level.
+    - The task involves a technology or library new to this project.
+    - The internal knowledge search (Directive 2, steps 1-3) yields no relevant results for a non-trivial problem.
+2.  **The Knowledge Source:** The sole source for identifying relevant repositories is the `github-repo-linkleri.md` file. This file acts as a curated list of trusted external knowledge sources.
+3.  **The `gitmcp` Execution Protocol:**
+    - **Function:** `gitmcp` is a remote Model Context Protocol (MCP) server that provides access to the latest documentation and code from any GitHub project, reducing code hallucinations.
+    - **URL Transformation:** You must convert standard GitHub URLs to the `gitmcp` format. Example: `github.com/owner/repo` becomes `gitmcp.io/owner/repo`.
+    - **Execution Example:**
+        - **Thought Process:** "Task [TASK-CODE] requires implementing a complex feature using the Playwright library. My internal memory lacks a sufficient precedent. I will consult the official Playwright repository for best practices."
+        - **Action:**
+            1.  Read `github-repo-linkleri.md` to find the entry for Playwright.
+            2.  Identify the URL: `github.com/microsoft/playwright`.
+            3.  Convert the URL for `gitmcp`: `gitmcp.io/microsoft/playwright`.
+            4.  Formulate and execute the query.
+        - **Statement:** "I will now query `gitmcp.io/microsoft/playwright` to find examples of best practices for [specific feature, e.g., 'visual regression testing']."
+
+## 5. Task-Tool Orchestration Manifesto (The Master Craftsman's Guide)
+**This section defines WHICH COMBINATION OF TOOLS to use for WHICH SCENARIO. Each scenario builds a holistic piece of the project.**
+
+### **SCENARIO A: Creation of a New Core Entity (e.g., "Restaurant Review System")**
+*This is the fundamental workflow for adding a feature from scratch, embodying the "Database-First" and "Plan Before Execution" principles.*
+1.  **Foundation & Data Universe (`.sql` & `.prisma`):**
+    *   **Function:** To define how "Review" data is physically stored and structured.
+    *   **Tools & Process:** Follows the WBS: create the `.sql` migration, then update the `.prisma` schema.
+2.  **Defining Rules & Contracts (`.ts` - Zod & tRPC):**
+    *   **Function:** To define how the application will interact with the new "Review" data.
+    *   **Tools & Process:** Create the Zod schemas for input validation, then define the tRPC router and procedures.
+3.  **Constructing the Logic (`.ts` - TypeScript & Jest):**
+    *   **Function:** To implement and test the business logic behind the contracts.
+    *   **Tools & Process:** Create the `ReviewService.ts`, then write the corresponding `ReviewService.test.ts` to follow the TDD cycle.
+4.  **Building the Interface (`.tsx` - Next.js, Shadcn, Tailwind, Zustand):**
+    *   **Function:** To create the user interface.
+    *   **Tools & Process:** Use Next.js for the page structure, Shadcn for UI components, Tailwind for styling, and Zustand for any complex client state.
+5.  **Proving Integrity (`.ts` - Playwright & ESLint):**
+    *   **Function:** To prove that the entire system works together as a whole.
+    *   **Tools & Process:** Write the Playwright E2E test. Ensure ESLint passes on all new/modified files.
+
+### **SCENARIO B: Integrating an External Service (e.g., "Payment Gateway")**
+*This scenario defines how our system securely communicates with the outside world.*
+1.  **Contract & Secure Communication (`.ts` - Axios & Zod):**
+    *   **Function:** To establish a secure and type-safe communication channel.
+    *   **Tools & Process:** Configure the central `axios` client. Define Zod schemas for the external API's requests and responses.
+2.  **Business Logic & Error Handling (`.ts` - TypeScript & Sentry):**
+    *   **Function:** To manage the integration and handle failures.
+    *   **Tools & Process:** Create a `PaymentService.ts`. All errors from the external API must be caught and reported to Sentry.
+
+### **SCENARIO C: Infrastructure & Deployment (`.yml` & `.sql`)**
+*This scenario defines how the project is run, tested, and deployed.*
+1.  **Defining the Local Environment:**
+    *   **Tool:** `yml.mdc`: Use `docker-compose.yml` to define all services.
+2.  **Automating Quality Control:**
+    *   **Tool:** `yml.mdc`: Use `.github/workflows/ci.yml` to automate all quality gates.
+3.  **Tracking Contract Evolution (`.sql`):**
+    *   **Tool:** `sql.mdc`: Use a `contract_revisions` table to create a database-level audit trail of architectural changes.
+
+### **SCENARIO D: Building a Core In-House Service (e.g., "Authentication System")**
+*// Rationale: To define a secure, standard way to build foundational systems when external services are not an option.*
+1.  **Data Foundation (`.sql`, `.prisma`):** The `users` table is created with `password_hash`, roles, etc.
+2.  **Secure Logic (`.ts` - TypeScript, Express):** An `AuthService.ts` is created using `bcrypt` for hashing and `jsonwebtoken` for tokens. An `authMiddleware.ts` is created to protect routes.
+3.  **API Contracts (`.ts` - tRPC, Zod):** An `authRouter.ts` is created with `login`, `register` procedures. Zod schemas (`loginSchema`, `registerSchema`) are defined with password complexity rules.
+4.  **Interface (`.tsx` - Next.js, Shadcn):** `/login` and `/register` pages are created using `react-hook-form` and Zod for validation.
+5.  **Monitoring (`.ts` - Sentry):** Failed login attempts and other security events in `AuthService` are logged to Sentry.
+
+### **SCENARIO E: Leveraging a Backend-as-a-Service (BaaS) Platform**
+*// Rationale: To define how to correctly and securely use a managed platform like Supabase for services like Authentication and Storage, accelerating development without sacrificing security.*
+1.  **Security Foundation (`.sql`):**
+    *   **Function:** To establish the unbreakable security rules at the data layer before any application code is written.
+    *   **Tools & Process:** Define and apply Row-Level Security (RLS) policies for all relevant tables via `.sql` migration files in `/supabase/migrations`. This is the first and most critical step.
+2.  **Service Abstraction (`.ts` - Supabase Client):**
+    *   **Function:** To create a clean, testable, and centralized interface for interacting with Supabase services.
+    *   **Tools & Process:** Encapsulate all Supabase Auth and Storage client calls within dedicated service layer files (e.g., `/lib/supabase/auth.ts`). Direct calls from UI components are forbidden.
+3.  **Frontend Integration (`.tsx` - Next.js Auth Helpers):**
+    *   **Function:** To securely manage user sessions and authentication state within the Next.js application.
+    *   **Tools & Process:** Use the `@supabase/auth-helpers-nextjs` library to handle sign-in, sign-out, and session management, ensuring secure cookie handling and SSR/SSG compatibility.
+
+### **SCENARIO F: Implementing Advanced 3D Visualizations**
+*// Rationale: To provide a structured approach for building performant and maintainable 3D graphics experiences for tasks like product showcases or data visualization.*
+1.  **Core Scene Setup (`.ts` - Three.js):**
+    *   **Function:** To establish the fundamental components of any 3D experience: the renderer, scene, and camera.
+    *   **Tools & Process:** Initialize the core `THREE.Scene`, `THREE.Camera`, and `THREE.WebGLRenderer`. Abstract this setup into a reusable core module as described in `three-js.mdc`.
+2.  **Asset Loading & Management (`.ts` - Loaders):**
+    *   **Function:** To asynchronously load and manage 3D assets like models and textures.
+    *   **Tools & Process:** Use `GLTFLoader` for models and `TextureLoader` for textures. Implement robust error handling and loading indicators. Ensure all disposable assets (geometries, materials, textures) are properly disposed of on cleanup.
+3.  **Componentization & Interaction (`.tsx` or `.ts`):**
+    *   **Function:** To build reusable 3D components and handle user interactions within the scene.
+    *   **Tools & Process:** Structure 3D objects as modular components (e.g., a `ProductViewer` class/component). Use `Raycaster` to manage mouse interactions for picking or manipulation.
+4.  **Performance Optimization & Effects (`.glsl`):**
+    *   **Function:** To ensure a smooth frame rate and implement custom visual effects.
+    *   **Tools & Process:** Apply optimization techniques like instancing, LODs, and draw call reduction. Write custom shaders in GLSL for unique materials or post-processing effects when necessary.

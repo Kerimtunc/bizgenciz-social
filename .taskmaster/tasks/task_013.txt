@@ -1,0 +1,11 @@
+# Task ID: 13
+# Title: insaedilecekler.md Veritabanı Şeması ve Mimari Kontrolü
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: insaedilecekler.md dosyasındaki veritabanı şeması ve mimari detaylarının kapsamlı kontrolü
+# Details:
+insaedilecekler.md dosyasının 2. bölümündeki veritabanı şeması detaylıca kontrol edilecek. OLTP/OLAP ayrımı, ETL pipeline sistemi, analitik tablolar yapısı incelenecek. Ana tablolar (users, business_profiles, categories, products, orders, order_items, customers, tables, staff) ve ilişkileri analiz edilecek. Veri modeli tasarım süreci, mock data yasak politikası, hardcoded değer yasak politikası değerlendirilecek. Veri öncelikli sistem kurgusu, güvenlik ve performans prensipleri kontrol edilecek. Bu analiz sonucunda veritabanı şemasının implementasyon planı hazırlanacak ve eksiklikler tespit edilecek.
+
+# Test Strategy:
+Veritabanı şemasının implementasyon kontrolü yapılacak. OLTP/OLAP ayrımı testleri yazılacak. ETL pipeline testleri gerçekleştirilecek. Eksiksiz veriye erişmek için @insaedilecekler.md dosyasından faydalanılacak ve buna rağmen orada eksik kalan özellikler tespit edilecek. Eksiklik tespiti 'QR Menü, POS sistemi, Yemek Sipariş Uygulaması ve Çoklu Tenant ile toplu olarak restoran ve kafelere hizmet vermek isteyen bir şirket için' kapsamında yapılacak. Tespit edilen eksiklikler için detaylı çözüm önerileri ve implementasyon planları hazırlanacak.
