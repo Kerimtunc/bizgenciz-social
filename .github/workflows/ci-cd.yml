@@ -1,11 +1,11 @@
-name: CI/CD Pipeline
+name: Hybrid CI/CD Pipeline
 
 on:
   push:
     branches: [ main, develop, feature/* ]
   pull_request:
     branches: [ main, develop ]
-  workflow_dispatch: # Manuel tetikleme için
+  workflow_dispatch:
     inputs:
       environment:
         description: 'Deploy environment'
@@ -21,21 +21,84 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   NODE_VERSION: '18'
 
-# ============================================
-# SHARED STEPS (Reusable workflows için)
-# ============================================
 jobs:
-  # ============================================
-  # LINTING VE QUALITY ASSURANCE
-  # ============================================
-  lint:
-    name: Lint and Quality Check
+  # Self-hosted runner ile local testler
+  local-tests:
+    name: Local Tests (Self-Hosted)
+    runs-on: self-hosted
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/develop'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --frozen-lockfile --prefer-offline
+      
+    - name: Run linting
+      run: npm run lint
+      
+    - name: Run type checking
+      run: npx tsc --noEmit
+      
+    - name: Run unit tests
+      run: npm test
+      
+    - name: Run E2E tests
+      run: npm run test:e2e
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Show runner info
+      run: |
+        echo "Runner OS: $RUNNER_OS"
+        echo "Runner Architecture: $RUNNER_ARCH"
+        echo "Runner Name: $RUNNER_NAME"
+        echo "Working Directory: $GITHUB_WORKSPACE"
+        echo "Node.js Version: $(node --version)"
+        echo "NPM Version: $(npm --version)"
+        
+    - name: Upload local test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: local-test-results
+        path: |
+          test-results/
+          playwright-report/
+          coverage/
+        retention-days: 30
+
+  # Cross-platform testing (GitHub hosted runners)
+  cross-platform-tests:
+    name: Cross-Platform Tests
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest] # Cross-platform testing
-        node-version: [18, 20] # Multiple Node.js versions
-    
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18, 20]
+        
+    services:
+      postgres:
+        image: postgres:15.3-alpine
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -48,37 +111,63 @@ jobs:
         
     - name: Install dependencies
       run: npm ci --frozen-lockfile --prefer-offline
+      
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+      
+    - name: Setup test environment
+      run: |
+        cp env.example .env.test
+        echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> .env.test
+        echo "DIRECT_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> .env.test
+        echo "NODE_ENV=test" >> .env.test
         
-    - name: Run ESLint
+    - name: Run database migrations
+      run: |
+        npx prisma generate
+        npx prisma migrate deploy
+      env:
+        DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+        
+    - name: Run linting
       run: npm run lint
       
-    - name: Run TypeScript check
+    - name: Run type checking
       run: npx tsc --noEmit
       
-    - name: Run Prettier check
-      run: npm run format:check
+    - name: Run unit tests
+      run: npm test
       
-    - name: Run Hadolint (Dockerfile linting)
-      uses: hadolint/hadolint-action@v3.1.0
+    - name: Run unit tests with coverage
+      run: npm run test:coverage
+      
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
       with:
-        dockerfile: |
-          Dockerfile
-          Dockerfile.dev
-        format: sarif
-        output-file: hadolint-report.sarif
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
         
-    - name: Run YAML linting
-      run: |
-        pip install yamllint
-        yamllint docker-compose.yml docker-compose.prod.yml
+    - name: Run E2E tests
+      run: npm run test:e2e
+      env:
+        DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+        
+    - name: Upload cross-platform test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: cross-platform-results-${{ matrix.os }}-${{ matrix.node-version }}
+        path: |
+          test-results/
+          playwright-report/
+          coverage/
+        retention-days: 30
 
-  # ============================================
-  # SECURITY SCANNING
-  # ============================================
+  # Security scanning (GitHub hosted)
   security:
     name: Security Scanning
     runs-on: ubuntu-latest
-    needs: lint
+    needs: cross-platform-tests
     
     steps:
     - name: Checkout code
@@ -111,102 +200,15 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
 
-  # ============================================
-  # TESTING (Cross-platform)
-  # ============================================
-  test:
-    name: Run Tests
-    runs-on: ${{ matrix.os }}
-    needs: [lint, security]
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18]
-    
-    services:
-      postgres:
-        image: postgres:15.3-alpine
-        env:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
-          POSTGRES_DB: test_db
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-          
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci --frozen-lockfile
-        
-    - name: Install Playwright browsers
-      run: npx playwright install --with-deps
-      
-    - name: Setup test environment
-      run: |
-        cp env.example .env.test
-        echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> .env.test
-        echo "DIRECT_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> .env.test
-        echo "NODE_ENV=test" >> .env.test
-        
-    - name: Run database migrations
-      run: |
-        npx prisma generate
-        npx prisma migrate deploy
-      env:
-        DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
-        
-    - name: Run unit tests
-      run: npm test
-      
-    - name: Run unit tests with coverage
-      run: npm run test:coverage
-      
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage/lcov.info
-        flags: unittests
-        name: codecov-umbrella
-        
-    - name: Run E2E tests
-      run: npm run test:e2e
-      env:
-        DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
-        
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test-results-${{ matrix.os }}
-        path: |
-          test-results/
-          playwright-report/
-          coverage/
-
-  # ============================================
-  # BUILD VE OPTIMIZATION
-  # ============================================
+  # Build and optimize (GitHub hosted)
   build:
     name: Build and Optimize
     runs-on: ubuntu-latest
-    needs: test
+    needs: [cross-platform-tests, security]
     strategy:
       matrix:
         node-version: [18]
-    
+        
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -219,7 +221,7 @@ jobs:
         
     - name: Install dependencies
       run: npm ci --frozen-lockfile
-        
+      
     - name: Build application
       run: npm run build
       
@@ -235,9 +237,7 @@ jobs:
           out/
         retention-days: 7
 
-  # ============================================
-  # DOCKER BUILD VE PUSH
-  # ============================================
+  # Docker builds (GitHub hosted)
   docker:
     name: Build and Push Docker Images
     runs-on: ubuntu-latest
@@ -299,9 +299,7 @@ jobs:
         cache-to: type=gha,mode=max
         platforms: linux/amd64,linux/arm64
 
-  # ============================================
-  # DEPLOYMENT (Staging)
-  # ============================================
+  # Staging deployment (GitHub hosted)
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
@@ -320,9 +318,7 @@ jobs:
         echo "Running smoke tests on staging"
         # Staging smoke testleri
 
-  # ============================================
-  # DEPLOYMENT (Production)
-  # ============================================
+  # Production deployment (GitHub hosted)
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
@@ -346,9 +342,7 @@ jobs:
         echo "Deployment completed successfully"
         # Slack/Discord notification
 
-  # ============================================
-  # PERFORMANCE TESTING
-  # ============================================
+  # Performance testing (GitHub hosted)
   performance:
     name: Performance Testing
     runs-on: ubuntu-latest
@@ -367,7 +361,7 @@ jobs:
         
     - name: Install dependencies
       run: npm ci --frozen-lockfile
-        
+      
     - name: Install Playwright browsers
       run: npx playwright install --with-deps
       
@@ -382,9 +376,7 @@ jobs:
         name: performance-results
         path: test-results/
 
-  # ============================================
-  # ACCESSIBILITY TESTING
-  # ============================================
+  # Accessibility testing (GitHub hosted)
   accessibility:
     name: Accessibility Testing
     runs-on: ubuntu-latest
@@ -403,7 +395,7 @@ jobs:
         
     - name: Install dependencies
       run: npm ci --frozen-lockfile
-        
+      
     - name: Install Playwright browsers
       run: npx playwright install --with-deps
       

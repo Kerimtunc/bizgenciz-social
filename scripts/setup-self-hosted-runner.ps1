@@ -1,5 +1,5 @@
-# Self-Hosted GitHub Runner Kurulum Script'i
-# Bu script local veya self-hosted runner kurulumu yapar
+# Self-Hosted GitHub Runner Setup Script
+# This script sets up a local or self-hosted runner
 
 param(
     [Parameter(Mandatory=$true)]
@@ -15,121 +15,121 @@ param(
     [switch]$InstallDependencies = $true
 )
 
-Write-Host "🤖 Self-Hosted GitHub Runner Kurulum Script'i" -ForegroundColor Green
+Write-Host "🤖 Self-Hosted GitHub Runner Setup Script" -ForegroundColor Green
 Write-Host "=============================================" -ForegroundColor Green
 
-# 1. Sistem kontrolü
-Write-Host "📋 Sistem kontrolü yapılıyor..." -ForegroundColor Yellow
+# 1. System check
+Write-Host "📋 Checking system compatibility..." -ForegroundColor Yellow
 
-# Windows kontrolü
+# Windows check
 if ($PSVersionTable.Platform -eq "Unix") {
-    Write-Host "❌ Bu script Windows için tasarlanmıştır" -ForegroundColor Red
+    Write-Host "❌ This script is designed for Windows" -ForegroundColor Red
     exit 1
 }
 
-# PowerShell versiyon kontrolü
+# PowerShell version check
 if ($PSVersionTable.PSVersion.Major -lt 5) {
-    Write-Host "❌ PowerShell 5.0 veya üzeri gerekli" -ForegroundColor Red
+    Write-Host "❌ PowerShell 5.0 or higher required" -ForegroundColor Red
     exit 1
 }
 
-Write-Host "✅ Sistem uyumlu" -ForegroundColor Green
+Write-Host "✅ System compatible" -ForegroundColor Green
 
-# 2. Gerekli araçların kurulumu
+# 2. Install required tools
 if ($InstallDependencies) {
-    Write-Host "📦 Gerekli araçlar kuruluyor..." -ForegroundColor Yellow
+    Write-Host "📦 Installing required tools..." -ForegroundColor Yellow
     
-    # Chocolatey kontrolü ve kurulumu
+    # Check and install Chocolatey
     if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
-        Write-Host "🍫 Chocolatey kuruluyor..." -ForegroundColor Yellow
+        Write-Host "🍫 Installing Chocolatey..." -ForegroundColor Yellow
         Set-ExecutionPolicy Bypass -Scope Process -Force
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
         iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
     }
     
-    # Node.js kurulumu
+    # Install Node.js
     if (!(Get-Command node -ErrorAction SilentlyContinue)) {
-        Write-Host "📦 Node.js kuruluyor..." -ForegroundColor Yellow
+        Write-Host "📦 Installing Node.js..." -ForegroundColor Yellow
         choco install nodejs -y
     }
     
-    # Git kurulumu
+    # Install Git
     if (!(Get-Command git -ErrorAction SilentlyContinue)) {
-        Write-Host "📦 Git kuruluyor..." -ForegroundColor Yellow
+        Write-Host "📦 Installing Git..." -ForegroundColor Yellow
         choco install git -y
     }
     
-    # Docker Desktop kurulumu (opsiyonel)
+    # Install Docker Desktop (optional)
     if (!(Get-Command docker -ErrorAction SilentlyContinue)) {
-        Write-Host "🐳 Docker Desktop kuruluyor..." -ForegroundColor Yellow
+        Write-Host "🐳 Installing Docker Desktop..." -ForegroundColor Yellow
         choco install docker-desktop -y
     }
     
-    Write-Host "✅ Gerekli araçlar kuruldu" -ForegroundColor Green
+    Write-Host "✅ Required tools installed" -ForegroundColor Green
 }
 
-# 3. GitHub Runner kurulumu
-Write-Host "🤖 GitHub Runner kuruluyor..." -ForegroundColor Yellow
+# 3. GitHub Runner setup
+Write-Host "🤖 Setting up GitHub Runner..." -ForegroundColor Yellow
 
-# Runner dizini oluşturma
+# Create runner directory
 $runnerDir = "C:\actions-runner"
 if (!(Test-Path $runnerDir)) {
     New-Item -ItemType Directory -Path $runnerDir -Force
-    Write-Host "✅ Runner dizini oluşturuldu: $runnerDir" -ForegroundColor Green
+    Write-Host "✅ Runner directory created: $runnerDir" -ForegroundColor Green
 }
 
-# Runner token alma
-Write-Host "🔐 Runner token alınıyor..." -ForegroundColor Yellow
-Write-Host "GitHub'da repository settings > Actions > Runners bölümünden 'New self-hosted runner' butonuna tıklayın" -ForegroundColor Cyan
-Write-Host "Windows x64 runner için token'ı kopyalayın" -ForegroundColor Cyan
+# Get runner token
+Write-Host "🔐 Getting runner token..." -ForegroundColor Yellow
+Write-Host "Go to GitHub repository settings > Actions > Runners" -ForegroundColor Cyan
+Write-Host "Click 'New self-hosted runner' and copy the Windows x64 token" -ForegroundColor Cyan
 
-$runnerToken = Read-Host "Runner token'ı girin"
+$runnerToken = Read-Host "Enter runner token"
 
 if ([string]::IsNullOrEmpty($runnerToken)) {
-    Write-Host "❌ Runner token gerekli" -ForegroundColor Red
+    Write-Host "❌ Runner token required" -ForegroundColor Red
     exit 1
 }
 
-# Runner kurulumu
+# Setup runner
 Set-Location $runnerDir
 
-# Runner dosyalarını indirme
+# Download runner files
 $runnerUrl = "https://github.com/actions/runner/releases/download/v2.311.0/actions-runner-win-x64-2.311.0.zip"
 $runnerZip = "actions-runner-win-x64.zip"
 
-Write-Host "📥 Runner dosyaları indiriliyor..." -ForegroundColor Yellow
+Write-Host "📥 Downloading runner files..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri $runnerUrl -OutFile $runnerZip
 
-# Dosyaları çıkarma
-Write-Host "📦 Runner dosyaları çıkarılıyor..." -ForegroundColor Yellow
+# Extract files
+Write-Host "📦 Extracting runner files..." -ForegroundColor Yellow
 Expand-Archive -Path $runnerZip -DestinationPath . -Force
 
-# Runner'ı yapılandırma
-Write-Host "⚙️ Runner yapılandırılıyor..." -ForegroundColor Yellow
+# Configure runner
+Write-Host "⚙️ Configuring runner..." -ForegroundColor Yellow
 $configCommand = ".\config.cmd --url https://github.com/$GitHubUsername/$RepositoryName --token $runnerToken --name $RunnerName --unattended"
-Write-Host "Komut: $configCommand" -ForegroundColor Gray
+Write-Host "Command: $configCommand" -ForegroundColor Gray
 
 try {
     Invoke-Expression $configCommand
-    Write-Host "✅ Runner yapılandırıldı" -ForegroundColor Green
+    Write-Host "✅ Runner configured" -ForegroundColor Green
 } catch {
-    Write-Host "❌ Runner yapılandırma hatası: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "❌ Runner configuration error: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
 }
 
-# 4. Runner servisini kurma
-Write-Host "🔧 Runner servisi kuruluyor..." -ForegroundColor Yellow
+# 4. Install runner service
+Write-Host "🔧 Installing runner service..." -ForegroundColor Yellow
 
 try {
     .\svc.install
     .\svc.start
-    Write-Host "✅ Runner servisi kuruldu ve başlatıldı" -ForegroundColor Green
+    Write-Host "✅ Runner service installed and started" -ForegroundColor Green
 } catch {
-    Write-Host "❌ Runner servis kurulum hatası: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "❌ Runner service installation error: $($_.Exception.Message)" -ForegroundColor Red
 }
 
-# 5. Environment variables ayarlama
-Write-Host "🔧 Environment variables ayarlanıyor..." -ForegroundColor Yellow
+# 5. Set environment variables
+Write-Host "🔧 Setting environment variables..." -ForegroundColor Yellow
 
 $envVars = @{
     "NODE_ENV" = "production"
@@ -143,42 +143,42 @@ foreach ($key in $envVars.Keys) {
     Write-Host "✅ $key = $($envVars[$key])" -ForegroundColor Green
 }
 
-# 6. Runner durumu kontrolü
-Write-Host "📊 Runner durumu kontrol ediliyor..." -ForegroundColor Yellow
+# 6. Check runner status
+Write-Host "📊 Checking runner status..." -ForegroundColor Yellow
 
 try {
     $runnerStatus = .\svc.status
-    Write-Host "✅ Runner durumu: $runnerStatus" -ForegroundColor Green
+    Write-Host "✅ Runner status: $runnerStatus" -ForegroundColor Green
 } catch {
-    Write-Host "⚠️ Runner durumu kontrol edilemedi" -ForegroundColor Yellow
+    Write-Host "⚠️ Could not check runner status" -ForegroundColor Yellow
 }
 
-# 7. Sonuç
+# 7. Results
 Write-Host ""
-Write-Host "🎉 Self-Hosted Runner Kurulumu Tamamlandı!" -ForegroundColor Green
+Write-Host "🎉 Self-Hosted Runner Setup Completed!" -ForegroundColor Green
 Write-Host "===========================================" -ForegroundColor Green
-Write-Host "Runner Adı: $RunnerName" -ForegroundColor Cyan
-Write-Host "Runner Dizini: $runnerDir" -ForegroundColor Cyan
+Write-Host "Runner Name: $RunnerName" -ForegroundColor Cyan
+Write-Host "Runner Directory: $runnerDir" -ForegroundColor Cyan
 Write-Host "Repository: https://github.com/$GitHubUsername/$RepositoryName" -ForegroundColor Cyan
 
 Write-Host ""
-Write-Host "📋 Yapılması Gerekenler:" -ForegroundColor Yellow
-Write-Host "1. GitHub repository'de runner'ın görünür olduğunu kontrol edin" -ForegroundColor White
-Write-Host "2. Runner'ın 'idle' durumunda olduğunu kontrol edin" -ForegroundColor White
-Write-Host "3. Test workflow'u çalıştırarak runner'ı test edin" -ForegroundColor White
-Write-Host "4. Runner log'larını kontrol edin: $runnerDir\_diag" -ForegroundColor White
+Write-Host "📋 Next Steps:" -ForegroundColor Yellow
+Write-Host "1. Check if runner is visible in GitHub repository" -ForegroundColor White
+Write-Host "2. Verify runner is in 'idle' status" -ForegroundColor White
+Write-Host "3. Test runner with a workflow" -ForegroundColor White
+Write-Host "4. Check runner logs: $runnerDir\_diag" -ForegroundColor White
 
 Write-Host ""
-Write-Host "🔗 Faydalı Komutlar:" -ForegroundColor Yellow
-Write-Host "- Runner durumu: .\svc.status" -ForegroundColor Cyan
-Write-Host "- Runner başlatma: .\svc.start" -ForegroundColor Cyan
-Write-Host "- Runner durdurma: .\svc.stop" -ForegroundColor Cyan
-Write-Host "- Runner kaldırma: .\svc.uninstall" -ForegroundColor Cyan
-Write-Host "- Runner log'ları: Get-Content $runnerDir\_diag\*.log" -ForegroundColor Cyan
+Write-Host "🔗 Useful Commands:" -ForegroundColor Yellow
+Write-Host "- Runner status: .\svc.status" -ForegroundColor Cyan
+Write-Host "- Start runner: .\svc.start" -ForegroundColor Cyan
+Write-Host "- Stop runner: .\svc.stop" -ForegroundColor Cyan
+Write-Host "- Uninstall runner: .\svc.uninstall" -ForegroundColor Cyan
+Write-Host "- Check logs: Get-Content $runnerDir\_diag\*.log" -ForegroundColor Cyan
 
 Write-Host ""
-Write-Host "⚠️ Önemli Notlar:" -ForegroundColor Yellow
-Write-Host "- Runner'ı güvenli bir ortamda çalıştırın" -ForegroundColor White
-Write-Host "- Düzenli olarak runner'ı güncelleyin" -ForegroundColor White
-Write-Host "- Runner log'larını takip edin" -ForegroundColor White
-Write-Host "- Runner'ı gerektiğinde yeniden başlatın" -ForegroundColor White 
+Write-Host "⚠️ Important Notes:" -ForegroundColor Yellow
+Write-Host "- Run runner in a secure environment" -ForegroundColor White
+Write-Host "- Update runner regularly" -ForegroundColor White
+Write-Host "- Monitor runner logs" -ForegroundColor White
+Write-Host "- Restart runner when needed" -ForegroundColor White 

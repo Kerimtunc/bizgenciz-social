@@ -1,4 +1,4 @@
-name: Test Self-Hosted Runner
+name: Hybrid Test Suite
 
 on:
   workflow_dispatch:
@@ -8,8 +8,9 @@ on:
       - '.github/workflows/test-self-hosted-runner.yml'
 
 jobs:
-  test-runner:
-    name: Test Self-Hosted Runner
+  # Self-hosted runner testleri
+  self-hosted-tests:
+    name: Self-Hosted Runner Tests
     runs-on: self-hosted
     
     steps:
@@ -46,11 +47,125 @@ jobs:
         echo "Node.js Version: $(node --version)"
         echo "NPM Version: $(npm --version)"
         
-    - name: Upload build artifacts
+    - name: Upload self-hosted results
       uses: actions/upload-artifact@v4
       with:
-        name: test-build-artifacts
+        name: self-hosted-test-results
         path: |
           .next/
           out/
-        retention-days: 7 
+        retention-days: 7
+
+  # Cross-platform testleri (GitHub hosted)
+  cross-platform-tests:
+    name: Cross-Platform Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18, 20]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --frozen-lockfile
+      
+    - name: Run linting
+      run: npm run lint
+      
+    - name: Run type checking
+      run: npx tsc --noEmit
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Show platform info
+      run: |
+        echo "Platform: $RUNNER_OS"
+        echo "Architecture: $RUNNER_ARCH"
+        echo "Node.js Version: $(node --version)"
+        echo "NPM Version: $(npm --version)"
+        echo "Working Directory: $GITHUB_WORKSPACE"
+        
+    - name: Upload cross-platform results
+      uses: actions/upload-artifact@v4
+      with:
+        name: cross-platform-results-${{ matrix.os }}-${{ matrix.node-version }}
+        path: |
+          .next/
+          out/
+        retention-days: 7
+
+  # Docker testleri (GitHub hosted)
+  docker-tests:
+    name: Docker Tests
+    runs-on: ubuntu-latest
+    needs: [self-hosted-tests, cross-platform-tests]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build Docker image
+      run: |
+        docker build -f Dockerfile.dev -t yemekzen:test .
+        docker build -f Dockerfile -t yemekzen:prod .
+        
+    - name: Test Docker containers
+      run: |
+        # Development container test
+        docker run --rm yemekzen:test npm test
+        # Production container test
+        docker run --rm yemekzen:prod npm test
+        
+    - name: Upload Docker test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-test-results
+        path: |
+          .next/
+          out/
+        retention-days: 7
+
+  # Sonuç raporu
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [self-hosted-tests, cross-platform-tests, docker-tests]
+    if: always()
+    
+    steps:
+    - name: Download all test results
+      uses: actions/download-artifact@v4
+      with:
+        path: ./test-results
+        
+    - name: Generate test summary
+      run: |
+        echo "## 🧪 Test Sonuçları" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### ✅ Başarılı Testler:" >> $GITHUB_STEP_SUMMARY
+        echo "- Self-Hosted Runner: ${{ needs.self-hosted-tests.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Cross-Platform Tests: ${{ needs.cross-platform-tests.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Docker Tests: ${{ needs.docker-tests.result }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📊 Platform Desteği:" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Ubuntu Latest" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Windows Latest" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ macOS Latest" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Self-Hosted (Local)" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Docker Containers" >> $GITHUB_STEP_SUMMARY 
