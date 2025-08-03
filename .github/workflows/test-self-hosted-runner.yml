@@ -1,0 +1,56 @@
+name: Test Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master, develop ]
+    paths:
+      - '.github/workflows/test-self-hosted-runner.yml'
+
+jobs:
+  test-runner:
+    name: Test Self-Hosted Runner
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --frozen-lockfile
+      
+    - name: Run linting
+      run: npm run lint
+      
+    - name: Run type checking
+      run: npx tsc --noEmit
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Show runner info
+      run: |
+        echo "Runner OS: $RUNNER_OS"
+        echo "Runner Architecture: $RUNNER_ARCH"
+        echo "Runner Name: $RUNNER_NAME"
+        echo "Working Directory: $GITHUB_WORKSPACE"
+        echo "Node.js Version: $(node --version)"
+        echo "NPM Version: $(npm --version)"
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-build-artifacts
+        path: |
+          .next/
+          out/
+        retention-days: 7 
