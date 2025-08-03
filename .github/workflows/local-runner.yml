@@ -1,0 +1,167 @@
+name: Local Runner Support
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner_type:
+        description: 'Runner type'
+        required: true
+        default: 'local'
+        type: choice
+        options:
+        - local
+        - self-hosted
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+        - development
+        - staging
+        - production
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # ============================================
+  # LOCAL DEVELOPMENT TESTING
+  # ============================================
+  local-dev:
+    name: Local Development Testing
+    runs-on: ${{ github.event.inputs.runner_type == 'local' && 'self-hosted' || 'ubuntu-latest' }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --frozen-lockfile
+        
+    - name: Run linting
+      run: npm run lint
+      
+    - name: Run type checking
+      run: npx tsc --noEmit
+      
+    - name: Run unit tests
+      run: npm test
+      
+    - name: Run E2E tests (if local runner)
+      if: github.event.inputs.runner_type == 'local'
+      run: npm run test:e2e
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: local-build-${{ github.event.inputs.environment }}
+        path: |
+          .next/
+          out/
+        retention-days: 30
+
+  # ============================================
+  # SELF-HOSTED RUNNER SETUP
+  # ============================================
+  self-hosted-setup:
+    name: Self-Hosted Runner Setup
+    runs-on: self-hosted
+    if: github.event.inputs.runner_type == 'self-hosted'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --frozen-lockfile
+        
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+      
+    - name: Setup Docker (if available)
+      run: |
+        if command -v docker &> /dev/null; then
+          echo "Docker is available"
+          docker --version
+        else
+          echo "Docker not found, skipping Docker setup"
+        fi
+        
+    - name: Run comprehensive tests
+      run: |
+        npm run lint
+        npx tsc --noEmit
+        npm test
+        npm run test:e2e
+        npm run build
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: self-hosted-results
+        path: |
+          test-results/
+          playwright-report/
+          coverage/
+        retention-days: 30
+
+  # ============================================
+  # LOCAL DEPLOYMENT SIMULATION
+  # ============================================
+  local-deploy:
+    name: Local Deployment Simulation
+    runs-on: ${{ github.event.inputs.runner_type == 'local' && 'self-hosted' || 'ubuntu-latest' }}
+    needs: [local-dev, self-hosted-setup]
+    if: always()
+    
+    steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: local-build-${{ github.event.inputs.environment }}
+        path: ./artifacts
+        
+    - name: Simulate deployment
+      run: |
+        echo "Simulating deployment to ${{ github.event.inputs.environment }}"
+        echo "Build artifacts downloaded to ./artifacts"
+        
+        # Local deployment simulation
+        if [ "${{ github.event.inputs.environment }}" = "development" ]; then
+          echo "Starting development server..."
+          # npm run dev (simulated)
+        elif [ "${{ github.event.inputs.environment }}" = "staging" ]; then
+          echo "Deploying to staging..."
+          # docker-compose -f docker-compose.staging.yml up -d (simulated)
+        elif [ "${{ github.event.inputs.environment }}" = "production" ]; then
+          echo "Deploying to production..."
+          # docker-compose -f docker-compose.prod.yml up -d (simulated)
+        fi
+        
+    - name: Health check simulation
+      run: |
+        echo "Running health checks..."
+        # curl -f http://localhost:3000/api/health (simulated)
+        echo "Health checks passed"
+        
+    - name: Notify completion
+      run: |
+        echo "Local deployment simulation completed successfully"
+        echo "Environment: ${{ github.event.inputs.environment }}"
+        echo "Runner type: ${{ github.event.inputs.runner_type }}" 

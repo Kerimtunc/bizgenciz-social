@@ -3,9 +3,9 @@ const nextConfig = {
   // Production optimizations
   output: 'standalone',
   
-  // TypeScript configuration - kök nedenleri çöz
+  // TypeScript configuration
   typescript: {
-    ignoreBuildErrors: false, // Hataları görmezden gelme, çöz
+    ignoreBuildErrors: false,
   },
   
   // Performance optimizations
@@ -22,17 +22,20 @@ const nextConfig = {
       '@radix-ui/react-toast',
       '@radix-ui/react-tooltip',
     ],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
+  },
+  
+  // Turbopack configuration (Next.js 15)
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
       },
     },
-    // Bundle optimization
-    bundlePagesRouterDependencies: true,
   },
+  
+  // Bundle optimization
+  bundlePagesRouterDependencies: true,
   
   // Image optimization
   images: {
@@ -81,18 +84,18 @@ const nextConfig = {
             key: 'Strict-Transport-Security',
             value: 'max-age=31536000; includeSubDomains',
           },
-                           {
-                   key: 'Permissions-Policy',
-                   value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=()',
-                 },
-                 {
-                   key: 'X-XSS-Protection',
-                   value: '1; mode=block',
-                 },
-                 {
-                   key: 'X-Content-Type-Options',
-                   value: 'nosniff',
-                 },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=()',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
         ],
       },
       {
@@ -138,54 +141,6 @@ const nextConfig = {
         tls: false,
       };
     }
-    
-               // Production optimizations
-           if (!dev) {
-             // Tree shaking
-             config.optimization.usedExports = true;
-             config.optimization.sideEffects = false;
-
-             // Split chunks optimization
-             config.optimization.splitChunks = {
-               chunks: 'all',
-               cacheGroups: {
-                 vendor: {
-                   test: /[\\/]node_modules[\\/]/,
-                   name: 'vendors',
-                   chunks: 'all',
-                   priority: 10,
-                 },
-                 react: {
-                   test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                   name: 'react',
-                   chunks: 'all',
-                   priority: 20,
-                 },
-                 three: {
-                   test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
-                   name: 'three',
-                   chunks: 'all',
-                   priority: 15,
-                 },
-                 radix: {
-                   test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
-                   name: 'radix',
-                   chunks: 'all',
-                   priority: 15,
-                 },
-                 common: {
-                   name: 'common',
-                   minChunks: 2,
-                   chunks: 'all',
-                   enforce: true,
-                   priority: 5,
-                 },
-               },
-             };
-
-             // Minification optimization
-             config.optimization.minimize = true;
-           }
     
     return config;
   },

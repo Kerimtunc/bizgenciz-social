@@ -67,8 +67,16 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
 
-  # Redis Cache
+  # Redis Cache & Session Management
   redis:
     image: redis:7.2-alpine@sha256:abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890
     container_name: ${PROJECT_NAME:-yemekzen}-redis
@@ -77,13 +85,27 @@ services:
       - "${REDIS_PORT_HOST:-6379}:6379"
     volumes:
       - redis_data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
       - internal_network
+    command: redis-server /usr/local/etc/redis/redis.conf
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+        reservations:
+          memory: 128M
+          cpus: '0.1'
+    environment:
+      - REDIS_MAXMEMORY=256mb
+      - REDIS_MAXMEMORY_POLICY=allkeys-lru
 
   # Nginx Reverse Proxy (Production)
   nginx:
