@@ -121,6 +121,10 @@ jobs:
         echo "DATABASE_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> .env.test
         echo "DIRECT_URL=postgresql://test_user:test_password@localhost:5432/test_db" >> .env.test
         echo "NODE_ENV=test" >> .env.test
+        echo "JWT_SECRET=test-jwt-secret-key-for-testing-only" >> .env.test
+        echo "NEXTAUTH_SECRET=test-nextauth-secret-key-for-testing-only" >> .env.test
+        echo "SUPABASE_URL=https://test.supabase.co" >> .env.test
+        echo "SUPABASE_ANON_KEY=test-anon-key" >> .env.test
         
     - name: Run database migrations
       run: |
@@ -186,11 +190,16 @@ jobs:
       run: npm audit --audit-level=moderate
       
     - name: Run Snyk security scan
+      if: secrets.SNYK_TOKEN != ''
       uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         args: --severity-threshold=high --all-projects
+        
+    - name: Skip Snyk scan (no token)
+      if: secrets.SNYK_TOKEN == ''
+      run: echo "Skipping Snyk scan - SNYK_TOKEN not configured"
         
     - name: Run CodeQL Analysis
       uses: github/codeql-action/init@v3

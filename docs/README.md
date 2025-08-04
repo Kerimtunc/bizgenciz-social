@@ -1,246 +1,94 @@
-# 📚 YemekZen Dokümantasyon Merkezi
+# 📚 YemekZen QR Menu Elite Edition - Dokümantasyon
 
-Bu klasör, YemekZen projesinin tüm teknik dokümantasyonunu içerir. Dosyalar içeriklerine göre kategorize edilmiş ve kolay erişim için organize edilmiştir.
+Bu klasör, YemekZen QR Menu Elite Edition projesinin tüm dokümantasyonunu içerir.
 
-## 🗂️ Klasör Yapısı
+## 🗂️ Kategorize Edilmiş Klasör Yapısı
 
-### 🏗️ **Architecture** - Mimari ve Sistem Tasarımı
-```
-architecture/
-├── system-design/          # Sistem tasarım dokümantasyonu
-│   └── birinci.md         # Ana mimari kararları ve stratejiler
-├── patterns/              # Tasarım desenleri
-│   └── dynamic-navigation-system.md  # Dinamik navigasyon sistemi
-└── decisions/             # Mimari kararlar (ADRs)
-```
+### 📖 **core/** - Ana Dokümantasyon
+Projenin temel dokümantasyonu ve mimari kararları.
 
-### 🧩 **Components** - UI Bileşenleri ve Kütüphaneleri
-```
-components/
-├── ui/                    # Temel UI bileşenleri
-│   ├── 03-particle-canvas.md
-│   ├── 04-modern-card-system.md
-│   ├── 05-status-widget-system.md
-│   ├── 07-complete-component-library.md
-│   ├── 09-comprehensive-ui-library.md
-│   ├── 15-shadcn-ui-component-library.md
-│   ├── 16-status-widget-system.md
-│   ├── 36-empty-state-component-system.md
-│   ├── 37-ui-components-library-system.md
-│   └── 38-product-card-component-system.md
-├── layout/                # Layout bileşenleri
-│   └── 10-advanced-layout-system.md
-├── forms/                 # Form bileşenleri
-│   └── 39-category-modal-component-system.md
-├── charts/                # Grafik ve analitik bileşenleri
-│   └── 02-analytics-widget.md
-└── navigation/            # Navigasyon bileşenleri
-    ├── 01-global-search-component.md
-    ├── 06-admin-floating-menu.md
-    ├── 08-advanced-menu-system.md
-    └── 15-advanced-navigation-system.md
-```
+- **`00-rehber.mdc`** - Dokümantasyon rehberi ve arama kılavuzu
+- **`01-birinci.md`** - Ana mimari kararları ve proje kurulum rehberi
 
-### 📦 **Modules** - İş Modülleri ve Özellikler
-```
-modules/
-├── business/              # İş modülleri
-│   ├── 17-advanced-orders-management.md
-│   ├── 18-customer-relationship-management.md
-│   ├── 20-menu-management-system.md
-│   ├── 21-loyalty-program-system.md
-│   ├── 25-customer-feedback-system.md
-│   ├── 26-reservation-management-system.md
-│   ├── 31-inventory-management-system.md
-│   ├── 32-table-management-system.md
-│   ├── 33-upsell-crosssell-management-system.md
-│   └── 48-pos-module-system.md
-├── management/            # Yönetim modülleri
-│   ├── 23-staff-management-system.md
-│   ├── 28-kitchen-management-system.md
-│   ├── 30-calendar-management-system.md
-│   ├── 43-main-panel-system.md
-│   ├── 44-admin-panel-system.md
-│   ├── 45-menu-management-panel-system.md
-│   └── 46-settings-panel-system.md
-├── analytics/             # Analitik modülleri
-│   └── 19-business-intelligence-reports.md
-├── communication/         # İletişim modülleri
-│   ├── 24-notification-management-system.md
-│   └── 29-communications-system.md
-└── system/                # Sistem modülleri
-    ├── 22-help-support-system.md
-    ├── 27-system-settings-management.md
-    ├── 40-changelog-management-system.md
-    ├── 41-archive-management-system.md
-    └── 42-metadata-management-system.md
-```
+### 🧠 **cekirdek/** - Çekirdek Proje Bilgileri
+Projenin temel çekirdek bilgileri ve ana dokümantasyonu.
 
-### 🔌 **API** - API Dokümantasyonu ve Entegrasyonlar
-```
-api/
-├── endpoints/             # API endpoint'leri
-│   └── 12-tRPC-api-framework.md
-├── integrations/          # Harici entegrasyonlar
-│   └── 11-hybrid-cache-service.md
-├── authentication/        # Kimlik doğrulama
-├── realtime/              # Gerçek zamanlı özellikler
-├── documentation/         # API dokümantasyonu
-├── examples/              # API örnekleri
-└── testing/               # API testleri
-```
+**İçerik**: 13 çekirdek dosya
+- **Proje Temelleri**: anayasa.md, anayapi.md, bilgiler.md
+- **Planlama**: plan.md, ozellikler.md, eklenebilecekler.md
+- **Kontrol**: kontroller.md, insankontrol.md, insaedilecekler.md
+- **Teknik**: three-js.md, db_kutuphane.md, boru-hatlari.md
+- **Referans**: enler.md
 
-### 🗄️ **Database** - Veritabanı Şemaları ve Modelleri
-```
-database/
-├── schemas/               # Veritabanı şemaları
-│   └── 13-prisma-database-schema.md
-├── migrations/            # Migration dosyaları
-├── models/                # Veri modelleri
-├── seeding/               # Seed verileri
-├── indexes/               # Veritabanı indeksleri
-├── relationships/         # Tablo ilişkileri
-└── constraints/           # Veritabanı kısıtlamaları
-```
+### 📋 **reference/** - Referans Materyalleri
+Teknik referans dokümantasyonu, API bilgileri ve sistem modülleri.
 
-### 🚀 **Deployment** - Deployment ve CI/CD
-```
-deployment/
-├── ci-cd/                 # CI/CD pipeline'ları
-├── environments/          # Ortam konfigürasyonları
-├── monitoring/            # İzleme ve loglama
-│   └── 14-health-check-system.md
-├── backup/                # Yedekleme stratejileri
-├── docker/                # Docker konfigürasyonları
-├── kubernetes/            # Kubernetes deployment'ları
-└── cloud/                 # Cloud deployment'ları
-```
+**İçerik**: 80+ referans dosyası
+- API dokümantasyonu
+- UI bileşenleri referansı
+- Veritabanı şemaları
+- Sistem modülleri
+- Konfigürasyon dosyaları
+- Veri şemaları ve tipleri
 
-### 🔒 **Security** - Güvenlik Dokümantasyonu
-```
-security/
-├── authentication/        # Kimlik doğrulama
-├── authorization/         # Yetkilendirme
-├── data-protection/       # Veri koruma
-├── audit/                 # Denetim logları
-├── encryption/            # Şifreleme
-├── compliance/            # Uyumluluk
-└── penetration-testing/   # Penetrasyon testleri
-```
+### 📚 **guides/** - Kullanım Kılavuzları
+Geliştirici ve kullanıcı kılavuzları.
 
-### 📖 **Guides** - Kullanım Kılavuzları ve Referanslar
-```
-guides/
-├── user-guides/           # Kullanıcı kılavuzları
-│   ├── getting-started/   # Başlangıç rehberleri
-│   ├── tutorials/         # Eğitimler
-│   └── faq/              # Sık sorulan sorular
-├── developer-guides/      # Geliştirici kılavuzları
-│   ├── setup/            # Kurulum rehberleri
-│   ├── contributing/     # Katkıda bulunma
-│   ├── code-style/       # Kod stili
-│   └── 00-feature-reference.md  # Özellik referansı
-├── api-documentation/     # API dokümantasyonu
-└── troubleshooting/       # Sorun giderme
-```
+**İçerik**: Özellik referans dosyaları
+- **`00-feature-reference.md`** - Hangi özellik için hangi dosyadan faydalanılacağı
 
-### 📋 **Templates** - Şablonlar ve Hazır Yapılar
-```
-templates/
-├── components/            # Bileşen şablonları
-│   ├── 34-menu-templates-system.md
-│   └── 35-ready-categories-system.md
-├── pages/                 # Sayfa şablonları
-│   └── 47-home-page-system.md
-├── modules/               # Modül şablonları
-└── api/                   # API şablonları
-```
+### 🔧 **mdc_project/** - Teknoloji Referansları
+Tüm teknoloji ve kütüphane dokümantasyonları.
 
-### 🗃️ **Legacy** - Eski ve Kurtarma Dosyaları
-```
-legacy/
-├── old-reference/         # Eski referans dosyaları
-├── deprecated/            # Kullanımdan kaldırılan dosyalar
-│   └── enler.md
-└── backup-files/          # Yedek dosyalar
-```
+**İçerik**: 25+ .mdc dosyası
+- Framework'ler (Next.js, React, TypeScript)
+- Kütüphaneler (Prisma, Supabase, Zustand)
+- Araçlar (Docker, Jest, Playwright)
+- Standartlar (ESLint, Tailwind, Shadcn)
 
-## 🔍 Hızlı Erişim
+### 🧩 **project_modules/** - Modül Dokümantasyonu
+Sistem modülleri ve sayfa dokümantasyonları.
 
-### 🚀 **Başlangıç İçin**
-- **Mimari Kararlar**: `architecture/system-design/birinci.md`
-- **Kurulum**: `guides/developer-guides/setup/`
-- **Özellik Referansı**: `guides/developer-guides/00-feature-reference.md`
+**İçerik**: 25+ modül dosyası
+- Sistem modülleri (health-check, menu-templates)
+- Sayfa dokümantasyonları (home-page, login-page)
+- Sidebar bileşenleri (desktop-sidebar, right-sidebar)
+- UI bileşenleri (ui-components, user-settings)
 
-### 🧩 **Bileşen Geliştirme**
-- **UI Bileşenleri**: `components/ui/`
-- **Navigasyon**: `components/navigation/`
-- **Formlar**: `components/forms/`
-- **Grafikler**: `components/charts/`
+### 🚀 **project/** - Genel Proje Yönetimi
+Proje yönetimi, planlama ve genel dokümantasyon.
 
-### 📦 **Modül Geliştirme**
-- **İş Modülleri**: `modules/business/`
-- **Yönetim**: `modules/management/`
-- **Analitik**: `modules/analytics/`
-- **İletişim**: `modules/communication/`
+**İçerik**: 19 proje dosyası
+- Proje planları (projelendirme.md)
+- Özellik dokümantasyonu (ozellikler-karsilastirma.md)
+- Teknik dokümantasyon (supabase.md)
+- Genel bilgiler (uyumluluk.md, uyumluluksonuc.md)
+- Kütüphane dosyaları (backend_kutuphane.md, frontend_kutuphane.md)
+- CI/CD ve deployment (github-ci-cd-setup.md, cross-platform-testing.md)
 
-### 🔌 **API Geliştirme**
-- **tRPC Framework**: `api/endpoints/12-tRPC-api-framework.md`
-- **Cache Service**: `api/integrations/11-hybrid-cache-service.md`
-- **Örnekler**: `api/examples/`
+## 🔍 Hızlı Başlangıç
 
-### 🗄️ **Veritabanı**
-- **Prisma Schema**: `database/schemas/13-prisma-database-schema.md`
-- **Migration'lar**: `database/migrations/`
-- **İlişkiler**: `database/relationships/`
+1. **Yeni başlayanlar için**: `core/00-rehber.mdc` dosyasını okuyun
+2. **Proje kurulumu için**: `core/01-birinci.md` dosyasını takip edin
+3. **Çekirdek bilgiler için**: `cekirdek/` klasöründeki temel dosyaları inceleyin
+4. **Özellik referansı için**: `guides/00-feature-reference.md` dosyasını inceleyin
+5. **Teknoloji referansı için**: `mdc_project/` klasöründeki ilgili .mdc dosyalarını bulun
+6. **Modül dokümantasyonu için**: `project_modules/` klasöründeki ilgili dosyaları inceleyin
+7. **Proje yönetimi için**: `project/` klasöründeki planlama dosyalarını okuyun
 
-## 📝 Dokümantasyon Standartları
+## 📝 Dokümantasyon Kuralları
 
-### 📄 **Dosya Adlandırma**
-- Türkçe dosya adları kullanılır
-- Kategorik önekler (örn: `01-`, `02-`)
-- Açıklayıcı isimler
-- `.md` uzantısı
+- Tüm dosyalar Markdown formatında yazılmalıdır
+- Kod örnekleri TypeScript/JavaScript ile verilmelidir
+- Her dosya açık ve anlaşılır olmalıdır
+- Güncellemeler düzenli olarak yapılmalıdır
 
-### 🏷️ **İçerik Yapısı**
-- Başlık ve açıklama
-- Teknik detaylar
-- Kod örnekleri
-- Kullanım senaryoları
-- İlgili dosyalar
+## 🤝 Katkıda Bulunma
 
-### 🔗 **Cross-Reference**
-- İlgili dosyalara linkler
-- Bağımlılıklar
-- Ön koşullar
-- Sonraki adımlar
-
-## 🛠️ Bakım ve Güncelleme
-
-### 📋 **Yeni Dosya Ekleme**
-1. Uygun kategoriyi belirle
-2. Standart adlandırma kullan
-3. README'yi güncelle
-4. Cross-reference ekle
-
-### 🔄 **Güncelleme Süreci**
-1. İçeriği güncelle
-2. İlgili dosyaları kontrol et
-3. Cross-reference'ları doğrula
-4. README'yi güncelle
-
-### 🗑️ **Arşivleme**
-- Kullanımdan kaldırılan dosyalar `legacy/deprecated/`
-- Eski referanslar `legacy/old-reference/`
-- Yedekler `legacy/backup-files/`
-
-## 📞 Destek
-
-Dokümantasyon ile ilgili sorular için:
-- **Geliştirici Rehberi**: `guides/developer-guides/`
-- **Sorun Giderme**: `guides/troubleshooting/`
-- **API Dokümantasyonu**: `api/documentation/`
+Dokümantasyona katkıda bulunmak için `project/` klasöründeki katkıda bulunma kılavuzlarını takip edin.
 
 ---
 
-*Son güncelleme: 3 Ağustos 2025* 
+**Son Güncelleme**: 4 Ağustos 2025
+**Versiyon**: 5.0 (Çekirdek Klasörü Eklendi)
+**Değişiklik**: cekirdek/ klasörü eklendi, projenin temel bilgileri buraya taşındı 

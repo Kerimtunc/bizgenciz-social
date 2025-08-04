@@ -1,0 +1,68 @@
+106e632e7d921305fa56d75251153cd7
+"use strict";
+// Mock Next.js page component
+jest.mock('../app/page', ()=>{
+    return function MockHomePage() {
+        return /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+            className: "container mx-auto px-4 py-8",
+            children: /*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+                className: "text-center",
+                children: [
+                    /*#__PURE__*/ (0, _jsxruntime.jsx)("h1", {
+                        className: "text-4xl font-bold text-gray-900 mb-4",
+                        children: "YemekZen QR Menu Elite Edition"
+                    }),
+                    /*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                        className: "text-lg text-gray-600 mb-8",
+                        children: "Gelişmiş QR kod tabanlı dijital men\xfc sistemi"
+                    }),
+                    /*#__PURE__*/ (0, _jsxruntime.jsxs)("div", {
+                        className: "bg-white rounded-lg shadow-md p-6 max-w-md mx-auto",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                className: "text-gray-700",
+                                children: "Proje başarıyla kuruldu! \uD83C\uDF89"
+                            }),
+                            /*#__PURE__*/ (0, _jsxruntime.jsx)("p", {
+                                className: "text-sm text-gray-500 mt-2",
+                                children: "Frontend geliştirmesi hen\xfcz başlamadı."
+                            })
+                        ]
+                    })
+                ]
+            })
+        });
+    };
+});
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _jsxruntime = require("react/jsx-runtime");
+const _react = require("@testing-library/react");
+const _page = /*#__PURE__*/ _interop_require_default(require("../app/page"));
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+describe('HomePage', ()=>{
+    it('renders the main heading', ()=>{
+        (0, _react.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_page.default, {}));
+        const heading = _react.screen.getByRole('heading', {
+            name: /YemekZen QR Menu Elite Edition/i
+        });
+        expect(heading).toBeInTheDocument();
+    });
+    it('renders the description', ()=>{
+        (0, _react.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_page.default, {}));
+        const description = _react.screen.getByText(/Gelişmiş QR kod tabanlı dijital menü sistemi/i);
+        expect(description).toBeInTheDocument();
+    });
+    it('renders the success message', ()=>{
+        (0, _react.render)(/*#__PURE__*/ (0, _jsxruntime.jsx)(_page.default, {}));
+        const successMessage = _react.screen.getByText(/Proje başarıyla kuruldu!/i);
+        expect(successMessage).toBeInTheDocument();
+    });
+});
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkM6XFxrb2RcXHllbWVremVuXFx0ZXN0c1xcYXBwLnRlc3QudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHJlbmRlciwgc2NyZWVuIH0gZnJvbSAnQHRlc3RpbmctbGlicmFyeS9yZWFjdCdcclxuaW1wb3J0IEhvbWVQYWdlIGZyb20gJy4uL2FwcC9wYWdlJ1xyXG5cclxuLy8gTW9jayBOZXh0LmpzIHBhZ2UgY29tcG9uZW50XHJcbmplc3QubW9jaygnLi4vYXBwL3BhZ2UnLCAoKSA9PiB7XHJcbiAgcmV0dXJuIGZ1bmN0aW9uIE1vY2tIb21lUGFnZSgpIHtcclxuICAgIHJldHVybiAoXHJcbiAgICAgIDxkaXYgY2xhc3NOYW1lPVwiY29udGFpbmVyIG14LWF1dG8gcHgtNCBweS04XCI+XHJcbiAgICAgICAgPGRpdiBjbGFzc05hbWU9XCJ0ZXh0LWNlbnRlclwiPlxyXG4gICAgICAgICAgPGgxIGNsYXNzTmFtZT1cInRleHQtNHhsIGZvbnQtYm9sZCB0ZXh0LWdyYXktOTAwIG1iLTRcIj5cclxuICAgICAgICAgICAgWWVtZWtaZW4gUVIgTWVudSBFbGl0ZSBFZGl0aW9uXHJcbiAgICAgICAgICA8L2gxPlxyXG4gICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1sZyB0ZXh0LWdyYXktNjAwIG1iLThcIj5cclxuICAgICAgICAgICAgR2VsacWfbWnFnyBRUiBrb2QgdGFiYW5sxLEgZGlqaXRhbCBtZW7DvCBzaXN0ZW1pXHJcbiAgICAgICAgICA8L3A+XHJcbiAgICAgICAgICA8ZGl2IGNsYXNzTmFtZT1cImJnLXdoaXRlIHJvdW5kZWQtbGcgc2hhZG93LW1kIHAtNiBtYXgtdy1tZCBteC1hdXRvXCI+XHJcbiAgICAgICAgICAgIDxwIGNsYXNzTmFtZT1cInRleHQtZ3JheS03MDBcIj5cclxuICAgICAgICAgICAgICBQcm9qZSBiYcWfYXLEsXlsYSBrdXJ1bGR1ISDwn46JXHJcbiAgICAgICAgICAgIDwvcD5cclxuICAgICAgICAgICAgPHAgY2xhc3NOYW1lPVwidGV4dC1zbSB0ZXh0LWdyYXktNTAwIG10LTJcIj5cclxuICAgICAgICAgICAgICBGcm9udGVuZCBnZWxpxZ90aXJtZXNpIGhlbsO8eiBiYcWfbGFtYWTEsS5cclxuICAgICAgICAgICAgPC9wPlxyXG4gICAgICAgICAgPC9kaXY+XHJcbiAgICAgICAgPC9kaXY+XHJcbiAgICAgIDwvZGl2PlxyXG4gICAgKVxyXG4gIH1cclxufSlcclxuXHJcbmRlc2NyaWJlKCdIb21lUGFnZScsICgpID0+IHtcclxuICBpdCgncmVuZGVycyB0aGUgbWFpbiBoZWFkaW5nJywgKCkgPT4ge1xyXG4gICAgcmVuZGVyKDxIb21lUGFnZSAvPilcclxuICAgIFxyXG4gICAgY29uc3QgaGVhZGluZyA9IHNjcmVlbi5nZXRCeVJvbGUoJ2hlYWRpbmcnLCB7IFxyXG4gICAgICBuYW1lOiAvWWVtZWtaZW4gUVIgTWVudSBFbGl0ZSBFZGl0aW9uL2kgXHJcbiAgICB9KVxyXG4gICAgZXhwZWN0KGhlYWRpbmcpLnRvQmVJblRoZURvY3VtZW50KClcclxuICB9KVxyXG5cclxuICBpdCgncmVuZGVycyB0aGUgZGVzY3JpcHRpb24nLCAoKSA9PiB7XHJcbiAgICByZW5kZXIoPEhvbWVQYWdlIC8+KVxyXG4gICAgXHJcbiAgICBjb25zdCBkZXNjcmlwdGlvbiA9IHNjcmVlbi5nZXRCeVRleHQoL0dlbGnFn21pxZ8gUVIga29kIHRhYmFubMSxIGRpaml0YWwgbWVuw7wgc2lzdGVtaS9pKVxyXG4gICAgZXhwZWN0KGRlc2NyaXB0aW9uKS50b0JlSW5UaGVEb2N1bWVudCgpXHJcbiAgfSlcclxuXHJcbiAgaXQoJ3JlbmRlcnMgdGhlIHN1Y2Nlc3MgbWVzc2FnZScsICgpID0+IHtcclxuICAgIHJlbmRlcig8SG9tZVBhZ2UgLz4pXHJcbiAgICBcclxuICAgIGNvbnN0IHN1Y2Nlc3NNZXNzYWdlID0gc2NyZWVuLmdldEJ5VGV4dCgvUHJvamUgYmHFn2FyxLF5bGEga3VydWxkdSEvaSlcclxuICAgIGV4cGVjdChzdWNjZXNzTWVzc2FnZSkudG9CZUluVGhlRG9jdW1lbnQoKVxyXG4gIH0pXHJcbn0pICJdLCJuYW1lcyI6WyJqZXN0IiwibW9jayIsIk1vY2tIb21lUGFnZSIsImRpdiIsImNsYXNzTmFtZSIsImgxIiwicCIsImRlc2NyaWJlIiwiaXQiLCJyZW5kZXIiLCJIb21lUGFnZSIsImhlYWRpbmciLCJzY3JlZW4iLCJnZXRCeVJvbGUiLCJuYW1lIiwiZXhwZWN0IiwidG9CZUluVGhlRG9jdW1lbnQiLCJkZXNjcmlwdGlvbiIsImdldEJ5VGV4dCIsInN1Y2Nlc3NNZXNzYWdlIl0sIm1hcHBpbmdzIjoiO0FBR0EsOEJBQThCO0FBQzlCQSxLQUFLQyxJQUFJLENBQUMsZUFBZTtJQUN2QixPQUFPLFNBQVNDO1FBQ2QscUJBQ0UscUJBQUNDO1lBQUlDLFdBQVU7c0JBQ2IsY0FBQSxzQkFBQ0Q7Z0JBQUlDLFdBQVU7O2tDQUNiLHFCQUFDQzt3QkFBR0QsV0FBVTtrQ0FBd0M7O2tDQUd0RCxxQkFBQ0U7d0JBQUVGLFdBQVU7a0NBQTZCOztrQ0FHMUMsc0JBQUNEO3dCQUFJQyxXQUFVOzswQ0FDYixxQkFBQ0U7Z0NBQUVGLFdBQVU7MENBQWdCOzswQ0FHN0IscUJBQUNFO2dDQUFFRixXQUFVOzBDQUE2Qjs7Ozs7OztJQU9wRDtBQUNGOzs7Ozt1QkEzQitCOzZEQUNWOzs7Ozs7QUE0QnJCRyxTQUFTLFlBQVk7SUFDbkJDLEdBQUcsNEJBQTRCO1FBQzdCQyxJQUFBQSxhQUFNLGdCQUFDLHFCQUFDQyxhQUFRO1FBRWhCLE1BQU1DLFVBQVVDLGFBQU0sQ0FBQ0MsU0FBUyxDQUFDLFdBQVc7WUFDMUNDLE1BQU07UUFDUjtRQUNBQyxPQUFPSixTQUFTSyxpQkFBaUI7SUFDbkM7SUFFQVIsR0FBRywyQkFBMkI7UUFDNUJDLElBQUFBLGFBQU0sZ0JBQUMscUJBQUNDLGFBQVE7UUFFaEIsTUFBTU8sY0FBY0wsYUFBTSxDQUFDTSxTQUFTLENBQUM7UUFDckNILE9BQU9FLGFBQWFELGlCQUFpQjtJQUN2QztJQUVBUixHQUFHLCtCQUErQjtRQUNoQ0MsSUFBQUEsYUFBTSxnQkFBQyxxQkFBQ0MsYUFBUTtRQUVoQixNQUFNUyxpQkFBaUJQLGFBQU0sQ0FBQ00sU0FBUyxDQUFDO1FBQ3hDSCxPQUFPSSxnQkFBZ0JILGlCQUFpQjtJQUMxQztBQUNGIn0=

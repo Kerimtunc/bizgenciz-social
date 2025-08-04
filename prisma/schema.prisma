@@ -3,8 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  // Performance optimizations
-  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -13,34 +11,90 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// User model
-model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String   @map("password_hash")
-  role         UserRole @default(STAFF)
-  name         String
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+// Tenant model
+model Tenant {
+  id                 Int      @id @default(autoincrement())
+  tenantType         String   @map("tenant_type")
+  status             String
+  subscriptionStatus String   @map("subscription_status")
+  commissionRate     Decimal? @map("commission_rate") @db.Decimal(10, 2)
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @default(now()) @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at")
 
   // Relations
-  orders Order[]
+  users             User[]
+  businessProfiles  BusinessProfile[]
+  categories        Category[]
+  products          Product[]
+  orders            Order[]
+  tables            Table[]
+  customers         Customer[]
+
+  @@map("tenants")
+}
+
+// User model
+model User {
+  id            Int      @id @default(autoincrement())
+  tenantId      Int      @map("tenant_id")
+  name          String
+  email         String   @unique
+  phone         String?
+  roleId        Int      @map("role_id")
+  avatar        String?
+  isActive      Boolean  @default(true) @map("is_active")
+  creditBalance Decimal? @map("credit_balance") @db.Decimal(10, 2)
+  loyaltyPoints Int?     @map("loyalty_points")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
 
   @@map("users")
 }
 
-// Category model
-model Category {
-  id          String    @id @default(cuid())
-  name        String
-  description String?
-  imageUrl    String?   @map("image_url")
-  sortOrder   Int       @default(0) @map("sort_order")
-  isActive    Boolean   @default(true) @map("is_active")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+// Business Profile model
+model BusinessProfile {
+  id             Int      @id @default(autoincrement())
+  tenantId       Int      @map("tenant_id")
+  businessName   String   @map("business_name")
+  businessType   String?  @map("business_type")
+  address        String?
+  phone          String?
+  email          String?
+  logoUrl        String?  @map("logo_url")
+  primaryColor   String?  @map("primary_color")
+  secondaryColor String?  @map("secondary_color")
+  accentColor    String?  @map("accent_color")
+  fontFamily     String?  @map("font_family")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @default(now()) @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
 
   // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("business_profiles")
+}
+
+// Category model
+model Category {
+  id          Int      @id @default(autoincrement())
+  tenantId    Int      @map("tenant_id")
+  name        String
+  description String?
+  imageUrl    String?  @map("image_url")
+  sortOrder   Int?     @default(0) @map("sort_order")
+  isActive    Boolean? @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  // Relations
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
   products Product[]
 
   @@map("categories")
@@ -48,19 +102,23 @@ model Category {
 
 // Product model
 model Product {
-  id          String   @id @default(cuid())
-  categoryId  String   @map("category_id")
-  name        String
-  description String?
-  price       Decimal  @db.Decimal(10, 2)
-  imageUrl    String?  @map("image_url")
-  isAvailable Boolean  @default(true) @map("is_available")
-  sortOrder   Int      @default(0) @map("sort_order")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id           Int      @id @default(autoincrement())
+  tenantId     Int      @map("tenant_id")
+  categoryId   Int      @map("category_id")
+  name         String
+  description  String?
+  price        Decimal  @db.Decimal(10, 2)
+  imageUrl     String?  @map("image_url")
+  isAvailable  Boolean? @default(true) @map("is_available")
+  isFeatured   Boolean? @default(false) @map("is_featured")
+  sortOrder    Int?     @default(0) @map("sort_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
 
   // Relations
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tenant     Tenant      @relation(fields: [tenantId], references: [id])
+  category   Category    @relation(fields: [categoryId], references: [id])
   orderItems OrderItem[]
 
   @@map("products")
@@ -68,63 +126,79 @@ model Product {
 
 // Order model
 model Order {
-  id          String      @id @default(cuid())
-  userId      String?     @map("user_id")
-  tableNumber Int?
-  status      OrderStatus @default(PENDING)
-  totalAmount Decimal     @db.Decimal(10, 2) @map("total_amount")
-  notes       String?
-  createdAt   DateTime    @default(now()) @map("created_at")
-  updatedAt   DateTime    @updatedAt @map("updated_at")
+  id            Int      @id @default(autoincrement())
+  tenantId      Int      @map("tenant_id")
+  customerId    Int?     @map("customer_id")
+  tableId       Int?     @map("table_id")
+  orderNumber   String   @unique @map("order_number")
+  status        String
+  totalAmount   Decimal  @map("total_amount") @db.Decimal(10, 2)
+  paymentStatus String   @map("payment_status")
+  paymentMethod String?  @map("payment_method")
+  notes         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
 
   // Relations
-  user       User?        @relation(fields: [userId], references: [id])
+  tenant     Tenant      @relation(fields: [tenantId], references: [id])
   orderItems OrderItem[]
 
   @@map("orders")
 }
 
-// OrderItem model
+// Order Item model
 model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String  @map("order_id")
-  productId String  @map("product_id")
-  quantity  Int
-  price     Decimal @db.Decimal(10, 2)
-  notes     String?
-  createdAt DateTime @default(now()) @map("created_at")
+  id         Int      @id @default(autoincrement())
+  orderId    Int      @map("order_id")
+  productId  Int      @map("product_id")
+  quantity   Int
+  unitPrice  Decimal  @map("unit_price") @db.Decimal(10, 2)
+  totalPrice Decimal  @map("total_price") @db.Decimal(10, 2)
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
 
   // Relations
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order   Order   @relation(fields: [orderId], references: [id])
   product Product @relation(fields: [productId], references: [id])
 
   @@map("order_items")
 }
 
-// QR Code model
-model QRCode {
-  id          String   @id @default(cuid())
-  tableNumber Int      @unique @map("table_number")
-  qrCodeUrl   String   @map("qr_code_url")
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+// Table model
+model Table {
+  id         Int      @id @default(autoincrement())
+  tenantId   Int      @map("tenant_id")
+  tableNumber String  @map("table_number")
+  capacity   Int
+  status     String
+  qrCodeUrl  String?  @map("qr_code_url")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
 
-  @@map("qr_codes")
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("tables")
 }
 
-// Enums
-enum UserRole {
-  ADMIN
-  MANAGER
-  STAFF
-}
+// Customer model
+model Customer {
+  id            Int      @id @default(autoincrement())
+  tenantId      Int      @map("tenant_id")
+  name          String
+  email         String?
+  phone         String?
+  loyaltyPoints Int?     @default(0) @map("loyalty_points")
+  totalOrders   Int?     @default(0) @map("total_orders")
+  totalSpent    Decimal? @default(0) @map("total_spent") @db.Decimal(10, 2)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
 
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  PREPARING
-  READY
-  DELIVERED
-  CANCELLED
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("customers")
 } 

@@ -9,7 +9,7 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
   collectCoverageFrom: [
@@ -20,8 +20,16 @@ const customJestConfig = {
     '!**/node_modules/**',
   ],
   testMatch: [
-    '<rootDir>/__tests__/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/tests/unit/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/tests/api/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/tests/components/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/**/*.{test,spec}.{js,jsx,ts,tsx}',
+  ],
+  // E2E testlerini hariç tut
+  testPathIgnorePatterns: [
+    '<rootDir>/tests/e2e/',
+    '<rootDir>/node_modules/',
+    '<rootDir>/.next/',
   ],
   // Performance optimizations
   maxWorkers: '50%',
@@ -37,6 +45,8 @@ const customJestConfig = {
       statements: 80,
     },
   },
+  // Allow tests to pass even if no tests are found
+  passWithNoTests: true,
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

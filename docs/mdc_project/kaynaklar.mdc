@@ -1,0 +1,154 @@
+# 📚 Kaynaklar ve Referanslar
+
+Bu dosya, YemekZen QR Menu Elite Edition projesinde kullanılan temel teknolojiler ve kütüphanelerin kaynaklarını içerir.
+
+---
+En en önemlisi toplu MCP bulma inceleme için kullanılacalk
+https://github.com/punkpeye/awesome-mcp-servers
+
+MDC Rules oluşturmakta kullanılacak
+https://github.com/sanjeed5/awesome-cursor-rules-mdc/tree/main/rules-mdc
+
+## 🎨 3D Grafik ve Görselleştirme
+
+### **@react-three/drei**
+- **Repository:** [pmndrs/drei](https://github.com/pmndrs/drei)
+- **Lisans:** MIT
+- **Açıklama:** React Three Fiber için kullanışlı yardımcılar ve soyutlamalar koleksiyonu
+- **İçerik:** 
+  - 3D modeller, materyaller ve geometriler
+  - Kamera kontrolleri ve ışıklandırma
+  - Yükleme araçları (GLTF, FBX, texture)
+  - Performans optimizasyonları
+  - Shader materyalleri ve efektler
+
+### **@react-three/fiber**
+- **Repository:** [pmndrs/react-three-fiber](https://github.com/pmndrs/react-three-fiber)
+- **Lisans:** MIT
+- **Açıklama:** Three.js için React renderer
+- **İçerik:**
+  - Declarative 3D sahne oluşturma
+  - React hooks ile Three.js entegrasyonu
+  - Event handling ve animasyonlar
+  - TypeScript desteği
+  - Performans optimizasyonları
+
+---
+
+## 🎯 Modern Web Uygulama Geliştirme
+
+### **Taxonomy (shadcn-ui)**
+- **Repository:** [shadcn-ui/taxonomy](https://github.com/shadcn-ui/taxonomy)
+- **Lisans:** MIT
+- **Açıklama:** Next.js 13 ile modern web uygulaması örneği
+- **İçerik:**
+  - App Router ve Server Components
+  - Authentication (NextAuth.js)
+  - Database (Prisma + PlanetScale)
+  - UI Components (Radix UI)
+  - Subscriptions (Stripe)
+  - MDX desteği ve blog sistemi
+
+### **Create T3 App**
+- **Repository:** [t3-oss/create-t3-app](https://github.com/t3-oss/create-t3-app)
+- **Lisans:** MIT
+- **Açıklama:** TypeScript tabanlı full-stack web uygulaması şablonu
+- **İçerik:**
+  - TypeScript, Next.js, Prisma
+  - tRPC ile type-safe API
+  - NextAuth.js authentication
+  - Tailwind CSS styling
+  - Zod validation
+  - Modüler yapı ve özelleştirilebilir şablonlar
+
+---
+
+## 🔧 Teknoloji Stack Özeti
+
+### **Frontend**
+- **React 18+** - Modern React özellikleri
+- **Next.js 13+** - App Router ve Server Components
+- **TypeScript** - Type-safe geliştirme
+- **Tailwind CSS** - Utility-first CSS framework
+
+### **3D Grafik**
+- **Three.js** - 3D grafik kütüphanesi
+- **React Three Fiber** - Three.js React wrapper
+- **Drei** - Yardımcı bileşenler ve soyutlamalar
+
+### **Backend & Database**
+- **Prisma** - Type-safe ORM
+- **tRPC** - End-to-end type safety
+- **NextAuth.js** - Authentication
+- **PlanetScale** - Serverless MySQL
+
+### **UI & UX**
+- **Radix UI** - Headless UI components
+- **shadcn/ui** - Modern component library
+- **Framer Motion** - Animasyonlar
+
+### **Deployment & Infrastructure**
+- **Vercel** - Hosting ve deployment
+- **Stripe** - Ödeme işlemleri
+- **Cloudinary** - Medya yönetimi
+
+---
+
+## 📖 Öğrenme Kaynakları
+
+### **Dokümantasyon**
+- [React Three Fiber Docs](https://docs.pmnd.rs/react-three-fiber)
+- [Drei Documentation](https://docs.pmnd.rs/drei)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+
+### **Tutorials**
+- [React Three Fiber Tutorials](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction)
+- [Three.js Fundamentals](https://threejs.org/manual/)
+- [Next.js App Router Guide](https://nextjs.org/docs/app)
+
+### **Community**
+- [React Three Fiber Discord](https://discord.gg/ZZjjNvJ)
+- [Three.js Forum](https://discourse.threejs.org/)
+- [Next.js Community](https://github.com/vercel/next.js/discussions)
+
+---
+
+## 🚀 Hızlı Başlangıç
+
+### **Yeni Proje Oluşturma**
+```bash
+# T3 App ile başlangıç
+npx create-t3-app@latest my-app --typescript --tailwind --prisma --nextAuth
+
+# Veya manuel kurulum
+npm create next-app@latest my-app --typescript --tailwind --app
+```
+
+### **3D Bileşen Ekleme**
+```bash
+# React Three Fiber kurulumu
+npm install @react-three/fiber @react-three/drei three
+
+# TypeScript tipleri
+npm install --save-dev @types/three
+```
+
+### **UI Bileşenleri**
+```bash
+# shadcn/ui kurulumu
+npx shadcn-ui@latest init
+
+# Bileşen ekleme
+npx shadcn-ui@latest add button card input
+```
+
+---
+
+## 📝 Notlar
+
+- Tüm kaynaklar MIT lisansı altında yayınlanmıştır
+- Proje geliştirme sürecinde güncel versiyonlar kullanılmalıdır
+- TypeScript kullanımı zorunludur
+- Performans optimizasyonları dikkate alınmalıdır
+- Accessibility (erişilebilirlik) standartlarına uyulmalıdır
