@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'YemekZen QR Menu Elite Edition',
-  description: 'Gelişmiş QR kod tabanlı dijital menü sistemi',
+  title: 'BizGenciz - Üniversitelilerin Sosyal Platformu',
+  description: 'Üniversite öğrencileri için modern sosyal platform',
 }
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body className={inter.className}>
-        <main className="min-h-screen bg-gray-50">
+        <main className="min-h-screen">
           {children}
         </main>
       </body>
