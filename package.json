@@ -1,7 +1,7 @@
 {
-  "name": "yemekzen-qr-menu",
+  "name": "bizgenciz-social",
   "version": "1.0.0",
-  "description": "YemekZen QR Menu Elite Edition - Gelişmiş QR kod tabanlı dijital menü sistemi",
+  "description": "BizGenciz - Üniversitelilerin Sosyal Platformu",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
@@ -37,14 +37,15 @@
     "db:seed": "prisma db seed"
   },
   "keywords": [
-    "qr-menu",
-    "restaurant",
-    "digital-menu",
+    "social-platform",
+    "university",
+    "students",
     "nextjs",
     "supabase",
-    "playwright"
+    "playwright",
+    "bizgenciz"
   ],
-  "author": "YemekZen Team",
+  "author": "BizGenciz Team",
   "license": "MIT",
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

@@ -1,6 +1,6 @@
-# 🍽️ YemekZen QR Menu Elite Edition
+# 🎓 BizGenciz - Üniversitelilerin Sosyal Platformu
 
-Gelişmiş QR kod tabanlı dijital menü sistemi - T3 Stack ile geliştirilmiş modern web uygulaması.
+Üniversite öğrencileri için geliştirilmiş modern sosyal platform - T3 Stack ile geliştirilmiş web uygulaması.
 
 ## 🚀 Teknoloji Stack
 
@@ -26,8 +26,8 @@ Gelişmiş QR kod tabanlı dijital menü sistemi - T3 Stack ile geliştirilmiş 
 ### Adım 1: Projeyi Klonlayın
 
 ```bash
-git clone https://github.com/Kerimtunc/yemekzen-qr-menu.git
-cd yemekzen-qr-menu
+git clone https://github.com/Kerimtunc/bizgenciz-social.git
+cd bizgenciz-social
 ```
 
 ### Adım 2: Bağımlılıkları Yükleyin
@@ -70,7 +70,7 @@ Uygulama http://localhost:3000 adresinde çalışacaktır.
 ## 🏗️ Proje Yapısı
 
 ```
-yemekzen-qr-menu/
+bizgenciz-social/
 ├── app/                    # Next.js App Router
 │   ├── (auth)/            # Authentication routes
 │   ├── (dashboard)/       # Admin panel routes
@@ -150,10 +150,10 @@ NODE_ENV="development"
 
 ```bash
 # Build image
-docker build -t yemekzen-qr-menu .
+docker build -t bizgenciz-social .
 
 # Run container
-docker run -p 3000:3000 yemekzen-qr-menu
+docker run -p 3000:3000 bizgenciz-social
 ```
 
 ## 🧪 CI/CD Pipeline
@@ -174,13 +174,14 @@ Proje hybrid CI/CD pipeline kullanır:
 
 ## 📱 Özellikler
 
-- **QR Kod Menü:** Dinamik QR kod oluşturma
-- **Admin Panel:** Menü yönetimi
-- **3D Görselleştirme:** Three.js ile 3D menü
+- **Sosyal Profil:** Üniversite öğrencileri için profil sistemi
+- **Arkadaşlık Sistemi:** Öğrenciler arası bağlantı kurma
+- **Grup Oluşturma:** Üniversite grupları ve topluluklar
+- **3D Görselleştirme:** Three.js ile 3D profil kartları
 - **Responsive Design:** Mobile-first yaklaşım
-- **Real-time Updates:** Canlı menü güncellemeleri
+- **Real-time Chat:** Canlı mesajlaşma
 - **Multi-language:** Çoklu dil desteği
-- **Analytics:** Menü görüntüleme istatistikleri
+- **Analytics:** Platform kullanım istatistikleri
 - **Cross-platform:** Tüm platformlarda test edilmiş
 
 ## 🤝 Katkıda Bulunma
@@ -197,8 +198,8 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 
 ## 🆘 Destek
 
-Sorunlarınız için GitHub Issues kullanın veya [destek@yemekzen.com](mailto:destek@yemekzen.com) adresine yazın.
+Sorunlarınız için GitHub Issues kullanın veya [destek@bizgenciz.com](mailto:destek@bizgenciz.com) adresine yazın.
 
 ---
 
-**YemekZen Team** 🍽️
+**BizGenciz Team** 🎓

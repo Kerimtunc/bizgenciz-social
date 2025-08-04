@@ -11,194 +11,172 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Tenant model
-model Tenant {
-  id                 Int      @id @default(autoincrement())
-  tenantType         String   @map("tenant_type")
-  status             String
-  subscriptionStatus String   @map("subscription_status")
-  commissionRate     Decimal? @map("commission_rate") @db.Decimal(10, 2)
-  createdAt          DateTime @default(now()) @map("created_at")
-  updatedAt          DateTime @default(now()) @map("updated_at")
-  deletedAt          DateTime? @map("deleted_at")
-
-  // Relations
-  users             User[]
-  businessProfiles  BusinessProfile[]
-  categories        Category[]
-  products          Product[]
-  orders            Order[]
-  tables            Table[]
-  customers         Customer[]
-
-  @@map("tenants")
-}
-
-// User model
-model User {
-  id            Int      @id @default(autoincrement())
-  tenantId      Int      @map("tenant_id")
-  name          String
-  email         String   @unique
-  phone         String?
-  roleId        Int      @map("role_id")
-  avatar        String?
-  isActive      Boolean  @default(true) @map("is_active")
-  creditBalance Decimal? @map("credit_balance") @db.Decimal(10, 2)
-  loyaltyPoints Int?     @map("loyalty_points")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @map("updated_at")
-  deletedAt     DateTime? @map("deleted_at")
-
-  // Relations
-  tenant Tenant @relation(fields: [tenantId], references: [id])
-
-  @@map("users")
-}
-
-// Business Profile model
-model BusinessProfile {
-  id             Int      @id @default(autoincrement())
-  tenantId       Int      @map("tenant_id")
-  businessName   String   @map("business_name")
-  businessType   String?  @map("business_type")
-  address        String?
-  phone          String?
-  email          String?
-  logoUrl        String?  @map("logo_url")
-  primaryColor   String?  @map("primary_color")
-  secondaryColor String?  @map("secondary_color")
-  accentColor    String?  @map("accent_color")
-  fontFamily     String?  @map("font_family")
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @default(now()) @map("updated_at")
-  deletedAt      DateTime? @map("deleted_at")
-
-  // Relations
-  tenant Tenant @relation(fields: [tenantId], references: [id])
-
-  @@map("business_profiles")
-}
-
-// Category model
-model Category {
+// University model
+model University {
   id          Int      @id @default(autoincrement())
-  tenantId    Int      @map("tenant_id")
   name        String
-  description String?
-  imageUrl    String?  @map("image_url")
-  sortOrder   Int?     @default(0) @map("sort_order")
-  isActive    Boolean? @default(true) @map("is_active")
+  city        String
+  country     String
+  website     String?
+  logoUrl     String?  @map("logo_url")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @map("updated_at")
   deletedAt   DateTime? @map("deleted_at")
 
   // Relations
-  tenant   Tenant    @relation(fields: [tenantId], references: [id])
-  products Product[]
+  students    Student[]
+  groups      Group[]
 
-  @@map("categories")
+  @@map("universities")
 }
 
-// Product model
-model Product {
-  id           Int      @id @default(autoincrement())
-  tenantId     Int      @map("tenant_id")
-  categoryId   Int      @map("category_id")
-  name         String
-  description  String?
-  price        Decimal  @db.Decimal(10, 2)
-  imageUrl     String?  @map("image_url")
-  isAvailable  Boolean? @default(true) @map("is_available")
-  isFeatured   Boolean? @default(false) @map("is_featured")
-  sortOrder    Int?     @default(0) @map("sort_order")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @default(now()) @map("updated_at")
-  deletedAt    DateTime? @map("deleted_at")
-
-  // Relations
-  tenant     Tenant      @relation(fields: [tenantId], references: [id])
-  category   Category    @relation(fields: [categoryId], references: [id])
-  orderItems OrderItem[]
-
-  @@map("products")
-}
-
-// Order model
-model Order {
+// Student model
+model Student {
   id            Int      @id @default(autoincrement())
-  tenantId      Int      @map("tenant_id")
-  customerId    Int?     @map("customer_id")
-  tableId       Int?     @map("table_id")
-  orderNumber   String   @unique @map("order_number")
-  status        String
-  totalAmount   Decimal  @map("total_amount") @db.Decimal(10, 2)
-  paymentStatus String   @map("payment_status")
-  paymentMethod String?  @map("payment_method")
-  notes         String?
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @map("updated_at")
-  deletedAt     DateTime? @map("deleted_at")
-
-  // Relations
-  tenant     Tenant      @relation(fields: [tenantId], references: [id])
-  orderItems OrderItem[]
-
-  @@map("orders")
-}
-
-// Order Item model
-model OrderItem {
-  id         Int      @id @default(autoincrement())
-  orderId    Int      @map("order_id")
-  productId  Int      @map("product_id")
-  quantity   Int
-  unitPrice  Decimal  @map("unit_price") @db.Decimal(10, 2)
-  totalPrice Decimal  @map("total_price") @db.Decimal(10, 2)
-  notes      String?
-  createdAt  DateTime @default(now()) @map("created_at")
-
-  // Relations
-  order   Order   @relation(fields: [orderId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
-
-  @@map("order_items")
-}
-
-// Table model
-model Table {
-  id         Int      @id @default(autoincrement())
-  tenantId   Int      @map("tenant_id")
-  tableNumber String  @map("table_number")
-  capacity   Int
-  status     String
-  qrCodeUrl  String?  @map("qr_code_url")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @default(now()) @map("updated_at")
-  deletedAt  DateTime? @map("deleted_at")
-
-  // Relations
-  tenant Tenant @relation(fields: [tenantId], references: [id])
-
-  @@map("tables")
-}
-
-// Customer model
-model Customer {
-  id            Int      @id @default(autoincrement())
-  tenantId      Int      @map("tenant_id")
+  universityId  Int      @map("university_id")
   name          String
-  email         String?
+  email         String   @unique
   phone         String?
-  loyaltyPoints Int?     @default(0) @map("loyalty_points")
-  totalOrders   Int?     @default(0) @map("total_orders")
-  totalSpent    Decimal? @default(0) @map("total_spent") @db.Decimal(10, 2)
+  avatar        String?
+  bio           String?
+  major         String?
+  year          Int?
+  isActive      Boolean  @default(true) @map("is_active")
+  isVerified    Boolean  @default(false) @map("is_verified")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @default(now()) @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")
 
   // Relations
-  tenant Tenant @relation(fields: [tenantId], references: [id])
+  university    University @relation(fields: [universityId], references: [id])
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  friendships   Friendship[] @relation("StudentFriendships")
+  friends       Friendship[] @relation("FriendStudents")
+  groupMembers  GroupMember[]
+  messages      Message[] @relation("SenderMessages")
+  receivedMessages Message[] @relation("ReceiverMessages")
 
-  @@map("customers")
+  @@map("students")
+}
+
+// Post model
+model Post {
+  id          Int      @id @default(autoincrement())
+  studentId   Int      @map("student_id")
+  content     String
+  imageUrl    String?  @map("image_url")
+  isPublic    Boolean  @default(true) @map("is_public")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+  deletedAt   DateTime? @map("deleted_at")
+
+  // Relations
+  student     Student   @relation(fields: [studentId], references: [id])
+  comments    Comment[]
+  likes       Like[]
+
+  @@map("posts")
+}
+
+// Comment model
+model Comment {
+  id        Int      @id @default(autoincrement())
+  postId    Int      @map("post_id")
+  studentId Int      @map("student_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  // Relations
+  post      Post     @relation(fields: [postId], references: [id])
+  student   Student  @relation(fields: [studentId], references: [id])
+
+  @@map("comments")
+}
+
+// Like model
+model Like {
+  id        Int      @id @default(autoincrement())
+  postId    Int      @map("post_id")
+  studentId Int      @map("student_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  post      Post     @relation(fields: [postId], references: [id])
+  student   Student  @relation(fields: [studentId], references: [id])
+
+  @@unique([postId, studentId])
+  @@map("likes")
+}
+
+// Friendship model
+model Friendship {
+  id          Int      @id @default(autoincrement())
+  studentId   Int      @map("student_id")
+  friendId    Int      @map("friend_id")
+  status      String   // PENDING, ACCEPTED, REJECTED
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+
+  // Relations
+  student     Student  @relation("StudentFriendships", fields: [studentId], references: [id])
+  friend      Student  @relation("FriendStudents", fields: [friendId], references: [id])
+
+  @@unique([studentId, friendId])
+  @@map("friendships")
+}
+
+// Group model
+model Group {
+  id            Int      @id @default(autoincrement())
+  universityId  Int      @map("university_id")
+  name          String
+  description   String?
+  imageUrl      String?  @map("image_url")
+  isPrivate     Boolean  @default(false) @map("is_private")
+  maxMembers    Int?     @map("max_members")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  // Relations
+  university    University    @relation(fields: [universityId], references: [id])
+  members       GroupMember[]
+
+  @@map("groups")
+}
+
+// GroupMember model
+model GroupMember {
+  id        Int      @id @default(autoincrement())
+  groupId   Int      @map("group_id")
+  studentId Int      @map("student_id")
+  role      String   @default("MEMBER") // ADMIN, MODERATOR, MEMBER
+  joinedAt  DateTime @default(now()) @map("joined_at")
+
+  // Relations
+  group     Group    @relation(fields: [groupId], references: [id])
+  student   Student  @relation(fields: [studentId], references: [id])
+
+  @@unique([groupId, studentId])
+  @@map("group_members")
+}
+
+// Message model
+model Message {
+  id          Int      @id @default(autoincrement())
+  senderId    Int      @map("sender_id")
+  receiverId  Int      @map("receiver_id")
+  content     String
+  isRead      Boolean  @default(false) @map("is_read")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  sender      Student  @relation("SenderMessages", fields: [senderId], references: [id])
+  receiver    Student  @relation("ReceiverMessages", fields: [receiverId], references: [id])
+
+  @@map("messages")
 } 
