@@ -2,131 +2,74 @@
   "master": {
     "tasks": [
       {
-        "id": 20,
-        "title": "Setup Multi-Tenant Database Schema",
-        "description": "Implement the multi-tenant database schema as outlined in the PRD, ensuring proper isolation of tenant data.",
-        "details": "Create the necessary tables for tenants, features, tenant_features, feature_usage_logs, and feature_dependencies as specified in the PRD. Use PostgreSQL for production and SQLite for development. Ensure that each table has the required fields and relationships, including foreign keys for data integrity.",
-        "testStrategy": "Validate the schema by running migrations and ensuring that all tables are created correctly. Perform unit tests to check the relationships and constraints.",
-        "priority": "high",
+        "id": 1,
+        "title": "Develop User Profile System for BizGenciz Platform",
+        "description": "Implement a user profile system that allows university students to create, edit, and view profiles on the BizGenciz social platform.",
+        "details": "1. Design the database schema for user profiles, including fields for name, university, major, profile picture, and bio. 2. Create RESTful API endpoints for profile creation, retrieval, updating, and deletion. 3. Implement frontend components for profile creation and editing using React. 4. Ensure user authentication is integrated to secure profile access. 5. Add functionality for users to view other profiles, including a search feature to find users by name or university. 6. Implement validation for profile data to ensure completeness and correctness. 7. Write unit tests for API endpoints and integration tests for frontend components.",
+        "testStrategy": "1. Verify that users can create profiles with valid data and that the data is stored correctly in the database. 2. Test the profile editing functionality to ensure changes are saved and reflected in the database. 3. Check that users can view their own profiles and other users' profiles without errors. 4. Validate that the search feature returns correct results based on user input. 5. Run automated tests to ensure all functionalities work as expected and that there are no regressions.",
+        "status": "pending",
         "dependencies": [],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 21,
-        "title": "Develop API for Feature Management",
-        "description": "Create RESTful API endpoints for managing features, including CRUD operations and bulk operations for feature assignment.",
-        "details": "Implement API endpoints using Express.js for managing features. Endpoints should include GET, POST, PUT, and DELETE for features, as well as bulk assignment operations. Ensure that the API adheres to RESTful standards and includes JWT authentication for security.",
-        "testStrategy": "Use Postman to test all API endpoints for correct functionality. Write integration tests to ensure that the API responds correctly to various requests and handles errors appropriately.",
         "priority": "high",
-        "dependencies": [
-          20
-        ],
-        "status": "pending",
         "subtasks": []
       },
       {
-        "id": 22,
-        "title": "Implement Superadmin Dashboard",
-        "description": "Develop the Superadmin dashboard to manage tenants and features, providing analytics and operational oversight.",
-        "details": "Create a dashboard using Next.js that allows Superadmins to view tenant information, feature usage analytics, and system health metrics. Use Tailwind CSS for styling and Zustand for state management. Implement real-time updates using WebSocket for live data.",
-        "testStrategy": "Conduct user acceptance testing (UAT) with Superadmin users to ensure the dashboard meets their needs. Validate real-time updates by simulating changes in the database and observing updates on the dashboard.",
+        "id": 2,
+        "title": "Develop Messaging System for BizGenciz Platform",
+        "description": "Implement a messaging system that allows users to send private messages, create group chats, and view message history on the BizGenciz platform.",
+        "details": "1. Design the database schema for the messaging system, including tables for messages, users, and group chats. 2. Create RESTful API endpoints for sending messages, retrieving message history, and managing group chats. 3. Implement frontend components for messaging using React, ensuring a user-friendly interface for sending and receiving messages. 4. Integrate real-time messaging functionality using WebSockets or a similar technology to allow instant message delivery. 5. Ensure that user authentication and authorization are in place to secure message access and prevent unauthorized users from viewing private messages. 6. Implement features for users to create and manage group chats, including adding/removing participants and viewing chat history. 7. Add functionality to display notifications for new messages and updates in group chats.",
+        "testStrategy": "1. Verify that users can send and receive private messages and that these messages are stored correctly in the database. 2. Test the group chat functionality to ensure users can create groups, add/remove participants, and view message history. 3. Check that real-time messaging works correctly by sending messages between users and ensuring they appear instantly. 4. Ensure that users cannot access messages or group chats they are not authorized to view. 5. Test the notification system to confirm that users receive alerts for new messages in both private and group chats.",
+        "status": "pending",
+        "dependencies": [
+          1
+        ],
         "priority": "high",
-        "dependencies": [
-          21
-        ],
-        "status": "pending",
         "subtasks": []
       },
       {
-        "id": 23,
-        "title": "Integrate Real-Time Features",
-        "description": "Implement real-time features using WebSocket for live updates on menu changes and order statuses.",
-        "details": "Use Socket.io to integrate real-time communication into the application. Ensure that menu updates, order statuses, and inventory changes are pushed to clients in real-time. Update the frontend to handle these live updates appropriately.",
-        "testStrategy": "Test real-time features by simulating changes in the backend and verifying that clients receive updates without refreshing the page. Monitor performance to ensure that real-time updates do not degrade user experience.",
+        "id": 3,
+        "title": "Develop Event Management System for BizGenciz Platform",
+        "description": "Implement an event management system that allows users to create events, participate in them, view event details, and generate an event calendar.",
+        "details": "1. Design the database schema for the event management system, including tables for events, participants, and event details. 2. Create RESTful API endpoints for event creation, retrieval, updating, and deletion. 3. Implement frontend components using React for event creation, viewing event details, and displaying the event calendar. 4. Integrate user authentication to ensure that only authorized users can create or manage events. 5. Add functionality for users to RSVP to events and view a list of upcoming events. 6. Ensure that the event calendar displays events in a user-friendly format, allowing users to filter by date or category.",
+        "testStrategy": "1. Verify that users can create events with valid data and that the events are stored correctly in the database. 2. Test the event retrieval functionality to ensure users can view event details accurately. 3. Check that users can RSVP to events and that their participation is recorded correctly. 4. Validate that the event calendar displays all upcoming events and allows for filtering by date or category.",
+        "status": "pending",
+        "dependencies": [
+          1
+        ],
         "priority": "medium",
-        "dependencies": [
-          22
-        ],
-        "status": "pending",
         "subtasks": []
       },
       {
-        "id": 24,
-        "title": "Conduct Security and Performance Audit",
-        "description": "Perform a comprehensive security and performance audit of the application to ensure compliance with industry standards.",
-        "details": "Review the application for security vulnerabilities, including input validation, authentication mechanisms, and data encryption. Conduct performance testing to ensure that the application meets the specified performance metrics, such as API response times and system availability.",
-        "testStrategy": "Use automated security scanning tools to identify vulnerabilities. Conduct load testing to simulate high traffic and measure response times. Document findings and implement necessary fixes.",
+        "id": 4,
+        "title": "Develop Notification System for BizGenciz Platform",
+        "description": "Implement a notification system that allows users to receive real-time notifications for new messages, event invitations, group updates, and other important events on the BizGenciz platform.",
+        "details": "1. Design the database schema for the notification system, including tables for notifications, users, and notification types. 2. Create RESTful API endpoints for creating, retrieving, and managing notifications. 3. Implement frontend components using React to display notifications in real-time, ensuring a user-friendly interface. 4. Integrate WebSockets or a similar technology to enable real-time updates for notifications. 5. Ensure that user authentication is integrated to secure notification access. 6. Add functionality for users to customize notification preferences, such as opting in/out of specific types of notifications.",
+        "testStrategy": "1. Verify that notifications are created correctly in the database when triggered by events such as new messages or event invitations. 2. Test the retrieval functionality to ensure users can view their notifications accurately. 3. Check that real-time notifications are delivered instantly to users when events occur. 4. Validate that users can customize their notification preferences and that these settings are respected in the notification delivery.",
+        "status": "pending",
+        "dependencies": [
+          2,
+          3
+        ],
         "priority": "medium",
-        "dependencies": [
-          23
-        ],
-        "status": "pending",
         "subtasks": []
       },
       {
-        "id": 25,
-        "title": "Integrate Kullan Project Components into BizGenciz Groups Page",
-        "description": "Analyze the Kullan project and integrate necessary components and pages into the BizGenciz groups page.",
-        "details": "Review the structure and components of the Kullan project to identify reusable elements. Create a plan for integrating these components into the BizGenciz project, ensuring they align with the existing architecture and design patterns. This may involve refactoring some components to fit the BizGenciz framework, as well as creating new pages where necessary. Ensure that all integrated components are styled consistently with the BizGenciz design system and are functional within the context of the groups page.",
-        "testStrategy": "Verify the integration by testing all components on the groups page for functionality and visual consistency. Conduct user acceptance testing to ensure that the new components meet user needs and perform as expected. Check for any integration issues, such as broken links or missing data, and resolve them before final deployment.",
+        "id": 5,
+        "title": "Develop Search and Explore Feature for BizGenciz Platform",
+        "description": "Implement a search and explore feature that allows users to search for other users, groups, and events, apply filters, and receive recommendations on the BizGenciz platform.",
+        "details": "1. Design the database schema to support search functionality, including indexing for users, groups, and events. 2. Create RESTful API endpoints for searching users, groups, and events based on various criteria. 3. Implement filtering options in the API to allow users to refine their search results. 4. Develop a recommendation engine that suggests users, groups, and events based on user preferences and activity. 5. Create frontend components using React for the search interface, ensuring a user-friendly experience for inputting search queries and viewing results. 6. Integrate user authentication to ensure that search results are relevant to the logged-in user. 7. Optimize the search functionality for performance, ensuring quick response times even with large datasets.",
+        "testStrategy": "1. Verify that users can perform searches for other users, groups, and events, and that the results are accurate based on the search criteria. 2. Test the filtering functionality to ensure users can refine their search results effectively. 3. Check that the recommendation engine provides relevant suggestions based on user activity and preferences. 4. Ensure that the frontend displays search results correctly and that the user experience is intuitive. 5. Validate that the search functionality performs well under load with multiple simultaneous users.",
         "status": "pending",
         "dependencies": [
-          22
+          1,
+          3
         ],
-        "priority": "high",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Analyze and Document Reusable Components from the Kullan Project",
-            "description": "Review the structure and components of the Kullan project to identify elements that can be reused in the BizGenciz groups page, such as UI components, functionalities, and design patterns.",
-            "dependencies": [],
-            "details": "Conduct a comprehensive analysis of the Kullan project's codebase and design assets to catalog reusable components. Document their functionalities, dependencies, and any necessary modifications for integration into the BizGenciz framework.\n<info added on 2025-08-04T15:09:52.682Z>\nI have analyzed the Kullan project, which is a university groups platform with the following features:\n\n1. **Main Features:**\n   - WhatsApp groups organized by university departments\n   - Categories for Bachelor's, Master's, and PhD programs\n   - Search and filtering capabilities\n   - Modern UI/UX design using Shadcn/ui components\n   - Responsive design\n\n2. **Technical Structure:**\n   - Next.js 15 + React 19\n   - TypeScript\n   - Tailwind CSS\n   - Shadcn/ui components\n   - Lucide React icons\n\n3. **Data Structure:**\n   - Static data with departmentData object\n   - Information on department name, faculty, and WhatsApp link\n   - Grouping by categories\n\nThis project is ideal for BizGenciz's /groups page. I will now proceed to create the integration plan.\n</info added on 2025-08-04T15:09:52.682Z>",
-            "status": "done",
-            "testStrategy": ""
-          },
-          {
-            "id": 2,
-            "title": "Design Integration Plan for BizGenciz Groups Page",
-            "description": "Create a detailed plan outlining how the identified components from the Kullan project will be integrated into the BizGenciz groups page, ensuring alignment with existing architecture and design patterns.",
-            "dependencies": [],
-            "details": "Develop a step-by-step integration strategy that includes refactoring requirements, mapping of Kullan components to BizGenciz equivalents, and identification of any new pages or features needed. Ensure the plan addresses potential challenges and outlines solutions for seamless integration.\n<info added on 2025-08-04T15:13:19.124Z>\nIntegration plan has been created and implemented:\n\n**Completed Actions:**\n1. ✅ Analyzed the Kullan project - university groups platform\n2. ✅ Transformed to fit the BizGenciz project\n3. ✅ Created the /groups page\n4. ✅ Updated the homepage for BizGenciz\n5. ✅ Updated the layout file\n\n**Integration Details:**\n- University departments from the Kullan project → BizGenciz academic groups\n- Added social and career categories\n- Maintained modern UI/UX design\n- Responsive design\n- Search and filtering features\n- WhatsApp group integration\n\n**Technical Adaptations:**\n- Utilized Shadcn/ui components\n- Type safety with TypeScript\n- Modern design with Tailwind CSS\n- Lucide React icons\n- Sparkle effects and animations\n\nNow moving on to the testing phase.\n</info added on 2025-08-04T15:13:19.124Z>",
-            "status": "done",
-            "testStrategy": ""
-          },
-          {
-            "id": 3,
-            "title": "Implement Refactoring and Integration of Components",
-            "description": "Refactor and integrate the identified components from the Kullan project into the BizGenciz groups page, adhering to the design system and functional requirements.",
-            "dependencies": [],
-            "details": "Modify the codebase of the identified components to fit the BizGenciz framework, ensuring compatibility and functionality. Integrate these components into the groups page, creating new pages or features as necessary. Maintain consistent styling with the BizGenciz design system throughout the integration process.",
-            "status": "in-progress",
-            "testStrategy": ""
-          },
-          {
-            "id": 4,
-            "title": "Conduct Functional and Visual Testing of Integrated Components",
-            "description": "Test all integrated components on the BizGenciz groups page to verify functionality and visual consistency, ensuring they meet user needs and perform as expected.",
-            "dependencies": [],
-            "details": "Perform comprehensive testing, including unit tests, integration tests, and user acceptance testing, to validate the functionality and appearance of the integrated components. Address any issues related to broken links, missing data, or design inconsistencies promptly.",
-            "status": "pending",
-            "testStrategy": ""
-          },
-          {
-            "id": 5,
-            "title": "Finalize Documentation and Deployment of Integrated Features",
-            "description": "Document the integration process, including any challenges encountered and solutions implemented, and prepare the integrated features for deployment to the production environment.",
-            "dependencies": [],
-            "details": "Compile detailed documentation covering the integration steps, code modifications, and testing outcomes. Ensure that deployment procedures are clearly outlined, and coordinate with the deployment team to release the updated BizGenciz groups page to production.",
-            "status": "pending",
-            "testStrategy": ""
-          }
-        ]
+        "priority": "medium",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-08-01T21:32:49.421Z",
-      "updated": "2025-08-04T15:13:27.923Z",
+      "updated": "2025-08-04T15:25:26.500Z",
       "description": "Tasks for master context"
     }
   }
