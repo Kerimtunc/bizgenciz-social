@@ -569,7 +569,7 @@ const alphabet = [
   "Z",
 ]
 
-export default function BizGencizGroupsPage() {
+export default function MAKUGroupsPlatform() {
   const [activeTab, setActiveTab] = useState("lisans")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedLetter, setSelectedLetter] = useState("Tümü")
@@ -801,8 +801,8 @@ export default function BizGencizGroupsPage() {
                 </div>
               </div>
             </div>
-            <h1 className="text-3xl font-bold mb-3 gradient-text-white">BizGenciz Grupları</h1>
-            <p className="text-blue-100 text-sm mb-6">Üniversitelilerin Sosyal Platformu</p>
+            <h1 className="text-3xl font-bold mb-3 gradient-text-white">MAKÜ Bölüm Grupları</h1>
+            <p className="text-blue-100 text-sm mb-6">Burdur Mehmet Akif Ersoy Üniversitesi</p>
             <div className="flex items-center justify-center gap-2 text-xs text-blue-200">
               <Sparkles className="w-4 h-4" />
               <span>Öğrenciler için, öğrenciler tarafından</span>
