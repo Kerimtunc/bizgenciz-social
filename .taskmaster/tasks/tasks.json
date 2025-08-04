@@ -3,73 +3,101 @@
     "tasks": [
       {
         "id": 1,
-        "title": "Develop User Profile System for BizGenciz Platform",
-        "description": "Implement a user profile system that allows university students to create, edit, and view profiles on the BizGenciz social platform.",
-        "details": "1. Design the database schema for user profiles, including fields for name, university, major, profile picture, and bio. 2. Create RESTful API endpoints for profile creation, retrieval, updating, and deletion. 3. Implement frontend components for profile creation and editing using React. 4. Ensure user authentication is integrated to secure profile access. 5. Add functionality for users to view other profiles, including a search feature to find users by name or university. 6. Implement validation for profile data to ensure completeness and correctness. 7. Write unit tests for API endpoints and integration tests for frontend components.",
-        "testStrategy": "1. Verify that users can create profiles with valid data and that the data is stored correctly in the database. 2. Test the profile editing functionality to ensure changes are saved and reflected in the database. 3. Check that users can view their own profiles and other users' profiles without errors. 4. Validate that the search feature returns correct results based on user input. 5. Run automated tests to ensure all functionalities work as expected and that there are no regressions.",
-        "status": "pending",
+        "title": "Run and Test the BizGenciz Project",
+        "description": "Execute the BizGenciz project and verify its functionality, addressing any errors that may arise during testing. The project has been successfully run and is ready for testing.",
+        "status": "done",
         "dependencies": [],
         "priority": "high",
-        "subtasks": []
-      },
-      {
-        "id": 2,
-        "title": "Develop Messaging System for BizGenciz Platform",
-        "description": "Implement a messaging system that allows users to send private messages, create group chats, and view message history on the BizGenciz platform.",
-        "details": "1. Design the database schema for the messaging system, including tables for messages, users, and group chats. 2. Create RESTful API endpoints for sending messages, retrieving message history, and managing group chats. 3. Implement frontend components for messaging using React, ensuring a user-friendly interface for sending and receiving messages. 4. Integrate real-time messaging functionality using WebSockets or a similar technology to allow instant message delivery. 5. Ensure that user authentication and authorization are in place to secure message access and prevent unauthorized users from viewing private messages. 6. Implement features for users to create and manage group chats, including adding/removing participants and viewing chat history. 7. Add functionality to display notifications for new messages and updates in group chats.",
-        "testStrategy": "1. Verify that users can send and receive private messages and that these messages are stored correctly in the database. 2. Test the group chat functionality to ensure users can create groups, add/remove participants, and view message history. 3. Check that real-time messaging works correctly by sending messages between users and ensuring they appear instantly. 4. Ensure that users cannot access messages or group chats they are not authorized to view. 5. Test the notification system to confirm that users receive alerts for new messages in both private and group chats.",
-        "status": "pending",
-        "dependencies": [
-          1
-        ],
-        "priority": "high",
-        "subtasks": []
-      },
-      {
-        "id": 3,
-        "title": "Develop Event Management System for BizGenciz Platform",
-        "description": "Implement an event management system that allows users to create events, participate in them, view event details, and generate an event calendar.",
-        "details": "1. Design the database schema for the event management system, including tables for events, participants, and event details. 2. Create RESTful API endpoints for event creation, retrieval, updating, and deletion. 3. Implement frontend components using React for event creation, viewing event details, and displaying the event calendar. 4. Integrate user authentication to ensure that only authorized users can create or manage events. 5. Add functionality for users to RSVP to events and view a list of upcoming events. 6. Ensure that the event calendar displays events in a user-friendly format, allowing users to filter by date or category.",
-        "testStrategy": "1. Verify that users can create events with valid data and that the events are stored correctly in the database. 2. Test the event retrieval functionality to ensure users can view event details accurately. 3. Check that users can RSVP to events and that their participation is recorded correctly. 4. Validate that the event calendar displays all upcoming events and allows for filtering by date or category.",
-        "status": "pending",
-        "dependencies": [
-          1
-        ],
-        "priority": "medium",
-        "subtasks": []
-      },
-      {
-        "id": 4,
-        "title": "Develop Notification System for BizGenciz Platform",
-        "description": "Implement a notification system that allows users to receive real-time notifications for new messages, event invitations, group updates, and other important events on the BizGenciz platform.",
-        "details": "1. Design the database schema for the notification system, including tables for notifications, users, and notification types. 2. Create RESTful API endpoints for creating, retrieving, and managing notifications. 3. Implement frontend components using React to display notifications in real-time, ensuring a user-friendly interface. 4. Integrate WebSockets or a similar technology to enable real-time updates for notifications. 5. Ensure that user authentication is integrated to secure notification access. 6. Add functionality for users to customize notification preferences, such as opting in/out of specific types of notifications.",
-        "testStrategy": "1. Verify that notifications are created correctly in the database when triggered by events such as new messages or event invitations. 2. Test the retrieval functionality to ensure users can view their notifications accurately. 3. Check that real-time notifications are delivered instantly to users when events occur. 4. Validate that users can customize their notification preferences and that these settings are respected in the notification delivery.",
-        "status": "pending",
-        "dependencies": [
-          2,
-          3
-        ],
-        "priority": "medium",
-        "subtasks": []
-      },
-      {
-        "id": 5,
-        "title": "Develop Search and Explore Feature for BizGenciz Platform",
-        "description": "Implement a search and explore feature that allows users to search for other users, groups, and events, apply filters, and receive recommendations on the BizGenciz platform.",
-        "details": "1. Design the database schema to support search functionality, including indexing for users, groups, and events. 2. Create RESTful API endpoints for searching users, groups, and events based on various criteria. 3. Implement filtering options in the API to allow users to refine their search results. 4. Develop a recommendation engine that suggests users, groups, and events based on user preferences and activity. 5. Create frontend components using React for the search interface, ensuring a user-friendly experience for inputting search queries and viewing results. 6. Integrate user authentication to ensure that search results are relevant to the logged-in user. 7. Optimize the search functionality for performance, ensuring quick response times even with large datasets.",
-        "testStrategy": "1. Verify that users can perform searches for other users, groups, and events, and that the results are accurate based on the search criteria. 2. Test the filtering functionality to ensure users can refine their search results effectively. 3. Check that the recommendation engine provides relevant suggestions based on user activity and preferences. 4. Ensure that the frontend displays search results correctly and that the user experience is intuitive. 5. Validate that the search functionality performs well under load with multiple simultaneous users.",
-        "status": "pending",
-        "dependencies": [
-          1,
-          3
-        ],
-        "priority": "medium",
-        "subtasks": []
+        "details": "1. Set up the development environment by ensuring all necessary dependencies and configurations are in place. 2. Clone the BizGenciz repository from the version control system. 3. Build the project using the appropriate build tools (e.g., npm, Maven, etc.). 4. Run the application locally to ensure it starts without errors. 5. Perform functional testing by navigating through the application and checking all features. 6. Document any errors or issues encountered during testing. 7. If errors are found, debug the code and apply necessary fixes. 8. Re-run the tests to confirm that the fixes resolve the issues and that no new issues have been introduced. 9. Test the application using the following access links: Home Page: http://localhost:3001, Groups Page: http://localhost:3001/gruplar, Health Check: http://localhost:3001/api/health, Admin Panel: http://localhost:3001/panel.",
+        "testStrategy": "1. Verify that the application starts successfully without any runtime errors. 2. Execute a series of test cases covering all major functionalities of the application. 3. Check the application logs for any warnings or errors during execution. 4. Ensure that all features work as intended and match the project specifications. 5. Document the results of the tests, including any issues found and their resolutions. 6. Confirm that the CSS optimization is active and all components are loading correctly.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up the development environment",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "Clone the BizGenciz repository",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "Build the project",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 4,
+            "title": "Run the application locally",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 5,
+            "title": "Perform functional testing",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 6,
+            "title": "Document any errors or issues",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 7,
+            "title": "Debug the code and apply necessary fixes",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 8,
+            "title": "Re-run the tests",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 9,
+            "title": "Verify application access links",
+            "description": "",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-08-01T21:32:49.421Z",
-      "updated": "2025-08-04T15:25:26.500Z",
+      "updated": "2025-08-04T15:28:25.259Z",
       "description": "Tasks for master context"
     }
   }
