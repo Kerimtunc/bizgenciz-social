@@ -1,0 +1,289 @@
+# 🚀 YemekZen Proje Kurulum Rehberi
+
+## 📋 Genel Bakış
+
+Bu rehber, YemekZen projesinin sıfırdan kurulumu için gerekli tüm adımları içerir. Redis Cloud entegrasyonu otomatik olarak yapılandırılır.
+
+## 🔧 Ön Gereksinimler
+
+### **Sistem Gereksinimleri**
+- **Node.js**: 18.x veya üzeri
+- **npm**: 9.x veya üzeri
+- **Git**: 2.x veya üzeri
+- **Redis CLI**: (Opsiyonel, debug için)
+
+### **Hesap Gereksinimleri**
+- **Supabase**: Veritabanı için
+- **Redis Cloud**: Cache ve session management için
+- **GitHub**: Kod repository'si için
+
+## 🚀 Hızlı Kurulum
+
+### **1. Repository Clone**
+```bash
+git clone https://github.com/Kerimtunc/yemekzen-qr-menu.git
+cd yemekzen-qr-menu
+```
+
+### **2. Bağımlılıkları Yükle**
+```bash
+npm install
+```
+
+**Not**: `npm install` komutu otomatik olarak Redis Cloud kurulumunu da çalıştırır (`postinstall` script).
+
+### **3. Environment Variables**
+`.env` dosyası otomatik olarak oluşturulur ve Redis Cloud bilgileri eklenir.
+
+### **4. Veritabanı Kurulumu**
+```bash
+# Prisma client oluştur
+npm run db:generate
+
+# Veritabanı migration'ları çalıştır
+npm run db:migrate
+
+# Seed data ekle (opsiyonel)
+npm run db:seed
+```
+
+### **5. Geliştirme Sunucusunu Başlat**
+```bash
+npm run dev
+```
+
+## 🔍 Manuel Kurulum Adımları
+
+### **Redis Cloud Kurulumu**
+Eğer otomatik kurulum çalışmazsa:
+
+```bash
+# Redis Cloud kurulumu
+npm run redis:setup
+
+# Redis bağlantı testi
+npm run redis:test
+```
+
+### **Environment Variables Manuel Kurulumu**
+`.env` dosyasını manuel oluşturmak için:
+
+```bash
+# env.example'ı kopyala
+cp env.example .env
+
+# Redis Cloud bilgilerini ekle
+echo "REDIS_HOST=redis-16231.c328.europe-west3-1.gce.redns.redis-cloud.com" >> .env
+echo "REDIS_PORT=16231" >> .env
+echo "REDIS_PASSWORD=epxjss5B0HuaHK1J3wEC8x5JiyCXeG61" >> .env
+echo "REDIS_URL=redis://default:epxjss5B0HuaHK1J3wEC8x5JiyCXeG61@redis-16231.c328.europe-west3-1.gce.redns.redis-cloud.com:16231" >> .env
+```
+
+## 🧪 Kurulum Testleri
+
+### **1. Redis Bağlantı Testi**
+```bash
+npm run redis:test
+```
+
+**Beklenen Çıktı:**
+```
+🔄 Redis Cloud bağlantısı test ediliyor...
+✅ PING başarılı - Redis Cloud bağlantısı çalışıyor
+✅ Test verisi yazıldı
+✅ Test verisi okundu: Redis Cloud bağlantısı başarılı!
+```
+
+### **2. Health Check Testi**
+```bash
+curl http://localhost:3000/api/health
+```
+
+**Beklenen Çıktı:**
+```json
+{
+  "status": "healthy",
+  "database": "connected",
+  "redis": "connected",
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### **3. Uygulama Testi**
+```bash
+# Tarayıcıda aç
+open http://localhost:3000
+```
+
+## 📊 Kurulum Sonrası Kontroller
+
+### **Redis Cloud Dashboard**
+- **URL**: https://app.redislabs.com/
+- **Database**: database-MDX6NC2X
+- **Status**: Active
+
+### **Oluşturulan Cache Yapıları**
+- ✅ `system:health` - Sistem sağlık durumu
+- ✅ `system:version` - Sistem versiyonu
+- ✅ `cache:stats` - Cache istatistikleri
+- ✅ `rate:limits` - Rate limiting buckets
+- ✅ `sessions:active` - Aktif session'lar
+
+### **Rate Limiting Buckets**
+- ✅ `rate:api:global` - Genel API rate limiting
+- ✅ `rate:auth:login` - Login rate limiting
+- ✅ `rate:auth:register` - Register rate limiting
+- ✅ `rate:email:send` - Email rate limiting
+- ✅ `rate:menu:view` - Menu view rate limiting
+- ✅ `rate:order:create` - Order creation rate limiting
+
+## 🛠️ Geliştirme Komutları
+
+### **Temel Komutlar**
+```bash
+# Geliştirme sunucusu
+npm run dev
+
+# Production build
+npm run build
+
+# Production sunucusu
+npm run start
+
+# Linting
+npm run lint
+
+# Type checking
+npm run type-check
+```
+
+### **Test Komutları**
+```bash
+# Unit testler
+npm run test
+
+# E2E testler
+npm run test:e2e
+
+# Test coverage
+npm run test:coverage
+```
+
+### **Database Komutları**
+```bash
+# Prisma Studio
+npm run db:studio
+
+# Database push
+npm run db:push
+
+# Migration
+npm run db:migrate
+```
+
+### **Redis Komutları**
+```bash
+# Redis test
+npm run redis:test
+
+# Redis setup
+npm run redis:setup
+```
+
+## 🔒 Güvenlik Kontrolleri
+
+### **Environment Variables**
+- ✅ `.env` dosyası `.gitignore`'da
+- ✅ Hassas bilgiler environment variables'da
+- ✅ Production'da farklı değerler kullanılmalı
+
+### **Redis Cloud Güvenlik**
+- ✅ SSL/TLS bağlantısı aktif
+- ✅ Password authentication
+- ✅ Network access control
+- ✅ API key'ler güvenli
+
+## 🚨 Sorun Giderme
+
+### **Redis Bağlantı Hatası**
+```bash
+# Hata: ECONNREFUSED
+# Çözüm: Redis Cloud endpoint'ini kontrol edin
+npm run redis:test
+```
+
+### **Environment Variables Hatası**
+```bash
+# Hata: REDIS_HOST is not defined
+# Çözüm: .env dosyasını kontrol edin
+cat .env | grep REDIS
+```
+
+### **Database Bağlantı Hatası**
+```bash
+# Hata: Database connection failed
+# Çözüm: Supabase bağlantısını kontrol edin
+npm run db:studio
+```
+
+### **Port Çakışması**
+```bash
+# Hata: Port 3000 is already in use
+# Çözüm: Farklı port kullanın
+PORT=3001 npm run dev
+```
+
+## 📈 Performance Monitoring
+
+### **Redis Cloud Metrics**
+- **Memory Usage**: %70 altında tutun
+- **Connection Count**: Aktif bağlantıları takip edin
+- **Commands/sec**: Performans metrikleri
+- **Hit Rate**: %80+ hedefleyin
+
+### **Application Metrics**
+- **Response Time**: <200ms hedefleyin
+- **Error Rate**: %1 altında tutun
+- **Uptime**: %99.9+ hedefleyin
+
+## 🔄 Güncelleme ve Bakım
+
+### **Düzenli Bakım**
+```bash
+# Bağımlılıkları güncelle
+npm update
+
+# Security audit
+npm audit
+
+# Cache temizleme
+npm run clean
+```
+
+### **Redis Cloud Bakım**
+- **Backup**: Otomatik backup aktif
+- **Monitoring**: Redis Cloud dashboard'da takip edin
+- **Scaling**: Gerektiğinde plan yükseltin
+
+## 📞 Destek
+
+### **Dokümantasyon**
+- **Redis Setup**: `docs/redis-setup.md`
+- **API Docs**: `docs/api/`
+- **Architecture**: `docs/core/`
+
+### **İletişim**
+- **GitHub Issues**: https://github.com/Kerimtunc/yemekzen-qr-menu/issues
+- **Email**: blackalternaworld@gmail.com
+
+---
+
+## ✅ Kurulum Tamamlandı!
+
+Proje başarıyla kuruldu ve Redis Cloud entegrasyonu aktif. Artık geliştirmeye başlayabilirsiniz!
+
+**Sonraki Adımlar:**
+1. Supabase projesini yapılandırın
+2. İlk API endpoint'ini oluşturun
+3. Frontend bileşenlerini geliştirin
+4. Test coverage'ını artırın 

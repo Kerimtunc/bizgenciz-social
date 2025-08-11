@@ -1,0 +1,191 @@
+# 📚 YemekZen Dokümantasyon Rehberi
+
+Bu dosya, YemekZen QR Menu Elite Edition projesinin dokümantasyon yapısını ve nasıl kullanılacağını açıklar.
+
+## 🗂️ Kategorize Edilmiş Klasör Yapısı
+
+### 📖 **core/** - Ana Dokümantasyon
+**Konum**: `docs/core/`
+**Amaç**: Projenin temel dokümantasyonu ve mimari kararları
+
+#### 📋 **Dosyalar:**
+- **`00-rehber.mdc`** - Bu dosya - Dokümantasyon rehberi ve arama kılavuzu
+- **`01-birinci.md`** - Ana mimari kararları ve proje kurulum rehberi
+
+### 🧠 **cekirdek/** - Çekirdek Proje Bilgileri
+**Konum**: `docs/cekirdek/`
+**Amaç**: Projenin temel çekirdek bilgileri ve ana dokümantasyonu
+
+#### 📁 **İçerik**: 13 çekirdek dosya
+- **Proje Temelleri**: anayasa.md, anayapi.md, bilgiler.md
+- **Planlama**: plan.md, ozellikler.md, eklenebilecekler.md
+- **Kontrol**: kontroller.md, insankontrol.md, insaedilecekler.md
+- **Teknik**: three-js.md, db_kutuphane.md, boru-hatlari.md
+- **Referans**: enler.md
+
+### 📋 **reference/** - Referans Materyalleri
+**Konum**: `docs/reference/`
+**Amaç**: Teknik referans dokümantasyonu ve API bilgileri
+
+#### 📁 **İçerik**: 80+ referans dosyası
+- API dokümantasyonu
+- UI bileşenleri referansı
+- Veritabanı şemaları
+- Sistem modülleri
+- Konfigürasyon dosyaları
+- Veri şemaları ve tipleri
+
+### 📚 **guides/** - Kullanım Kılavuzları
+**Konum**: `docs/guides/`
+**Amaç**: Geliştirici ve kullanıcı kılavuzları
+
+#### 📁 **İçerik**: Özellik referans dosyaları
+- **`00-feature-reference.md`** - Hangi özellik için hangi dosyadan faydalanılacağı
+
+### 🔧 **mdc_project/** - Teknoloji Referansları
+**Konum**: `docs/mdc_project/`
+**Amaç**: Tüm teknoloji ve kütüphane dokümantasyonları
+
+#### 📁 **İçerik**: 25+ .mdc dosyası
+- Framework'ler (Next.js, React, TypeScript)
+- Kütüphaneler (Prisma, Supabase, Zustand)
+- Araçlar (Docker, Jest, Playwright)
+- Standartlar (ESLint, Tailwind, Shadcn)
+
+### 🧩 **project_modules/** - Modül Dokümantasyonu
+**Konum**: `docs/project_modules/`
+**Amaç**: Sistem modülleri ve sayfa dokümantasyonları
+
+#### 📁 **İçerik**: 25+ modül dosyası
+- Sistem modülleri (health-check, menu-templates)
+- Sayfa dokümantasyonları (home-page, login-page)
+- Sidebar bileşenleri (desktop-sidebar, right-sidebar)
+- UI bileşenleri (ui-components, user-settings)
+
+### 🚀 **project/** - Genel Proje Yönetimi
+**Konum**: `docs/project/`
+**Amaç**: Proje yönetimi, planlama ve genel dokümantasyon
+
+#### 📁 **İçerik**: 19 proje dosyası
+- Proje planları (projelendirme.md)
+- Özellik dokümantasyonu (ozellikler-karsilastirma.md)
+- Teknik dokümantasyon (supabase.md)
+- Genel bilgiler (uyumluluk.md, uyumluluksonuc.md)
+- Kütüphane dosyaları (backend_kutuphane.md, frontend_kutuphane.md)
+- CI/CD ve deployment (github-ci-cd-setup.md, cross-platform-testing.md)
+
+## 🔍 Konu Bazlı Arama Rehberi
+
+### 🧠 **Çekirdek Proje Bilgileri**
+- **Proje Temelleri**: `cekirdek/anayasa.md`, `cekirdek/anayapi.md`, `cekirdek/bilgiler.md`
+- **Planlama**: `cekirdek/plan.md`, `cekirdek/ozellikler.md`, `cekirdek/eklenebilecekler.md`
+- **Kontrol**: `cekirdek/kontroller.md`, `cekirdek/insankontrol.md`, `cekirdek/insaedilecekler.md`
+- **Teknik**: `cekirdek/three-js.md`, `cekirdek/db_kutuphane.md`, `cekirdek/boru-hatlari.md`
+- **Referans**: `cekirdek/enler.md`
+
+### 🏗️ **Mimari ve Sistem Tasarımı**
+- **Ana Mimari**: `core/01-birinci.md`
+- **Sistem Tasarımı**: `core/01-birinci.md`
+- **Mimari Kararlar**: `core/01-birinci.md`
+
+### 🔧 **Geliştirme ve Teknik**
+- **API Dokümantasyonu**: `reference/` klasöründe API ile ilgili dosyalar
+- **Veritabanı Şemaları**: `reference/` klasöründe database ile ilgili dosyalar
+- **UI Bileşenleri**: `reference/` klasöründe component ile ilgili dosyalar
+- **Sistem Modülleri**: `reference/` klasöründe module ile ilgili dosyalar
+- **Teknoloji Referansları**: `mdc_project/` klasöründe .mdc dosyaları
+- **Modül Dokümantasyonu**: `project_modules/` klasöründe modül dosyaları
+
+### 📚 **Öğrenme ve Eğitim**
+- **Öğreticiler**: `guides/` klasöründe tutorial ile ilgili dosyalar
+- **Kod Örnekleri**: `reference/` klasöründe example ile ilgili dosyalar
+- **Kullanıcı Kılavuzları**: `guides/` klasöründe user ile ilgili dosyalar
+- **Özellik Referansı**: `guides/00-feature-reference.md`
+
+### 🚀 **Proje Yönetimi**
+- **Proje Planları**: `project/` klasöründe plan ile ilgili dosyalar
+- **Özellik Dokümantasyonu**: `project/` klasöründe ozellik ile ilgili dosyalar
+- **Teknik Dokümantasyon**: `project/` klasöründe teknik dosyalar
+- **Genel Bilgiler**: `project/` klasöründe genel dosyalar
+
+### 🎨 **Tasarım ve UX**
+- **Tasarım Sistemi**: `mdc_project/` klasöründe design ile ilgili .mdc dosyaları
+- **Erişilebilirlik**: `mdc_project/` klasöründe accessibility ile ilgili .mdc dosyaları
+- **UI Bileşenleri**: `project_modules/` klasöründe ui-components dosyaları
+
+### 📋 **Proje Bilgileri**
+- **Proje Planları**: `project/` klasöründe plan ile ilgili dosyalar
+- **Özellik Karşılaştırmaları**: `project/` klasöründe ozellikler-karsilastirma dosyaları
+- **Teknik Dokümantasyon**: `project/` klasöründe teknik dosyalar
+- **Kontrol Dosyaları**: `project/` klasöründe kontrol dosyaları
+
+## 🎯 Hızlı Başlangıç Senaryoları
+
+### 👨‍💻 **Yeni Geliştirici**
+1. `core/00-rehber.mdc` (Bu dosya) - Dokümantasyon yapısını öğren
+2. `cekirdek/anayasa.md` - Proje temellerini anla
+3. `cekirdek/plan.md` - Proje planını incele
+4. `core/01-birinci.md` - Proje mimarisini anla
+5. `guides/00-feature-reference.md` - Özellik referansını incele
+6. `mdc_project/` klasörü - Teknoloji referanslarını keşfet
+7. `project_modules/` klasörü - Modül dokümantasyonunu incele
+
+### 🔧 **API Entegrasyonu**
+1. `cekirdek/anayapi.md` - API temellerini öğren
+2. `reference/` klasöründe API ile ilgili dosyaları incele
+3. `mdc_project/` klasöründe axios.mdc, trpc.mdc dosyalarını öğren
+4. `reference/` klasöründe schema ile ilgili dosyaları öğren
+5. `project_modules/` klasöründe modül dosyalarını incele
+
+### 🎨 **UI/UX Geliştirme**
+1. `cekirdek/bilgiler.md` - UI/UX temellerini öğren
+2. `reference/` klasöründe component ile ilgili dosyaları incele
+3. `mdc_project/` klasöründe react.mdc, tailwind.mdc, shadcn.mdc dosyalarını öğren
+4. `project_modules/` klasöründe ui-components dosyalarını incele
+5. `mdc_project/` klasöründe typescript.mdc, tsx.mdc dosyalarını öğren
+
+### 🚀 **Deployment ve DevOps**
+1. `cekirdek/boru-hatlari.md` - Pipeline temellerini öğren
+2. `mdc_project/` klasöründe docker.mdc, next-js.mdc dosyalarını oku
+3. `project/` klasöründe deployment ile ilgili dosyaları öğren
+4. `mdc_project/` klasöründe jest.mdc, playwright.mdc dosyalarını öğren
+5. `project/` klasöründe test ile ilgili dosyaları öğren
+
+### 📊 **Proje Yönetimi**
+1. `cekirdek/plan.md` - Ana proje planını incele
+2. `cekirdek/ozellikler.md` - Özellik listesini oku
+3. `cekirdek/kontroller.md` - Kontrol listesini incele
+4. `project/` klasöründe projelendirme.md dosyasını oku
+5. `project/` klasöründe ozellikler-karsilastirma.md dosyasını incele
+
+## 📝 Dokümantasyon Kuralları
+
+### ✍️ **Yazım Kuralları**
+- Tüm dosyalar Markdown formatında yazılmalıdır
+- Başlıklar hiyerarşik olarak düzenlenmelidir (H1, H2, H3...)
+- Kod örnekleri TypeScript/JavaScript ile verilmelidir
+- Her dosya açık ve anlaşılır olmalıdır
+
+### 🔄 **Güncelleme Kuralları**
+- Güncellemeler düzenli olarak yapılmalıdır
+- Değişiklikler `project/` klasöründe changelog ile ilgili dosyalarda kayıt altına alınmalıdır
+- Eski dokümantasyon `project/` klasöründe legacy ile ilgili dosyalara taşınmalıdır
+
+### 🏷️ **Dosya Adlandırma**
+- Dosya adları küçük harflerle ve tire (-) ile ayrılmalıdır
+- Numaralı dosyalar 00-, 01-, 02- şeklinde başlamalıdır
+- Teknoloji dosyaları .mdc uzantısı ile bitmelidir
+- Modül dosyaları -module, -system, -page, -sidebar, -components, -settings ile bitmelidir
+
+## 🤝 Katkıda Bulunma
+
+Dokümantasyona katkıda bulunmak için:
+1. `project/` klasöründe contributing ile ilgili dosyaları okuyun
+2. `mdc_project/` klasöründe template ile ilgili .mdc dosyalarını kullanın
+3. Değişikliklerinizi `project/` klasöründe changelog ile ilgili dosyalarda kayıt altına alın
+
+---
+
+**Son Güncelleme**: 4 Ağustos 2025
+**Versiyon**: 5.0 (Çekirdek Klasörü Eklendi)
+**Değişiklik**: cekirdek/ klasörü eklendi, projenin temel bilgileri buraya taşındı

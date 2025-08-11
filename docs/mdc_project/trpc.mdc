@@ -1,0 +1,58 @@
+---
+description: This governs the creation of tRPC procedures and routers. tRPC is the chosen technology for creating a fully type-safe API layer between our Next.js backend and frontend, eliminating the need for separate API documentation or schema definitions.
+globs: *.ts,*.tsx
+---
+
+# Rule Set: tRPC - The End-to-End Type-Safe API
+
+## 0. Primary Communication Layer Rule - Constitutional Authority
+**Primary Communication Rule:** tRPC is the primary and ONLY internal API communication layer for this project. It handles all Frontend-Backend communication with full type safety and automatic inference. For external service communication, refer to `axios.mdc`.
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (The Law of Inference):** The primary benefit of tRPC is type inference. You MUST NOT manually define frontend types for API responses. The types must be inferred directly from the backend router definition using `AppRouter` from `trpc/react-query`.
+- **Directive 2 (Input is a Contract):** Every tRPC procedure that accepts input MUST define that input's shape using a `Zod` schema. Using `.input(z.any())` or not defining an input schema for procedures that require one is forbidden.
+- **Directive 3 (Procedures over REST):** For all internal backend-frontend communication, tRPC procedures are the mandatory standard. Creating traditional REST API Routes in Next.js is only permitted for external services that require a RESTful endpoint (e.g., webhooks).
+
+## 2. Unbreakable Architectural Constitution
+- **Rule 2.1 (Router Composition):** The root `appRouter` MUST be composed of smaller, feature-specific routers (e.g., `userRouter`, `orderRouter`). All business logic must be encapsulated within these feature routers, not in the root router.
+- **Rule 2.2 (Context is the Gateway):** All contextual information required by procedures (like the database client (`prisma`), and the authenticated user session) MUST be provided through the tRPC `createContext` function. Procedures MUST NOT instantiate their own dependencies.
+- **Rule 2.3 (Procedures are Thin):** tRPC procedures (the functions inside `.query()` or `.mutation()`) are equivalent to Controllers in our layered architecture. They MUST NOT contain complex business logic. Their only job is to validate input, call a single corresponding `Service` function, and return the result.
+
+## 3. Integrated Security Fabric
+- **Rule 3.1 (Protected by Default):** New tRPC routers should be built upon a `protectedProcedure` that requires authentication by default. A `publicProcedure` should only be used with explicit justification.
+- **Rule 3.2 (Middleware for Authorization):** All authorization logic (e.g., "is this user an ADMIN?", "does this user own this resource?") MUST be implemented as reusable tRPC middleware. This keeps authorization logic clean, testable, and separate from business logic.
+- **Rule 3.3 (Never Expose Raw Errors):** Errors thrown within tRPC procedures must be instances of `TRPCError`. This ensures that sensitive internal error details (like database connection strings or stack traces) are not leaked to the client.
+
+## 4. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Code Smell Detection:**
+    - **Fat Procedures:** "Is this procedure's implementation longer than a few lines? Is it doing more than just calling a service? This is a 'fat procedure'. Refactor the business logic into a dedicated service function."
+    - **Query vs. Mutation Misuse:** "Am I using a `.mutation()` for an operation that only reads data? This should be a `.query()`. Am I using a `.query()` for an operation that changes data? This is a critical error and must be a `.mutation()`."
+- **Performance Analysis:**
+    - **Batching Opportunities:** "Are there multiple, independent `.useQuery()` hooks on a single page that could be combined? I must investigate using `trpc.useQueries()` or restructuring the API to provide a single procedure that returns all necessary data for a view, reducing network round-trips."
+- **Automated Refactoring Suggestion:** If a procedure is found with complex authorization logic inside it, propose extracting that logic into a new tRPC middleware and applying it to the procedure.
+    ```typescript
+    // INSTEAD OF:
+    export const postRouter = router({
+      create: protectedProcedure.input(z.object({ text: z.string() })).mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== 'ADMIN') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        // ...creation logic...
+      }),
+    });
+
+    // SUGGEST:
+    const isAdmin = middleware(async ({ ctx, next }) => {
+      if (ctx.user.role !== 'ADMIN') {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+      return next();
+    });
+    const adminProcedure = protectedProcedure.use(isAdmin);
+
+    export const postRouter = router({
+      create: adminProcedure.input(z.object({ text: z.string() })).mutation(async ({ ctx, input }) => {
+        // ...creation logic...
+      }),
+    });
+    ```

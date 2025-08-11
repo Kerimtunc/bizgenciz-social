@@ -1,0 +1,32 @@
+# ============================================
+# GELİŞTİRME ORTAMI - Dockerfile.dev
+# ============================================
+# Not: Geliştirme araçları ve debug özellikleri içerir
+FROM node:18.15.1-alpine@sha256:8c6b7b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b AS development
+
+WORKDIR /app
+
+# Geliştirme araçları kurulumu
+RUN apk add --no-cache \
+    git \
+    curl \
+    vim \
+    htop \
+    && npm install -g nodemon
+
+# Bağımlılıkları kopyala ve kur
+COPY package.json package-lock.json ./
+RUN npm ci --frozen-lockfile
+
+# Kaynak kodunu kopyala
+COPY . .
+
+# Geliştirme ortamı değişkenleri
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Port aç
+EXPOSE ${PORT:-3000}
+
+# Geliştirme komutu - nodemon ile hot reload
+CMD ["npm", "run", "dev"] 

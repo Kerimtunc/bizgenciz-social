@@ -1,0 +1,75 @@
+import { GET } from '../../app/api/health/route'
+
+// Mock NextResponse
+jest.mock('next/server', () => ({
+  NextResponse: {
+    json: jest.fn((data, options) => ({
+      status: options?.status || 200,
+      json: async () => data,
+      headers: new Map(),
+    })),
+  },
+}))
+
+describe('Health API', () => {
+  beforeEach(() => {
+    // Reset fetch mock before each test
+    jest.clearAllMocks()
+  })
+
+  it('returns 200 status with health information', async () => {
+  // Create a minimal NextRequest-like mock
+    // Create a minimal NextRequest-like mock using NextRequest from 'next/server'
+    // For tests we only need a compatible shape
+    // @ts-ignore
+    const nextReq: any = { url: 'http://localhost:3000/api/health', headers: new Map(), cookies: { getAll: () => [] } };
+    const response = await GET(nextReq)
+    
+    expect(response.status).toBe(200)
+    
+    const data = await response.json()
+    expect(data).toHaveProperty('status')
+    expect(data).toHaveProperty('timestamp')
+    expect(data).toHaveProperty('version')
+    expect(data.status).toBe('healthy')
+  })
+
+  it('includes required health check fields', async () => {
+    // Create a minimal NextRequest-like mock for other test cases
+    // @ts-ignore
+    const nextReq2: any = { url: 'http://localhost:3000/api/health', headers: new Map(), cookies: { getAll: () => [] } };
+
+    const response = await GET(nextReq2)
+    const data = await response.json()
+    
+    expect(data).toHaveProperty('database')
+    expect(data).toHaveProperty('uptime')
+    expect(data).toHaveProperty('environment')
+  })
+
+  it('returns correct response format', async () => {
+    // @ts-ignore
+    const nextReq3: any = { url: 'http://localhost:3000/api/health', headers: new Map(), cookies: { getAll: () => [] } };
+
+    const response = await GET(nextReq3)
+    const data = await response.json()
+    
+    // Check all required fields
+    expect(data).toHaveProperty('status')
+    expect(data).toHaveProperty('timestamp')
+    expect(data).toHaveProperty('version')
+    expect(data).toHaveProperty('environment')
+    expect(data).toHaveProperty('database')
+    expect(data).toHaveProperty('uptime')
+    expect(data).toHaveProperty('memory')
+    
+    // Check data types
+    expect(typeof data.status).toBe('string')
+    expect(typeof data.timestamp).toBe('string')
+    expect(typeof data.version).toBe('string')
+    expect(typeof data.environment).toBe('string')
+    expect(typeof data.database).toBe('string')
+    expect(typeof data.uptime).toBe('number')
+    expect(typeof data.memory).toBe('object')
+  })
+}) 

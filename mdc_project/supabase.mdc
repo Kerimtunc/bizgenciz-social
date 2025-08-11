@@ -1,0 +1,68 @@
+---
+description: This governs the use of Supabase as a Platform as a Service (PaaS), providing PostgreSQL hosting, Authentication, Storage, and Edge Functions. The database is hosted by Supabase, but Prisma is the ORM for database operations.
+globs: *.js,*.jsx,*.ts,*.tsx,*.sql
+---
+
+# Rule Set: Supabase - The PaaS Platform Constitution
+
+## 0. Database Access Hierarchy Rule - Constitutional Authority
+**Platform Architecture:** This project's database is a PostgreSQL database hosted by Supabase. However, the ORM tool used to communicate with this database is Prisma. Supabase's other services (Auth, Storage, Edge Functions) are accessed through their respective clients.
+
+**Database Operations:** For all database operations, refer to `prisma.mdc`. This file governs Supabase Auth, Storage, and Edge Functions only.
+
+**Reference Note:** Database operations → `prisma.mdc`, Authentication → This file's Supabase Auth rules.
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (The Law of Platform Services):** Supabase provides multiple services: **Authentication** (via Supabase Auth), **Storage** (via Supabase Storage), **Edge Functions** (via Supabase Edge Functions), and **Database Hosting** (PostgreSQL). Database operations are handled by Prisma ORM, not Supabase Client Library.
+- **Directive 2 (RLS is Not Optional):** Supabase's primary security model is PostgreSQL Row-Level Security. **EVERY TABLE** containing user or tenant data MUST have RLS enabled. Unprotected tables are a critical vulnerability.
+- **Directive 3 (The Edge is for Logic, Not Secrets):** Supabase Edge Functions must be stateless and MUST NOT store secrets. All secrets must be managed through Supabase's Vault.
+
+## 2. Unbreakable Architectural Constitution
+- **Rule 2.1 (The Source of Truth is Migration Files):** All database schema changes (tables, RLS policies, functions) MUST be managed via SQL files in the `/supabase/migrations` directory and applied with the Supabase CLI. Making changes directly through the Supabase Studio dashboard in production is forbidden.
+- **Rule 2.2 (Service Abstraction is Mandatory):** Do not call Supabase Auth or Storage services directly in UI components. All Supabase service interactions MUST be encapsulated in a dedicated service layer (`/lib/supabase/auth.ts`, `/lib/supabase/storage.ts`). This allows for consistent error handling, data mapping (DTOs), and easier testing.
+- **Rule 2.3 (Authentication via Helpers):** Use the official `@supabase/auth-helpers-nextjs` library to manage user sessions and authentication state. This ensures secure cookie management and seamless integration with Next.js rendering strategies (SSR/SSG).
+
+## 3. Integrated Security Fabric
+- **Rule 3.1 (RLS Policy First):** Before writing any client-side code to access a table, you MUST first write and apply the SQL migration that defines the RLS policy for that table.
+- **Rule 3.2 (Server-Side for Critical Operations):** All critical operations (e.g., authentication, file uploads, payment processing) SHOULD be handled through our own Next.js API Routes or Supabase Edge Functions. This provides an extra layer of validation and allows for integration with other services. Database mutations are handled by Prisma ORM.
+- **Rule 3.3 (Fine-Grained Permissions with Postgres Roles):** For complex authorization scenarios (e.g., `MANAGER` vs `STAFF`), do not rely solely on RLS. Create custom PostgreSQL roles and use `SET ROLE` within `security definer` functions to execute operations with specific, limited permissions.
+
+## 4. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Performance Analysis:**
+    - **Auth Optimization:** "Does this authentication flow make multiple API calls? Can I optimize it to reduce round trips?"
+    - **Storage Optimization:** "Am I uploading large files without compression? Consider implementing client-side compression before upload."
+    - **Edge Function Optimization:** "Is this Edge Function doing heavy computation? Consider moving complex logic to the main application."
+- **Security Audit:**
+    - **RLS Policy Check:** "Does this new RLS policy have both a `USING` clause for `SELECT` and a `WITH CHECK` clause for `INSERT`/`UPDATE`? Forgetting the `WITH CHECK` clause is a common vulnerability that allows users to insert data they cannot later see."
+    - **Exposed Keys:** "Is the `SUPABASE_SERVICE_ROLE_KEY` present anywhere outside of a server-only environment file? This is a critical security breach and must be rectified immediately."
+- **Code Smell Detection:**
+    - **Direct Service Calls:** "Am I calling Supabase Auth or Storage services directly in components? This should be abstracted through a service layer."
+- **Automated Refactoring Suggestion:** If a client-side component is found making direct Supabase service calls, propose refactoring this logic into a dedicated service layer for better abstraction and testing.
+
+## 5. Direct Database Access & Testing Protocol
+- **Rule 5.1 (Direct Connection Permitted):** Direct connection to the underlying PostgreSQL database is permitted **exclusively for development, testing, and administrative tasks.** The connection string can be found in the Supabase Dashboard under `Project Settings -> Database`.
+
+- **Rule 5.2 (CRITICAL SECURITY WARNING - RLS Bypass & Test Data Protocol):**
+    - Be aware that a direct database connection using admin credentials **BYPASSES ALL ROW-LEVEL SECURITY (RLS) POLICIES**.
+    - Therefore, any data manipulation (INSERT, UPDATE, DELETE) performed via a direct connection (like `mcp-alchemy`) **MUST** target rows where `is_test_data = TRUE`.
+    - Modifying or deleting rows where `is_test_data = FALSE` via a direct connection is **STRICTLY FORBIDDEN** except in documented, emergency data-fix scenarios.
+    - This protocol allows you to freely set up test scenarios without risking the integrity of real user data.
+
+- **Rule 5.3 (`mcp-alchemy` Usage Protocol for Testing):** When using `mcp-alchemy` to prepare a test scenario:
+    1.  **Create Test Entities:** First, create your test users and tenants, ensuring you set `is_test_data = TRUE`.
+        ```sql
+        -- Example: Create a test tenant and a user for it
+        INSERT INTO tenants (id, tenant_type, is_test_data) VALUES ('...', 'BUSINESS', TRUE);
+        INSERT INTO users (email, password_hash, tenant_id, is_test_data) VALUES ('test@example.com', '...', '...', TRUE);
+        ```
+    2.  **Manipulate Test Data:** Then, perform any necessary data setup for your test case, always including the `is_test_data = TRUE` flag.
+        ```sql
+        -- Example: Create a test order for the test user
+        INSERT INTO orders (user_id, tenant_id, status, is_test_data) VALUES ('...', '...', 'PENDING', TRUE);
+        ```
+    3.  **State Your Intent:** Announce your actions for clarity. Example: "I will now use `mcp-alchemy` with a privileged connection to create a test order (`is_test_data = TRUE`) for the test user 'test@example.com'. I will then verify if this user can see this order through the RLS-protected API."
+
+- **Rule 5.4 (The Final Verification Step - The Core of Testing):**
+    - After setting up your test data with `mcp-alchemy` (which bypasses RLS), the crucial final step is to test the **user-facing API** (or the Supabase Client function) using that test user's credentials.
+    - This verifies that your RLS policies are written correctly, because the API call (using the Supabase Client Library) **WILL** enforce RLS.
+    - **This is the mandatory workflow for testing an RLS-protected feature:** You use the "god mode" direct connection to set up the scene, and then you use the "user mode" API call to prove that the user can (or cannot) see what you've set up for them, according to your security policies.

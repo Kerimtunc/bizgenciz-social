@@ -1,0 +1,243 @@
+# Rule Set: ESLint - The Code Quality Guardian
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (The Law of Standardization):** You MUST use community-accepted standards as the foundation: `eslint:recommended`, `plugin:react/recommended`, `plugin:@typescript-eslint/recommended`. Do not create custom rules without explicit justification.
+- **Directive 2 (The Law of Separation):** ESLint is for code quality and error detection. Prettier is for code formatting. You MUST use `eslint-config-prettier` to disable all ESLint formatting rules and let Prettier handle formatting exclusively.
+- **Directive 3 (The Law of Automation):** Every git commit MUST trigger automatic linting and formatting of changed files through `lint-staged` and `husky`. Manual linting is not acceptable.
+
+## 2. Unbreakable Configuration Constitution
+- **Rule 2.1 (Base Configuration):** The `.eslintrc.js` file MUST extend these configurations in order:
+    ```javascript
+    module.exports = {
+      extends: [
+        'eslint:recommended',
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'prettier' // Must be last to disable conflicting rules
+      ],
+      plugins: [
+        'react',
+        'react-hooks',
+        '@typescript-eslint',
+        'security',
+        'import'
+      ]
+    };
+    ```
+- **Rule 2.2 (TypeScript Integration):** For TypeScript projects, you MUST include:
+    ```javascript
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+      ecmaVersion: 2020,
+      sourceType: 'module',
+      ecmaFeatures: { jsx: true },
+      project: './tsconfig.json'
+    }
+    ```
+- **Rule 2.3 (React Configuration):** For React projects, you MUST include:
+    ```javascript
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    }
+    ```
+
+## 3. Proactive Quality & Security Protocol (BugBot Mode)
+- **Rule 3.1 (React Hook Rules):** You MUST include `eslint-plugin-react-hooks` with these critical rules:
+    ```javascript
+    rules: {
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react/jsx-key': 'error',
+      'react/jsx-no-duplicate-props': 'error',
+      'react/jsx-no-undef': 'error',
+      'react/no-array-index-key': 'warn',
+      'react/no-danger': 'error', // Prevents dangerouslySetInnerHTML
+      'react/no-deprecated': 'error',
+      'react/no-direct-mutation-state': 'error',
+      'react/no-unescaped-entities': 'error',
+      'react/no-unknown-property': 'error',
+      'react/no-unsafe': ['error', { checkAliases: true }],
+      'react/self-closing-comp': 'error'
+    }
+    ```
+- **Rule 3.2 (Security Rules):** You MUST include security-focused rules:
+    ```javascript
+    rules: {
+      'security/detect-object-injection': 'warn',
+      'security/detect-non-literal-regexp': 'warn',
+      'security/detect-unsafe-regex': 'error',
+      'security/detect-buffer-noassert': 'error',
+      'security/detect-child-process': 'warn',
+      'security/detect-disable-mustache-escape': 'error',
+      'security/detect-eval-with-expression': 'error',
+      'security/detect-no-csrf-before-method-override': 'error',
+      'security/detect-non-literal-fs-filename': 'warn',
+      'security/detect-non-literal-require': 'warn',
+      'security/detect-possible-timing-attacks': 'warn',
+      'security/detect-pseudoRandomBytes': 'error'
+    }
+    ```
+- **Rule 3.3 (Import Rules):** You MUST include import organization and validation:
+    ```javascript
+    rules: {
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index'
+          ],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true
+          }
+        }
+      ],
+      'import/no-unresolved': 'error',
+      'import/no-duplicates': 'error',
+      'import/no-unused-modules': 'warn'
+    }
+    ```
+
+## 4. Performance & Best Practices Protocol
+- **Rule 4.1 (Performance Rules):** You MUST include performance-focused rules:
+    ```javascript
+    rules: {
+      'react/jsx-no-bind': [
+        'warn',
+        {
+          allowArrowFunctions: true,
+          allowBind: false,
+          ignoreRefs: true
+        }
+      ],
+      'react/jsx-no-leaked-render': 'error',
+      'react/jsx-no-useless-fragment': 'error',
+      'react/jsx-pascal-case': 'error',
+      'react/jsx-sort-props': [
+        'warn',
+        {
+          callbacksLast: true,
+          shorthandFirst: true,
+          ignoreCase: true,
+          reservedFirst: true
+        }
+      ],
+      'react/no-typos': 'error',
+      'react/prefer-stateless-function': 'warn',
+      'react/require-default-props': 'warn',
+      'react/sort-comp': 'error',
+      'react/sort-prop-types': 'error'
+    }
+    ```
+- **Rule 4.2 (TypeScript Performance Rules):** You MUST include TypeScript-specific performance rules:
+    ```javascript
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/prefer-const': 'error',
+      '@typescript-eslint/no-var-requires': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error'
+    }
+    ```
+
+## 5. Automation & Integration Protocol
+- **Rule 5.1 (Pre-commit Hook):** You MUST configure `husky` and `lint-staged`:
+    ```json
+    // package.json
+    {
+      "husky": {
+        "hooks": {
+          "pre-commit": "lint-staged"
+        }
+      },
+      "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+          "eslint --fix",
+          "prettier --write",
+          "git add"
+        ]
+      }
+    }
+    ```
+- **Rule 5.2 (CI Integration):** You MUST include ESLint in CI pipeline:
+    ```yaml
+    # .github/workflows/ci.yml
+    - name: Lint
+      run: |
+        npm run lint
+        npm run lint:fix
+    ```
+- **Rule 5.3 (IDE Integration):** You MUST configure VS Code settings:
+    ```json
+    // .vscode/settings.json
+    {
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+      ]
+    }
+    ```
+
+## 6. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Code Smell Detection:**
+    - **Unused Imports:** "Am I importing modules that are not being used? This bloats the bundle. Remove unused imports."
+    - **Console Statements:** "Am I leaving `console.log`, `console.error`, or `debugger` statements in production code? These must be removed or replaced with proper logging."
+    - **Magic Numbers:** "Am I using hardcoded numbers without explanation? Replace with named constants."
+    - **Complex Functions:** "Is this function longer than 50 lines or has a cyclomatic complexity > 10? Refactor into smaller functions."
+- **Performance Analysis:**
+    - **Bundle Impact:** "Am I importing entire libraries when I only need specific functions? Use tree-shaking friendly imports."
+    - **Memory Leaks:** "Am I creating event listeners without cleanup? Ensure proper cleanup in useEffect."
+- **Security Audit:**
+    - **XSS Prevention:** "Am I using `dangerouslySetInnerHTML` or `eval()`? These are security risks and must be avoided."
+    - **Input Validation:** "Am I trusting user input without validation? Always validate and sanitize user input."
+- **Automated Refactoring Suggestion:** If any of the above checks fail, propose the corrected code with proper ESLint compliance.
+
+## 7. Configuration Files Template
+- **Rule 7.1 (ESLint Config):** Create `.eslintrc.js` with the complete configuration
+- **Rule 7.2 (Prettier Config):** Create `.prettierrc` to ensure consistent formatting
+- **Rule 7.3 (Ignore Files):** Create `.eslintignore` and `.prettierignore` for proper exclusions
+- **Rule 7.4 (Package Scripts):** Add lint scripts to `package.json`:
+    ```json
+    {
+      "scripts": {
+        "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+        "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+      }
+    }
+    ```
+
+By following these best practices, you can ensure that your JavaScript/TypeScript code is clean, consistent, and maintainable, reducing the risk of bugs and improving overall code quality.
+description: This rule provides comprehensive guidelines for ESLint, covering code organization, common patterns, performance, security, testing, and tooling, ensuring high-quality, maintainable JavaScript/TypeScript code.
+globs: *.js,*.jsx,*.ts,*.tsx,*.vue
+---
+By following these best practices, you can ensure that your JavaScript/TypeScript code is clean, consistent, and maintainable, reducing the risk of bugs and improving overall code quality.

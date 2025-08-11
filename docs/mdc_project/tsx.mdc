@@ -1,0 +1,41 @@
+---
+description: This governs all .tsx files built with React/Next.js. It ensures the UI is a secure, performant, and accessible representation of the state provided by the Backend, strictly adhering to the defined contracts.
+globs: *.tsx
+---
+
+# Rule Set: The Interaction Surface - TSX & Frontend Architecture
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (Contract is Law):** Before building a component, you must confirm the API Contract and DTO it will consume are defined. If the shape and source of the data are ambiguous, the component cannot be built.
+- **Directive 2 (Assume Nothing About State):** Do not assume an API call will succeed or return data. Every data-fetching component MUST handle and render distinct UI for `loading`, `error`, and `empty` (successful, but no data) states.
+- **Directive 3 (Single Responsibility):** A component is either a "Container" (smart, fetches data, manages state) or a "Presenter" (dumb, receives props, renders UI). A component attempting to be both is a design flaw and must be refactored.
+
+## 2. Component Architecture
+- **Rule 2.1 (Co-location):** Every component MUST reside in its own folder containing `Component.tsx`, `Component.module.css`, and `Component.test.tsx`.
+- **Rule 2.2 (No Prop Drilling):** Passing props more than two levels deep is forbidden. For deeper state sharing, use `React Context` for static data or `Zustand` for dynamic global state.
+
+## 3. Integrated Security Fabric
+- **Rule 3.1 (The Backend is the Fortress):** UI-based authorization (hiding a button) is for User Experience (UX) ONLY. The AI Agent must operate under the assumption that a malicious user can bypass any and all frontend checks. Every sensitive action MUST be re-verified by the backend.
+- **Rule 3.2 (Secure Token Storage):** Authentication tokens (JWTs) MUST be handled via `HttpOnly` and `Secure` cookies managed by the backend. Storing tokens in `localStorage` is strictly forbidden due to XSS vulnerabilities.
+- **Rule 3.3 (Zero Hardcoded Secrets):** The frontend codebase MUST NOT contain any API keys, secrets, or sensitive configuration. All such values must be accessed via server-side environment variables (`process.env.NEXT_PUBLIC_*` should be used with extreme caution).
+
+## 4. API Interaction & State Management
+- **Rule 4.1 (Typed Contracts):** All API client functions MUST use TypeScript `interface` types generated from the API's OpenAPI specification/DTOs. This ensures type safety between frontend and backend.
+- **Rule 4.2 (Centralized API Client):** All API requests MUST go through a single, centralized client (`/lib/api.ts`) that handles authentication headers, base URL, and consistent error handling.
+- **Rule 4.3 (Server State vs. Client State - Constitutional Separation):** 
+    - **Server State (React Query/SWR):** Data fetched from the API is **server state** and MUST be managed with a dedicated library like `React Query` or `SWR`. This includes all API responses, cached data, and data requiring background synchronization.
+    - **Client State (Zustand):** UI-specific temporary states (e.g., "is modal open?", "form input values") or global states affecting multiple components (e.g., "shopping cart", "theme preferences") MUST be managed with `Zustand`. Do not mix server and client state management.
+    - **Reference Note:** For proper React Query/SWR implementation, cache key strategies, and stale-while-revalidate patterns, refer to the project's `react-query.mdc` file.
+
+## 5. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Rule 5.1 (Code Smell Detection):**
+    - **Styling:** "Am I using inline styles (`style={{...}}`)? This is an anti-pattern. Refactor to a `Component.module.css` class."
+    - **Giant Components:** "Is this component file longer than 200 lines? If so, identify sub-sections that can be extracted into their own smaller, presentational components."
+- **Rule 5.2 (Performance Analysis):**
+    - **Rendering:** "Am I rendering a list (`.map()`)? Have I provided a unique and stable `key` prop for every single item? Is there a component re-rendering unnecessarily? If so, apply `React.memo` and justify its use."
+    - **Bundle Size:** "Am I importing a large library (e.g., `lodash`, `moment.js`)? Can I import just the specific function I need (e.g., `import get from 'lodash/get'`) to enable tree-shaking?"
+- **Rule 5.3 (Accessibility (a11y) Audit):**
+    - **Semantic HTML:** "Am I using a `<div>` with an `onClick` where a `<button>` should be used? Is my HTML structure semantic (`<nav>`, `<main>`, `<article>`)?"
+    - **Image Accessibility:** "Does every `<img>` tag have a descriptive `alt` prop? If the image is purely decorative, is the `alt` prop an empty string (`alt=''`)?"
+    - **Form Accessibility:** "Does every `<input>`, `<select>`, and `<textarea>` have a corresponding `<label>` linked with `htmlFor`?"
+- **Rule 5.4 (Automated Refactoring Suggestion):** If any of the above checks fail, propose the corrected code, including the import statement for any new hooks (`React.memo`, `useCallback`) and a brief explanation of why the change improves the code.

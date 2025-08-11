@@ -1,0 +1,29 @@
+Durum özeti (son kontrol - otomatik uygulanan düzeltmeler sonrası):
+
+- **Supabase**: Proje URL ayarlı: `https://flyrpcmqradmbbsnutzd.supabase.co`. Publishable/anon/service_role anahtarları `.env.local` içinde yer alıyor. MCP ile tablolar kontrol edildi — listede `groups, group_joins, universities, messages, posts, comments, friendships, students, likes, group_members` gibi tablolar görüldü. Ancak proje için beklenen Prisma tabloları (ör. `tenants`, `users`, `business_profiles`, `categories`, `products`, `orders`, `order_items`, `tables`, `customers`) yok — bu nedenle Prisma migration'ları uygulanmamış.
+
+- **Prisma**: `prisma/schema.prisma` mevcut. Prisma Client başarıyla oluşturuldu (`npx prisma generate`). Migration deploy adımı doğrudan DB'ye erişimde P1001 hatası verdi; bu nedenle migration'lar uygulanamadı. Çözüm olarak pooler (pgbouncer) kullanılarak runtime bağlantısı sağlandı ve `DIRECT_URL` ile migration yapma denendi fakat doğrudan 5432 portu ağ tarafından engellenmiş olabilir. Alternatif: migration SQL'lerini Supabase SQL Editor yardımıyla uygulamak ya da Supabase CLI/Admin paneli üzerinden migration çalıştırmak.
+
+- **RLS (Row-Level Security)**: MCP'de çoğu tablo için `rls_enabled: true` gözleniyor. Bu iyi; anon/publishable anahtarlar kullanılırken RLS kurallarını doğrulamalısınız. Hangi tabloların anon erişimi olması gerektiğini belirtin; ben uygun politika önerilerini hazırlayıp uygulama adımlarını verebilirim.
+
+- **Redis**: `lib/redis.ts` ve `docker-compose.yml` içindeki redis servisi mevcut. Redis PING testi başarılı (PONG). Env değişkenleri `.env.local` içinde ayarlı.
+
+- **Sentry**: `sentry.client.config.js`, `sentry.server.config.js`, `sentry.edge.config.js` mevcut. Test event gönderildi ve DSN `.env.local` içinde ayarlı.
+
+- **tRPC / superjson**: `lib/trpc.ts` içinde transformer konfigürasyonu uygun şekilde güncellendi (superjson kullanılabilir hale getirildi). Tip hataları giderilmeye başlandı; testler için NextRequest tip uyuşmazlıkları bulundu — testlerde cast/mock ile çözülmesi önerildi.
+
+- **Testing**: Jest testleri geçti (unit). Playwright E2E kullanılabilir; E2E için `npm run install:browsers` çalıştırılmalı ve webserver (`npm run dev`) erişilebilir olmalı.
+
+- **Stack uyumluluğu**: `package.json` içindeki bağımlılıklar `stack.md` ile büyük oranda uyumlu. Eksik/isteğe bağlı paketler: `axios`, `posthog`, `inngest`, `upstash/qstash`, `resend` — bunlar gerektiğinde eklenmeli.
+
+Eylem maddeleri (öncelik sıralı)
+1. **Prisma migration'larını uygulamak**: Doğrudan 5432 portu blokluysa Supabase SQL Editor'a migration SQL'lerini import et veya Supabase CLI kullan. İstersen migration SQL dosyalarını çıkarıp sana vereyim veya Supabase SQL Editor için hazır script oluşturayım.
+2. **MCP doğrulaması**: MCP şu an tabloları listeliyor; ancak MCP bağlantısının projenle eşleştiğini kesinleştirmek için service_role ile tablo sorguları yapılmalı. Ben service_role ile tüm tabloları sorgular, eksik olan tabloları raporlarım.
+3. **RLS politikaları**: Hangi tabloların public (anon) erişimine izin vereceğini belirt; ben örnek ZOD/tRPC güvenlik katmanı ve Supabase policy SQL'lerini hazırlayıp uygulama adımlarını vereyim.
+4. **CI/CD secret senkronizasyonu**: `.env.local` içeriğini GitHub Actions / Vercel environment secrets olarak ekleyin. Ben bunun için `.github/workflows` örneği ve Vercel/GitHub adımlarını hazırlayabilirim.
+
+Kısa not: Eğer migrasyonları benim uygulamamı istiyorsanız, iki seçenek var:
+- Size migration SQL'lerini çıkarırım; siz Supabase SQL Editor'a yapıştırıp çalıştırırsınız. (Daha güvenli, GUI kontrolüyle)
+- Veya Supabase CLI ile deploy yaparım ancak bu işlem için Supabase CLI kurulumuna ve CLI auth (supabase login) gerekebilir.
+
+Son durum: proje büyük ölçüde çalışır durumda — Redis ve Sentry doğrulandı, Supabase bağlantısı kuruldu ama Prisma tabloları henüz yaratılmadı (migration eksik). MCP tablolarını okuyor; RLS aktif. Bir sonraki adımı seçin, ben uygulayayım.

@@ -1,0 +1,87 @@
+---
+description: This protocol governs the strict isolation of feature-specific dependencies in software projects where core dependencies are immutable and centrally managed. It defines how engineers can safely integrate new libraries or tools required for localized functionality without modifying global dependency files. The protocol ensures long-term maintainability, prevents regression due to package conflicts, and aligns development practices with containerization and microservice architecture principles. All integrations must be self-contained, testable in isolation, and ready for dockerization. Any violation of the isolation guarantee constitutes a breach of system determinism and must be flagged at code review and CI level. Bu protokol, temel bağımlılıkların değiştirilemez ve merkezi olarak yönetildiği yazılım projelerinde, yerel işlevsellik için gereken bağımlılıkların izole biçimde entegre edilmesini düzenler. Küresel bağımlılık dosyalarına müdahale edilmeden yeni kütüphanelerin kullanımı güvenli biçimde sağlanır. Paket çakışmalarından doğacak bozulmalar engellenir, mikroservis mimarisi ve konteyner uyumluluğu garanti altına alınır. Tüm entegrasyonlar izole, test edilebilir ve docker’a hazır olmalıdır. İzolasyon garantisinin ihlali sistem determinizmini bozar ve kod inceleme + CI aşamalarında engellenmelidir.
+alwaysApply: false
+---
+### 🛡️ Protocol: Dependency Isolation and Expansion (DIEP)
+
+#### I. Immutable Core Dependency Rule
+
+- The files `requirements.txt`, `pyproject.toml`, or `Pipfile` constitute the **immutable core dependency scope** of the project.
+- These files **must never be edited** to add, remove, or change dependencies for feature-specific development.
+- All developers must assume the current dependency tree is locked unless explicitly notified of an update policy change.
+
+---
+
+#### II. Feature-Specific Dependency Integration
+
+- Any functionality requiring new or conflicting dependencies **must be implemented in an isolated scope**, typically within:
+
+  ```
+  modules/
+  └── my_feature/
+      ├── requirements.txt     # feature-local dependencies
+      ├── .venv/               # (optional) local virtualenv
+      └── run.py               # entrypoint, callable via subprocess
+  ```
+
+- These dependencies must be installed and executed **only** within the context of that feature.
+- The isolated code **must not import or expose** these libraries outside its scope.
+
+---
+
+#### III. Zero Side-Effect Guarantee
+
+- The new dependency must:
+  - Not alter global Python runtime or affect existing packages.
+  - Not patch or override shared modules.
+  - Be provably removable without impacting other features.
+
+- Developers are required to validate this through **CI-isolated unit tests**.
+
+---
+
+#### IV. Docker & Portability Alignment
+
+- All isolated features must be:
+  - Declaratively defined (`requirements.txt`, `pip install`, etc.)
+  - Platform-agnostic (no hardcoded host paths or system-level dependencies)
+  - Compatible with containerization as a standalone process or microservice
+
+---
+
+#### V. Human-In-The-Loop Disclosure Requirement
+
+- All new dependencies **must be declared** in the file `insankontrol.md` with:
+  - Package name and version
+  - Reason for inclusion
+  - Justification for isolation
+  - Proof of non-interference
+
+- Merge Requests violating this are **automatically rejected** during review or CI pipeline.
+
+---
+
+#### VI. Microservice Compatibility Enforcement
+
+- All isolated features must:
+  - Be callable via command line or HTTP (if applicable)
+  - Avoid shared state unless through defined interfaces
+  - Be independently testable and deployable
+
+---
+
+#### VII. Developer Responsibility Summary
+
+```
+- ❌ DO NOT modify global dependency declarations.
+- ✅ DO isolate new dependencies at the feature/module level.
+- ✅ DO guarantee zero interference with the global codebase.
+- ✅ DO document additions in insankontrol.md for approval.
+- ✅ DO design for future dockerization and modular extraction.
+```
+
+---
+
+[ STATUS: ENFORCED ]  
+[ VIOLATION CONSEQUENCE: BLOCKED MERGE + ENGINEERING ESCALATION ]
+[ REVIEWED BY: HUMAN-IN-THE-LOOP + CI ISOLATION TESTING ]

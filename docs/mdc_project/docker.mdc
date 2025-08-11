@@ -1,0 +1,450 @@
+---
+description: YemekZen projesi için Docker best practices, güvenlik standartları ve performans optimizasyonları. DevContainer, Docker Compose ve production deployment için kapsamlı rehber.
+globs: Dockerfile,docker-compose.yml,*.dockerfile,.dockerignore,.devcontainer/**/*,docker-compose.*.yml
+alwaysApply: false
+---
+
+# YemekZen Docker Best Practices
+
+Bu doküman, YemekZen projesi için Docker best practices, güvenlik standartları ve performans optimizasyonlarını içerir. DevContainer, Docker Compose ve production deployment için kapsamlı rehber.
+
+## 1. Proje Yapısı ve Organizasyon
+
+### YemekZen Özel Yapısı:
+```
+yemekzen/
+├── .devcontainer/              # DevContainer konfigürasyonu
+│   ├── Dockerfile             # Geliştirme ortamı imajı
+│   ├── devcontainer.json      # Cursor/VS Code konfigürasyonu
+│   ├── docker-compose.yml     # Tüm servislerin orkestrasyonu
+│   ├── .dockerignore          # Docker build optimizasyonu
+│   ├── init-db.sql           # Veritabanı başlatma scripti
+│   ├── setup-dev-environment.ps1 # Windows kurulum scripti
+│   └── README.md             # DevContainer dokümantasyonu
+├── Dockerfile                 # Production imajı (gelecekte)
+├── docker-compose.yml         # Production orchestration (gelecekte)
+├── .dockerignore             # Production build optimizasyonu
+├── app/                      # Uygulama kaynak kodu
+├── config/                   # Konfigürasyon dosyaları
+├── scripts/                  # Build ve deployment scriptleri
+└── docs/                     # Docker dokümantasyonu
+```
+
+### Dosya İsimlendirme Kuralları:
+- **DevContainer**: `.devcontainer/Dockerfile` (geliştirme ortamı)
+- **Production**: `Dockerfile` (production imajı)
+- **Compose**: `docker-compose.yml` (ana), `docker-compose.prod.yml` (production)
+- **Ignore**: `.dockerignore` (build optimizasyonu)
+
+## 2. DevContainer Best Practices
+
+### Geliştirme Ortamı Optimizasyonu:
+```dockerfile
+# .devcontainer/Dockerfile
+FROM mcr.microsoft.com/devcontainers/javascript-node:1-18
+
+# Güvenlik güncellemeleri
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+    # Gerekli paketler...
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Global npm paketleri
+RUN npm install -g prisma jest @playwright/test eslint prettier
+
+# Supabase CLI kurulumu
+RUN curl -L https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz -o supabase.tar.gz \
+    && tar -xzf supabase.tar.gz \
+    && install ./supabase /usr/local/bin/supabase \
+    && rm supabase.tar.gz ./supabase
+
+# Güvenlik ayarları
+USER node
+WORKDIR /workspaces/yemekzen
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD node -e "console.log('Health check passed')" || exit 1
+```
+
+### DevContainer Konfigürasyonu:
+```json
+{
+  "name": "YemekZen Geliştirme Ortamı",
+  "image": "yemekzen-dev-env:latest",
+  "workspaceFolder": "/workspaces/yemekzen",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/yemekzen,type=bind,consistency=cached",
+  "remoteUser": "node",
+  "forwardPorts": [3000, 3001, 5432, 5555, 8080, 9000],
+  "postCreateCommand": "npm install && npm run db:migrate",
+  "containerEnv": {
+    "NODE_ENV": "development",
+    "DISABLE_ESLINT_PLUGIN": "true",
+    "CHOKIDAR_USEPOLLING": "true"
+  }
+}
+```
+
+## 3. Docker Compose Best Practices
+
+### YemekZen Servis Orkestrasyonu:
+```yaml
+version: '3.8'
+
+services:
+  # Ana geliştirme konteyneri
+  app:
+    image: yemekzen-dev-env:latest
+    container_name: yemekzen-dev
+    volumes:
+      - ..:/workspaces/yemekzen:cached
+      - node_modules:/workspaces/yemekzen/node_modules
+      - npm_cache:/home/node/.npm
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/yemekzen_dev
+    ports:
+      - "3000:3000"   # Next.js Frontend
+      - "3001:3001"   # Express.js Backend
+      - "5555:5555"   # Prisma Studio
+    depends_on:
+      - db
+      - redis
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('Health check passed')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL veritabanı
+  db:
+    image: postgres:15-alpine
+    container_name: yemekzen-db
+    environment:
+      - POSTGRES_DB=yemekzen_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d yemekzen_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    container_name: yemekzen-redis
+    command: redis-server --appendonly yes --requirepass redispassword
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  node_modules:
+    driver: local
+  npm_cache:
+    driver: local
+```
+
+## 4. Güvenlik Best Practices
+
+### YemekZen Güvenlik Standartları:
+
+#### Konteyner Güvenliği:
+```dockerfile
+# Non-root kullanıcı kullan
+USER node
+
+# Güvenlik seçenekleri
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Environment variables ile hassas verileri yönet
+ENV NODE_ENV=development
+ENV DISABLE_ESLINT_PLUGIN=true
+```
+
+#### Docker Compose Güvenlik:
+```yaml
+services:
+  app:
+    # Güvenlik ayarları
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: false  # Geliştirme için gerekli
+    tmpfs:
+      - /tmp
+      - /var/tmp
+```
+
+#### Hassas Veri Yönetimi:
+```bash
+# .env dosyası (git'e eklenmez)
+DATABASE_URL=postgresql://postgres:password@db:5432/yemekzen_dev
+SUPABASE_URL=http://supabase:54321
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+REDIS_PASSWORD=redispassword
+```
+
+## 5. Performans Optimizasyonu
+
+### Build Optimizasyonu:
+```dockerfile
+# .dockerignore
+node_modules/
+npm-debug.log*
+.next/
+out/
+dist/
+build/
+*.db
+*.sqlite
+*.log
+.git/
+.vscode/
+.env*
+coverage/
+```
+
+### Layer Optimizasyonu:
+```dockerfile
+# Paket kurulumlarını birleştir
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates curl git unzip \
+    libnss3-dev libatk-bridge2.0-0 libdrm2 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# NPM cache temizle
+RUN npm cache clean --force
+```
+
+### Volume Optimizasyonu:
+```yaml
+volumes:
+  - ..:/workspaces/yemekzen:cached  # Performans için cached
+  - node_modules:/workspaces/yemekzen/node_modules  # İzole node_modules
+  - npm_cache:/home/node/.npm  # NPM cache paylaşımı
+```
+
+## 6. Testing ve Quality Assurance
+
+### Docker Testing Stratejileri:
+```yaml
+# docker-compose.test.yml
+services:
+  test:
+    image: yemekzen-dev-env:latest
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgresql://postgres:password@test-db:5432/yemekzen_test
+    depends_on:
+      - test-db
+    command: npm test
+
+  test-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=yemekzen_test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+```
+
+### Health Check Stratejileri:
+```dockerfile
+# Uygulama health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:3000/api/health || exit 1
+
+# Veritabanı health check
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
+    CMD pg_isready -U postgres -d yemekzen_dev
+```
+
+## 7. Production Deployment
+
+### Production Dockerfile (Gelecekte):
+```dockerfile
+# Multi-stage build
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine AS runtime
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY . .
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+USER nextjs
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+### Production Docker Compose:
+```yaml
+# docker-compose.prod.yml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+## 8. Monitoring ve Logging
+
+### Logging Stratejisi:
+```yaml
+services:
+  app:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+```
+
+### Monitoring:
+```yaml
+services:
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+```
+
+## 9. CI/CD Entegrasyonu
+
+### GitHub Actions Workflow:
+```yaml
+# .github/workflows/docker.yml
+name: Docker Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and test
+        run: |
+          docker-compose -f .devcontainer/docker-compose.yml up -d
+          docker-compose -f .devcontainer/docker-compose.yml exec -T app npm test
+```
+
+## 10. Troubleshooting ve Debugging
+
+### Yaygın Sorunlar ve Çözümleri:
+
+#### Port Çakışması:
+```bash
+# Kullanılan portları kontrol et
+netstat -ano | findstr :3000
+
+# Eski konteynerleri temizle
+docker-compose -f .devcontainer/docker-compose.yml down -v
+```
+
+#### Veritabanı Bağlantı Sorunu:
+```bash
+# PostgreSQL loglarını kontrol et
+docker-compose -f .devcontainer/docker-compose.yml logs db
+
+# Veritabanını yeniden başlat
+docker-compose -f .devcontainer/docker-compose.yml restart db
+```
+
+#### Performans Sorunları:
+```bash
+# Docker kaynaklarını kontrol et
+docker stats
+
+# Cache temizle
+docker system prune -a
+```
+
+## 11. YemekZen Özel Kuralları
+
+### Zorunlu Kurallar:
+1. **Her zaman `yemekzen-dev-env:latest` imajını kullan**
+2. **DevContainer klasöründe değişiklik yapma**
+3. **Production imajı için ayrı Dockerfile kullan**
+4. **Hassas verileri environment variables ile yönet**
+5. **Health check'leri implement et**
+6. **Non-root kullanıcı kullan**
+7. **Volume'ları doğru şekilde yapılandır**
+
+### Yasaklı Uygulamalar:
+- ❌ Root kullanıcı ile çalıştırma
+- ❌ Hassas verileri Dockerfile'a hardcode etme
+- ❌ Gereksiz paket kurulumu
+- ❌ .dockerignore kullanmama
+- ❌ Latest tag kullanma (production'da)
+
+### Önerilen Uygulamalar:
+- ✅ Multi-stage build kullan
+- ✅ Layer cache'ini optimize et
+- ✅ Health check implement et
+- ✅ Güvenlik güncellemelerini uygula
+- ✅ Monitoring ve logging ekle
+- ✅ CI/CD pipeline entegre et
+
+---
+
+## Ek Notlar:
+
+- **YemekZen DevContainer**: Mevcut `.devcontainer` klasörü geliştirme için optimize edilmiştir
+- **Production**: Gelecekte ayrı production Dockerfile'ı oluşturulacak
+- **Monitoring**: Prometheus + Grafana ile monitoring eklenecek
+- **Security**: Düzenli güvenlik taramaları yapılacak
+- **Documentation**: Tüm Docker konfigürasyonları dokümante edilecek
+
+Bu kurallara uyarak, YemekZen projesi için güvenli, performanslı ve sürdürülebilir Docker ortamları oluşturabilirsiniz.
+description: YemekZen projesi için Docker best practices, güvenlik standartları ve performans optimizasyonları. DevContainer, Docker Compose ve production deployment için kapsamlı rehber.
+globs: Dockerfile,docker-compose.yml,*.dockerfile,.dockerignore,.devcontainer/**/*,docker-compose.*.yml
+alwaysApply: true
+---

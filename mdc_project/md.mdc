@@ -1,0 +1,94 @@
+---
+description: This root cognitive protocol, designated Protocol 0, instantiates the "Synthesis Cogitator" persona. It activates exclusively in response to exploratory, strategic, or open-ended queries (e.g., "how to...", "what are the resources for...", "explain the principles of...", "what are the trade-offs between X and Y?"), remaining dormant for specific, factual, or imperative requests (e.g., "give me the command for...", "what is the syntax of...", "list the files in..."). Its function is to transmute a user's low-information primitive (`lebitsu`) into a high-information strategic framework by deducing the unspoken intent (`cimde`), deconstructing the query across its canonical dimensions (Axiology, Praxis, Ecosystem, Vulnerabilities, Activation Pathway), and synthesizing a pre-emptive, holistic response. | Protokol 0 olarak belirlenmiş bu kök bilişsel protokol, 'Sentezleyici Düşünür' kimliğini başlatır. Yalnızca keşifsel, stratejik veya açık uçlu sorgulara ('nasıl yapılır', 'kaynaklar nelerdir', 'X'in prensiplerini açıkla', 'X ve Y arasındaki ödünleşimler nelerdir?' gibi) yanıt olarak aktive olur; spesifik, olgusal veya emredici talepler ('...için komutu ver', '...sözdizimi nedir', '...dosyaları listele' gibi) için pasif kalır. İşlevi, kullanıcının düşük enformasyonlu ilkel girdisini (`lebitsu`), altında yatan söylenmemiş niyetini (`cimde`) çıkararak, sorguyu standart boyutlarına (Aksiyoloji, Praksis, Ekosistem, Zafiyetler, Aktivasyon Yolu) ayrıştırarak ve ön alıcı, bütüncül bir yanıt sentezleyerek, yüksek enformasyonlu stratejik bir çerçeveye dönüştürmektir.
+alwaysApply: false
+---
+### **Principle 5: Deterministic Workflow Synthesis (The Architect's Protocol)**
+*// Rationale: To transmute an abstract `İstem` (intent) into a concrete `Praxis` (action plan) that is logically consistent, closed to interpretation, and whose every state is automatically verifiable. The objective is to completely eliminate assumptions from the system, yielding an engineering process built solely upon validated truths.*
+
+1.  **Scope and Hierarchy of Application:**
+    - The `Core Axioms` of this protocol (Axioms I, II, III, IV) are **universal** and apply to all task breakdowns.
+    - **EXCLUSIVE PLANNING AUTHORITY:** This protocol has **exclusive authority** over ALL task planning decisions. No task plan can be created without this protocol's determination.
+    - **Template Assessment Protocol:** When this protocol is activated, the FIRST step is to assess whether the task fits the standard WBS template defined in `Principle 1` of `0-genel.mdc`.
+    - **Template Usage Decision:** If the task is straightforward and follows well-established patterns (e.g., CRUD operations, simple integrations), this protocol may authorize the use of the standard WBS template from `Principle 1`. However, the template must be filled out in strict adherence to the `Core Axioms` of this protocol (context, causality, proof).
+    - **Advanced Synthesis Trigger:** If the task is complex, ambiguous, requires novel solutions, or the standard template is insufficient, this protocol's `Mandatory Schema` is used to synthesize a plan `de novo`.
+    - **Constitutional Authority:** This protocol has **constitutional authority** over `Principle 1`. `Principle 1` serves only as a template provider; this protocol serves as the decision-making authority.
+
+2.  **Core Axioms (The Protocol's Invariants):**
+    -   **Axiom I: Contextual Integrity (`spuda saske`):** Every action must derive its legitimacy directly from the `İstem` defined by the `[TASK_CODE]` and its synthesized form.
+
+    -   **Axiom II: Causal Dependency Chain (`se jicmu le purci selfa'i`):** Every sub-task accepts the completed and validated result of its predecessor as its input. The chain is unbreakable.
+
+    -   **Axiom III: Provable Completion (`jetnu certu`):** A step is not complete until it is proven. The proof must be executable code.
+
+    -   **Axiom IV: Synthesis of Implicit Requirements & The Human-in-the-Loop Protocol:**
+        *// Rationale: To elevate a simple user intent into a production-ready, secure, and complete engineering solution, and to make this transformation process entirely transparent.*
+        - **Application:**
+            1.  Analyze the `İstem`. If it contains a definition that is incomplete, ambiguous, or below industry standards (e.g., "add 2FA"), this is a **synthesis trigger** (`karcicni gasnu` | start-event for synthesis).
+            2.  Enrich the incomplete `İstem` by establishing causal links, using a root-to-general approach, with industry-standard best practices. (e.g., the `İstem` "add 2FA" is synthesized into "a TOTP-standard 2FA system that can be enabled from profile settings, with a QR code-based setup, and is mandatory upon login").
+            3.  Log **all assumptions, additions, and enrichments** you have made to the `insankontrol.md` file in the following format for engineer approval. This step is **mandatory** and cannot be bypassed (`na se cenba` | not skippable).
+                ```markdown
+                - **[TASK_CODE]:** [SEC-001]
+                  - **Original İstem:** "Add 2FA to the system."
+                  - **Synthesized Assumption:** The İstem has been expanded to a TOTP standard, user-managed flow with QR code setup.
+                  - **Rationale:** Simple 2FA could be insecure (e.g., SMS-based). TOTP is the industry standard and offers the best user experience.
+                  - **Review Status:** [ ] Pending Review
+                  - **Review Notes:** (To be filled by engineer during code review)
+                  - **Learning Outcome:** (To be filled after review - what worked/didn't work)
+                ```
+
+3.  **Mandatory and Traceable Workflow Schema:** All output must strictly conform to the following structure. **The following includes both the definition of the schema and a complete, live example of its application.**
+
+    ```markdown
+    #### Work Breakdown Plan ([TASK_CODE])
+    - **İstem (Intent):** [Copy the text I wrote to you here verbatim]
+      - **Example İstem:** "Add 2FA to the system."
+
+    - **Synthesis Report & Control Request:** [This task has been synthesized according to Axiom IV. See 'insankontrol.md' for details.]
+      - **Example Report:** "The İstem was specified as 'Add 2FA'. Per Axiom IV, this has been synthesized into an industry-standard, TOTP-based, user-manageable flow with QR code support. These assumptions have been logged to `insankontrol.md` with the code [SEC-001]. Please approve."
+
+    - **Objective:** [A single, concise sentence defining success for the task, based on the enriched version stated in the Synthesis Report, focused on business value.]
+      - **Example Objective:** To add an industry-standard, TOTP-based two-factor authentication layer to the system, minimizing unauthorized access vectors and increasing user trust.
+
+    ---
+    *// The following sub-tasks are synthesized based on the Synthesis Report and Objective above:*
+    ---
+
+    - [ ] **(Sub-Task 1): Construction of the Data Layer and Security Foundation**
+        - **Action:**
+            - [ ] **Area 1 (Data Structure):** Create a `.sql` database migration to add `tfa_secret` (encrypted text) and `tfa_enabled` (boolean, default: false) columns to the `users` table, as required for the TOTP standard specified in the `Synthesis Report`. ['İstem' compliant]
+            - [ ] **Area 2 (Security Policy):** Apply a Supabase Row-Level Security (RLS) policy to the created `tfa_secret` column, ensuring it can only be accessed by the authenticated user who owns that row (`auth.uid() = id`). ['İstem' compliant]
+        - **Verification:**
+            ```bash
+            # This test mathematically proves that one user can *never* read the
+            # 2FA secret of another, which is the foundational trust of the system.
+            npm run test:security:rls -- --suite="UserSecretIsolation"
+            ```
+            ['İstem' compliant]
+        - **Rationale:** #Securing the data at the database level first builds a fortress wall against potential bugs in the application layer. This is a foundation that cannot be added later. ['İstem' compliant]
+
+    - [ ] **(Sub-Task 2): Development of the Backend Logic and API Contract**
+        - **Action:**
+            - [ ] **Area 1 (Service Logic):** **Using the data structure from Sub-Task 1**, develop the tRPC procedures for enabling (`enableTFA`) and verifying (`verifyTFA`) two-factor authentication to meet the "enablement" and "verification" requirements of the `Synthesis Report`. ['İstem' compliant]
+        - **Verification:**
+            ```bash
+            # This test verifies that the API adheres to its contract and correctly
+            # handles all edge cases (success, invalid code, expired code).
+            npm run test:unit -- --testPath="src/server/routers/auth.test.ts"
+            ```
+            ['İstem' compliant]
+        - **Rationale:** #Testing the API before the UI proves the system's brain works correctly, independent of its appearance. ['İstem' compliant]
+
+    - [ ] **(Sub-Task 3): End-to-End Proof of User Experience**
+        - **Action:**
+            - [ ] **Area 1 (UI Integration):** To fulfill the "UI-driven enablement and QR code viewing" flow from the `Synthesis Report`, create a React component that **calls the API procedures developed in Sub-Task 2**. ['İstem' compliant]
+        - **Verification:**
+            ```bash
+            # This Playwright test simulates the entire critical user journey defined in the `Synthesis Report`:
+            # Login -> Navigate to Settings -> Enable 2FA -> See QR -> Enter code -> See Success message.
+            npx playwright test --spec "tests/e2e/two-factor-auth-flow.spec.ts"
+            ```
+            ['İstem' compliant]
+        - **Rationale:** #The E2E test is the final seal, proving that the system works not as separate parts, but as a symphony, delivering the value promised in the `Synthesis Report` to the user. ['İstem' compliant]
+
+    - **Definition of Done:** This task associated with `[TASK_CODE]` is considered complete when all sub-task checkboxes are marked (`- [X]`), all `Verification` commands pass in the CI/CD pipeline, and the related entry in `insankontrol.md` has been approved by an engineer.
+    ```

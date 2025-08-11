@@ -1,0 +1,53 @@
+---
+description: This defines the rules for all .ts files, primarily the Backend (Node.js/Express) and any shared code. Its purpose is to translate the unbreakable contracts into secure, testable, and maintainable business logic, strictly adhering to the layered architecture.
+globs: *.ts
+---
+
+# Rule Set: The Logic Core - TypeScript & Backend Architecture
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (Contract is Law):** Before writing any function, you must identify the `Contract` (DTO, API Endpoint from `sql.mdc`'s spiritual successor) it serves. If the contract is undefined, the code cannot be written. Request the contract definition.
+- **Directive 2 (Trust Nothing):** NEVER trust any data originating from outside the backend (`request.body`, `request.query`, `request.params`). Every data object MUST pass through a validation layer (e.g., `class-validator`) before it touches the service layer.
+- **Directive 3 (The Halting Principle):** If the previous command was an incomplete evidence search (e.g., "API contract is ambiguous"), prioritize resolving that ambiguity before proceeding. Do not fill in the blanks with assumptions. Halt and request clarification.
+
+## 2. Mandatory Layered Architecture (Constitution Principle #4)
+- **Rule 2.1 (Controller's Solemn Duty):** Files in `/api` or `/routes` (Controllers) can ONLY perform three actions: 1) Validate the incoming request against a DTO. 2) Call a single, corresponding Service function. 3) Format the service's response and send it. Database queries, `if/else` business logic, or multiple service calls are **strictly forbidden** here.
+- **Rule 2.2 (Service's Burden of Logic):** All business logic resides in `/services`. An `OrderService` orchestrates stock checks, payment processing, and notifications. It is the brain.
+- **Rule 2.3 (Repository's Sacred Trust):** The **only** layer that communicates with the database is `/repositories`. Services do not write SQL; they call abstract methods like `OrderRepository.findById(id)`.
+
+## 3. Integrated Security Fabric
+- **Rule 3.1 (Automated Tenancy Guard):** Every repository method MUST accept `tenantId: string` as a parameter and enforce it in the `WHERE` clause. A base repository class that automatically applies this filter should be used to prevent manual error.
+- **Rule 3.2 (Pervasive Authorization):** Authorization is not an afterthought. Every service method must perform authorization checks *before* executing logic. Example: `if (order.userId !== currentUser.id && currentUser.role !== 'ADMIN') throw new UnauthorizedError();`.
+- **Rule 3.3 (Zero Data Leakage):** Functions returning data to controllers MUST return a mapped DTO, not a raw database model. This prevents accidental leakage of sensitive fields like `password_hash` or internal metadata.
+
+## 4. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Rule 4.1 (Code Smell Detection):**
+    - **Complexity:** "Is this function longer than 25 lines or have a cyclomatic complexity greater than 5 (i.e., too many `if/else/switch` branches)? If so, it must be refactored into smaller, single-responsibility functions."
+    - **Naming:** "Are variable names like `data`, `item`, `result` used? Replace them with descriptive names like `orderData`, `productItem`, `validationResult`."
+- **Rule 4.2 (Performance Analysis):**
+    - **N+1 Problem:** "Am I inside a loop and calling a database query or another service for each iteration? If so, this is a critical performance bug. Refactor to fetch all required data in a single, bulk query *before* the loop."
+    - **Asynchronous Operations:** "Is this a long-running operation (e.g., report generation, email sending)? If so, it CANNOT be executed synchronously within an API request. It MUST be offloaded to the asynchronous job queue (`JobService`)."
+- **Rule 4.3 (Security Vulnerability Scan):**
+    - **Injection:** "Am I concatenating any user-provided string directly into a raw SQL query, a shell command, or an `eval()`? This is forbidden. Use the repository's parameterized query methods exclusively."
+    - **Error Handling:** "Does my `catch` block expose internal system details (like a full stack trace or database error message) to the user? If so, refactor to log the detailed error internally and return a generic, safe error DTO."
+- **Rule 4.4 (Automated Refactoring Suggestion):** If any of the above checks fail, do not just state the problem. Propose the corrected, refactored code block as the primary solution.
+
+## 5. Coding Standard: Refactoring Integrity
+/*
+ Rationale: To clarify the definition and goal of refactoring.
+*/
+-   **Definition of Refactoring:** The act of restructuring existing computer code—changing the factoring—without changing its external behavior.
+-   **Primary Goal:** The goal of any refactoring task is to improve non-functional attributes of the software (e.g., readability, complexity, performance). The functionality, as verified by characterization tests, **must remain identical**.
+
+## 6. Technical Debt Management Protocol
+- **Rule 6.1 (Debt Registry Mandate):** If you implement a temporary solution (e.g., a `// HACK:`), an improvement note (e.g., `// TODO:`), or a known performance issue, you MUST log this as a new entry in the `teknik_borc.md` file.
+- **Rule 6.2 (Debt Format):** The entry must follow the standard format:
+    ```markdown
+    ### Debt ID: [DEBT-XXX]
+    - **Location:** `path/to/file.ts:line_number`
+    - **Description:** [A clear explanation of the temporary solution and what the ideal solution should be.]
+    - **Impact:** [High/Medium/Low - e.g., "Slows down user interface."]
+    - **Estimated Effort to Fix:** [e.g., "4 hours"]
+    - **Status:** Open
+    ```
+- **Rule 6.3 (Periodic Reporting):** The list of "Open" technical debts will be reviewed at the beginning of each planning cycle to prioritize their resolution.

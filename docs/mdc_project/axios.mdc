@@ -1,0 +1,56 @@
+---
+description: This governs the use of Axios as the universal HTTP client for all external API communications (both from the frontend to our backend and from our backend to third-party services). Its purpose is to ensure all network requests are consistent, resilient, secure, and observable.
+globs: *.ts,*.tsx,*.js,*.jsx
+---
+
+# Rule Set: Axios - The Universal HTTP Client
+
+## 0. Communication Domain Rule - Constitutional Separation
+**Communication Rule:** For internal Frontend-Backend communication within the project, tRPC usage is MANDATORY. Axios is ONLY and EXCLUSIVELY used when the project's Backend needs to communicate with third-party external APIs (e.g., payment gateways, mapping services, external data providers). Making axios requests from Frontend to Backend is FORBIDDEN.
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (The Law of the Single Instance):** Do not create new Axios instances (`axios.create()`) ad-hoc throughout the codebase. The project MUST have a single, centralized Axios instance definition (`/lib/axios.ts`) that is imported and used everywhere.
+- **Directive 2 (The Law of Abstraction):** Do not use `axios.get('/users')` directly in UI components or business logic. All API calls must be wrapped in a dedicated function within a service or repository layer (e.g., `userService.getUsers()`). This makes the code easier to test and decouples it from the specific implementation of the HTTP client.
+- **Directive 3 (The Law of the Contract):** Every function that makes an Axios call MUST be strongly typed. It must use the TypeScript `interface` types defined in the `SÖZLEŞMELER` for both the request payload and the expected response data. Using `any` is strictly forbidden.
+
+## 2. Unbreakable Architectural Constitution
+- **Rule 2.1 (Centralized Instance Configuration):** The central Axios instance MUST be configured with:
+    - `baseURL`: Sourced from environment variables.
+    - `timeout`: A reasonable timeout (e.g., 10000ms) to prevent requests from hanging indefinitely.
+    - Default `headers`: Such as `'Content-Type': 'application/json'`.
+- **Rule 2.2 (Interceptors for Universal Logic):** Logic that needs to run on every request or response MUST be implemented using Axios interceptors.
+    - **Request Interceptor:** To automatically attach the JWT `Authorization` header to all outgoing requests.
+    - **Response Interceptor:** To handle universal error formatting (transforming different error shapes into a consistent `ErrorDTO`) and to manage token refresh logic (for 401 Unauthorized errors).
+
+## 3. Integrated Security Fabric
+- **Rule 3.1 (Token Transmission):** The JWT token MUST be sent in the `Authorization: Bearer <token>` header. It must never be sent as a query parameter.
+- **Rule 3.2 (CSRF Protection):** For web clients, the Axios instance must be configured with `withCredentials: true` to automatically send cookies, which is necessary for CSRF protection mechanisms.
+- **Rule 3.3 (Preventing Data Leakage):** When logging errors from Axios responses, be careful not to log the entire request or response object, as it may contain sensitive PII or secrets. Log only the necessary context (URL, status code, error message).
+
+## 4. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Resilience and Error Handling:**
+    - "Is this `axios.post()` call wrapped in a `try/catch` block? Network requests can and will fail. Every Axios call that can fail must be handled gracefully."
+    - "Is this an idempotent operation (`GET`, `PUT`, `DELETE`) that could benefit from an automatic retry mechanism? Consider adding a retry interceptor (e.g., using `axios-retry`) for transient network errors."
+- **Performance Analysis:**
+    - "Am I making a request that could return a very large payload? Should I be implementing pagination using query parameters (`?page=1&limit=20`)?"
+    - "Can the response of this `GET` request be cached? If so, this logic should be handled by a higher-level data-fetching library like `React Query`, not within the Axios call itself."
+- **Code Smell Detection:**
+    - **Duplicate Calls:** "Are there multiple, identical Axios calls being made from different parts of the code? Refactor this into a single, reusable function in the appropriate service."
+- **Automated Refactoring Suggestion:** If a `try/catch` block is found to be missing around an Axios call, propose wrapping it and integrating it with the Sentry error reporting service.
+    ```typescript
+    // INSTEAD OF:
+    const response = await axios.get('/api/users');
+    setUsers(response.data);
+
+    // SUGGEST:
+    import * as Sentry from "@sentry/nextjs";
+    import { api } from "@/lib/axios"; // Central instance
+
+    try {
+      const response = await api.get<UserDTO[]>('/api/users');
+      setUsers(response.data);
+    } catch (error) {
+      Sentry.captureException(error, { extra: { context: 'Fetching users' } });
+      // Show an error message to the user
+    }
+    ```

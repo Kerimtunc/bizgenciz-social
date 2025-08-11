@@ -1,0 +1,281 @@
+---
+description: Bu kural dosyası QR Menu Elite Edition projesinin erişilebilirlik standartlarını ve zorunluluklarını tanımlar. WCAG 2.1 AA standartlarına uygun olarak tüm kullanıcılar için eşit erişim sağlar.
+globs: **/*.tsx,**/*.ts,**/*.jsx,**/*.js,**/*.css,**/*.scss
+---
+
+# 🎯 QR Menu Elite Edition - Erişilebilirlik Kuralları
+
+## 📋 **Genel Prensipler**
+
+### **Kural 1: Evrensel Tasarım**
+- **Amaç**: Tüm kullanıcılar için eşit erişim sağlamak
+- **Zorunluluk**: Her component ve sayfa, engelli kullanıcılar dahil olmak üzere tüm kullanıcılar tarafından kullanılabilir olmalı
+- **Standart**: WCAG 2.1 AA seviyesine uyumluluk zorunludur
+
+### **Kural 2: Proaktif Erişilebilirlik**
+- **Amaç**: Erişilebilirliği sonradan eklemek yerine baştan tasarlamak
+- **Zorunluluk**: Her yeni component geliştirilirken erişilebilirlik standartları göz önünde bulundurulmalı
+- **Kontrol**: Component tamamlandıktan sonra erişilebilirlik testi yapılmalı
+
+---
+
+## 🎯 **AŞAMA 1: Screen Reader Uyumluluğu**
+
+### **Kural 1.1: Screen Reader Bildirimleri**
+- **Zorunluluk**: Tüm önemli kullanıcı etkileşimleri screen reader kullanıcılarına bildirilmelidir
+- **Kapsam**: Menü navigasyonu, ürün ekleme/çıkarma, hata mesajları, başarı bildirimleri
+- **Format**: Türkçe dilinde, net ve anlaşılır mesajlar
+- **Öncelik**: Kritik işlemler için "assertive", bilgilendirme için "polite"
+
+### **Kural 1.2: ARIA Live Regions**
+- **Zorunluluk**: Dinamik içerik değişiklikleri için ARIA live regions kullanılmalı
+- **Yerleşim**: Sayfa yapısını bozmayacak şekilde gizli alanlarda
+- **Kontrol**: Her live region'ın doğru çalıştığı test edilmeli
+
+### **Kural 1.3: Semantic HTML**
+- **Zorunluluk**: HTML5 semantic elementleri kullanılmalı
+- **Gereksinimler**: 
+  - `<nav>` navigasyon için
+  - `<main>` ana içerik için
+  - `<section>` bölümler için
+  - `<article>` bağımsız içerik için
+  - `<aside>` yan içerik için
+
+---
+
+## 🎯 **AŞAMA 2: Klavye Navigasyonu**
+
+### **Kural 2.1: Tam Klavye Erişimi**
+- **Zorunluluk**: Tüm interactive elementler klavye ile erişilebilir olmalı
+- **Kapsam**: Butonlar, linkler, form elementleri, modal'lar, dropdown'lar
+- **Test**: Mouse kullanmadan tüm işlevler klavye ile yapılabilmeli
+
+### **Kural 2.2: Focus Yönetimi**
+- **Zorunluluk**: Focus sırası mantıklı ve tahmin edilebilir olmalı
+- **Kontrol**: Tab tuşu ile doğal okuma sırasında gezinme
+- **Görünürlük**: Focus indicator net ve görünür olmalı
+- **Yasak**: `tabindex="-1"` sadece gerektiğinde kullanılmalı
+
+### **Kural 2.3: Kısayol Tuşları**
+- **Zorunluluk**: Sık kullanılan işlemler için kısayol tuşları sağlanmalı
+- **Standart**: 
+  - ESC: Modal/dialog kapatma
+  - Enter: Seçim onaylama
+  - Space: Checkbox toggle
+  - Arrow keys: Navigasyon
+
+---
+
+## 🎯 **AŞAMA 3: ARIA Attributes ve Labeling**
+
+### **Kural 3.1: Form Labeling**
+- **Zorunluluk**: Tüm form elementleri için açık label'lar
+- **Format**: `<label for="id">` veya `aria-label` kullanımı
+- **Kontrol**: Label'lar screen reader tarafından okunabilmeli
+
+### **Kural 3.2: Button ve Link Açıklamaları**
+- **Zorunluluk**: Tüm butonlar ve linkler için açıklayıcı metin
+- **Format**: `aria-label` veya `aria-describedby` kullanımı
+- **İçerik**: Butonun ne yaptığını açıkça belirten metin
+
+### **Kural 3.3: Modal ve Dialog Erişilebilirliği**
+- **Zorunluluk**: Modal'lar için `aria-modal="true"`
+- **Focus Trap**: Modal açıkken focus dışarı çıkmamalı
+- **Kapatma**: ESC tuşu ile kapatma zorunlu
+- **Başlık**: Modal başlığı `aria-labelledby` ile ilişkilendirilmeli
+
+### **Kural 3.4: List ve Navigation**
+- **Zorunluluk**: Listeler için `role="list"` ve `role="listitem"`
+- **Navigasyon**: Navigation menüleri için `role="navigation"`
+- **Aktif Durum**: Aktif menü öğesi `aria-current="page"` ile işaretlenmeli
+
+---
+
+## 🎯 **AŞAMA 4: Görsel Erişilebilirlik**
+
+### **Kural 4.1: Renk Kontrastı**
+- **Zorunluluk**: WCAG AA standardına uygun kontrast oranları
+- **Standart**: Normal metin için 4.5:1, büyük metin için 3:1
+- **Test**: Otomatik kontrast test araçları kullanılmalı
+- **Yasak**: Sadece renk ile bilgi aktarımı
+
+### **Kural 4.2: Alt Text ve Görsel İçerik**
+- **Zorunluluk**: Tüm görseller için açıklayıcı alt text
+- **Format**: Görselin amacını ve içeriğini açıklayan metin
+- **Dekoratif**: Sadece dekoratif görseller için `alt=""`
+- **Karmaşık**: Karmaşık görseller için `aria-describedby`
+
+### **Kural 4.3: Focus Indicator**
+- **Zorunluluk**: Net ve görünür focus indicator
+- **Renk**: Yeterli kontrast oranına sahip
+- **Boyut**: En az 2px kalınlık
+- **Yasak**: `outline: none` kullanımı yasak
+
+### **Kural 4.4: Metin Boyutu ve Okunabilirlik**
+- **Zorunluluk**: Minimum 16px font boyutu
+- **Satır Aralığı**: En az 1.5 satır aralığı
+- **Yazı Tipi**: Okunabilir sans-serif fontlar
+- **Responsive**: Mobilde de okunabilir boyutlar
+
+---
+
+## 🎯 **AŞAMA 5: Hareket ve Animasyon**
+
+### **Kural 5.1: Reduced Motion**
+- **Zorunluluk**: `prefers-reduced-motion` tercihine saygı
+- **Uygulama**: CSS `@media (prefers-reduced-motion: reduce)` kullanımı
+- **Alternatif**: Animasyon yerine statik görsel feedback
+
+### **Kural 5.2: Otomatik Hareket**
+- **Yasak**: Otomatik oynayan video/animasyon
+- **Kontrol**: Kullanıcı kontrolünde başlatma/durdurma
+- **Süre**: Otomatik hareket 5 saniyeden kısa olmalı
+
+### **Kural 5.3: Flashing İçerik**
+- **Yasak**: 3 saniyede 3'ten fazla yanıp sönen içerik
+- **Güvenlik**: Epilepsi nöbeti riski oluşturan içerik yasak
+
+---
+
+## 🎯 **AŞAMA 6: Form ve Input Erişilebilirliği**
+
+### **Kural 6.1: Form Validasyonu**
+- **Zorunluluk**: Gerçek zamanlı hata bildirimi
+- **Format**: `aria-invalid` ve `aria-describedby` kullanımı
+- **Mesaj**: Net ve yapıcı hata mesajları
+- **Kontrol**: Hata düzeltildiğinde bildirim güncellenmeli
+
+### **Kural 6.2: Required Fields**
+- **Zorunluluk**: Zorunlu alanlar açıkça işaretlenmeli
+- **Format**: Görsel işaret + `aria-required="true"`
+- **Kontrol**: Screen reader zorunluluğu okuyabilmeli
+
+### **Kural 6.3: Input Types**
+- **Zorunluluk**: Uygun HTML5 input type'ları kullanımı
+- **Örnekler**: `email`, `tel`, `number`, `date`, `search`
+- **Mobil**: Mobil klavye optimizasyonu
+
+---
+
+## 🎯 **AŞAMA 7: Test ve Doğrulama**
+
+### **Kural 7.1: Otomatik Test**
+- **Zorunluluk**: Her component için erişilebilirlik testi
+- **Araçlar**: axe-core, lighthouse, pa11y kullanımı
+- **Kapsam**: ARIA attributes, kontrast, klavye navigasyonu
+
+### **Kural 7.2: Manuel Test**
+- **Zorunluluk**: Screen reader ile test
+- **Araçlar**: NVDA, JAWS, VoiceOver kullanımı
+- **Kapsam**: Tüm kullanıcı yolculukları
+
+### **Kural 7.3: Klavye Test**
+- **Zorunluluk**: Sadece klavye ile tam kullanım
+- **Kapsam**: Tüm interactive elementler
+- **Kontrol**: Focus sırası ve görünürlüğü
+
+### **Kural 7.4: Kontrast Test**
+- **Zorunluluk**: Tüm renk kombinasyonları test edilmeli
+- **Araçlar**: WebAIM Contrast Checker, Stark
+- **Rapor**: Test sonuçları dokümante edilmeli
+
+---
+
+## 📋 **Uygulama Kontrol Listesi**
+
+### **✅ Zorunlu Kontroller**
+
+1. **Screen Reader Uyumluluğu**
+   - [ ] Tüm sayfalar screen reader ile test edildi
+   - [ ] ARIA live regions çalışıyor
+   - [ ] Semantic HTML kullanılıyor
+   - [ ] Alt text'ler mevcut ve açıklayıcı
+
+2. **Klavye Navigasyonu**
+   - [ ] Tüm interactive elementler klavye ile erişilebilir
+   - [ ] Focus indicator net ve görünür
+   - [ ] Tab sırası mantıklı
+   - [ ] ESC tuşu modal'ları kapatıyor
+
+3. **ARIA Attributes**
+   - [ ] Form elementleri proper label'lara sahip
+   - [ ] Button'lar açıklayıcı aria-label'lara sahip
+   - [ ] Modal'lar aria-modal attribute'una sahip
+   - [ ] List'ler role attribute'larına sahip
+
+4. **Görsel Erişilebilirlik**
+   - [ ] Renk kontrastı WCAG AA standardında
+   - [ ] Focus indicator yeterli kontrasta sahip
+   - [ ] Metin boyutu minimum 16px
+   - [ ] Reduced motion tercihi destekleniyor
+
+5. **Form Erişilebilirliği**
+   - [ ] Zorunlu alanlar işaretli
+   - [ ] Hata mesajları erişilebilir
+   - [ ] Input type'ları uygun
+   - [ ] Validasyon gerçek zamanlı
+
+### **🎯 Öncelik Sırası**
+
+1. **Kritik (Hemen)**
+   - Screen reader uyumluluğu
+   - Klavye navigasyonu
+   - Form labeling
+
+2. **Yüksek (1 Hafta)**
+   - ARIA attributes
+   - Renk kontrastı
+   - Focus yönetimi
+
+3. **Orta (2 Hafta)**
+   - Animasyon kontrolü
+   - Gelişmiş test
+   - Performans optimizasyonu
+
+---
+
+## 📊 **Başarı Metrikleri**
+
+### **Hedefler**
+- **Screen Reader Uyumluluğu:** %100
+- **Klavye Navigasyonu:** %100
+- **ARIA Compliance:** %95+
+- **Renk Kontrastı:** WCAG AA standardı
+- **Test Coverage:** %90+
+
+### **Ölçüm Araçları**
+- axe-core test sonuçları
+- Lighthouse erişilebilirlik skoru
+- Manuel test raporları
+- Kullanıcı geri bildirimleri
+
+---
+
+## 🚫 **Yasaklanan Uygulamalar**
+
+### **Kesinlikle Yasak**
+- `outline: none` kullanımı
+- Sadece renk ile bilgi aktarımı
+- `tabindex="-1"` gereksiz kullanımı
+- Alt text olmayan görseller
+- Label olmayan form elementleri
+- Otomatik oynayan video/animasyon
+- 3 saniyede 3'ten fazla yanıp sönen içerik
+
+### **Kaçınılması Gerekenler**
+- Karmaşık ARIA yapıları
+- Gereksiz role attribute'ları
+- Aşırı animasyon
+- Küçük tıklama alanları
+- Düşük kontrast renkler
+
+---
+
+## 📚 **Referans Standartlar**
+
+- **WCAG 2.1 AA**: Ana erişilebilirlik standardı
+- **Section 508**: ABD federal standartları
+- **EN 301 549**: Avrupa erişilebilirlik standardı
+- **ISO 9241-171**: Uluslararası erişilebilirlik standardı
+
+Bu kurallar ile QR Menu Elite Edition, tüm kullanıcılar için eşit erişim sağlayan tamamen erişilebilir bir platform haline gelecektir.

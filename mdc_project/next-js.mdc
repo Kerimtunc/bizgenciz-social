@@ -1,0 +1,42 @@
+---
+description: This rule provides comprehensive guidance for Next.js development. It combines community best practices with our project's strict architectural principles, focusing on Server Components, API Routes, and performance optimization as the core of our user experience.
+globs: *.js,*.jsx,*.ts,*.tsx
+---
+
+# Next.js Best Practices & Project Constitution
+
+This document outlines best practices for developing our Next.js application, integrating community standards with our project's unbreakable principles.
+
+## 1. Core Directives for the AI Agent
+- **Directive 1 (The Law of the Server):** Default to Server Components for everything. A component can only be a Client Component (`'use client'`) if it absolutely requires interactivity (hooks like `useState`, `useEffect`, or event handlers). Justify every use of `'use client'` with a comment explaining why it's necessary.
+- **Directive 2 (The Law of the API Route):** All backend logic MUST be exposed through Next.js API Routes (or tRPC procedures running within them). There is no separate backend server. This enforces the monolithic repository structure and simplifies deployment.
+- **Directive 3 (The Law of Evidence-Based Rendering):** Do not choose a rendering strategy (SSR, SSG, ISR) by assumption. The choice MUST be based on the data's nature:
+    - **SSG (`getStaticProps` / default `fetch` caching):** For data that is static or changes infrequently (e.g., a blog post, legal pages).
+    - **SSR (`getServerSideProps` / `fetch` with `cache: 'no-store'`):** For data that is highly dynamic and must be fresh on every request (e.g., a user's dashboard, order status).
+    - **ISR (`revalidate` option):** For data that is popular and changes periodically, not on every request (e.g., the main product menu).
+
+## 2. Unbreakable Architectural Constitution
+- **Rule 2.1 (Directory Structure - App Router):** The `app/` directory is the mandatory standard for all routing and UI. The `pages/` directory is forbidden for new development.
+- **Rule 2.2 (API Contract Adherence):** All client-side data fetching hooks (like `useSWR`, `React Query`, or direct `fetch` calls) MUST use the DTOs and interfaces defined by our API layer (`tRPC` or `Zod` schemas). This enforces type safety from the database to the browser.
+- **Rule 2.3 (State Management Boundaries - Constitutional Separation):**
+    - **Server State (React Query/SWR):** All data originating from the API, cached data, and data requiring revalidation MUST be managed with `React Query` or `SWR`. This includes all GET request results, API responses, and server-side data that needs caching, background updates, or synchronization.
+    - **Client State (Zustand):** UI-specific temporary states (e.g., "is modal open?", "dark mode active?") or global states that affect multiple components (e.g., "shopping cart contents", "user preferences") MUST be managed with `Zustand`. Do not store server data in client state managers.
+    - **Reference Note:** For proper React Query/SWR usage, cache key strategies, and stale-while-revalidate logic, refer to the project's `react-query.mdc` file.
+
+## 3. Integrated Security Fabric
+- **Rule 3.1 (Environment Variable Security):** Secrets (database URLs, API keys) MUST be defined as server-side environment variables and NEVER exposed to the client. Variables prefixed with `NEXT_PUBLIC_` are considered public and must not contain sensitive information.
+- **Rule 3.2 (API Route Protection):** All API Routes that perform mutations or access sensitive data MUST be protected by authentication and authorization middleware that validates the user's JWT and tenancy.
+- **Rule 3.3 (Component Security):** Sanitize all user-generated content before rendering to prevent XSS. Avoid `dangerouslySetInnerHTML`.
+
+## 4. Proactive Quality & Optimization Protocol (BugBot Mode)
+- **Performance Analysis:**
+    - **Image Optimization:** "Am I using a standard `<img>` tag? This is an anti-pattern. Refactor to use the `next/image` component for automatic optimization, resizing, and lazy loading."
+    - **Font Optimization:** "Am I importing fonts via a CSS `@import` in a stylesheet? This blocks rendering. Refactor to use `next/font` to optimize font loading and eliminate layout shift."
+    - **Bundle Analysis:** "Have I added a new, large dependency? I must run `@next/bundle-analyzer` to verify it doesn't disproportionately increase the client-side bundle size."
+- **Code Smell Detection:**
+    - **Server Code in Client Components:** "Does this `'use client'` component contain database or file system access logic? This is a critical error and a security risk. This logic must be moved to a Server Component or an API Route."
+    - **Inefficient Data Fetching:** "Am I fetching the same data in multiple child components? This is inefficient. Refactor to fetch the data once in a shared parent layout or page and pass it down."
+- **Accessibility Audit:**
+    - "Does every page have unique and descriptive metadata generated via the `generateMetadata` function?"
+    - "Is every interactive element accessible via keyboard navigation?"
+- **Automated Refactoring Suggestion:** If a component is found fetching data on the client-side with `useEffect`, but has no other client-side interactivity, propose refactoring it into an `async` Server Component to fetch data on the server, improving performance and reducing client-side JavaScript.

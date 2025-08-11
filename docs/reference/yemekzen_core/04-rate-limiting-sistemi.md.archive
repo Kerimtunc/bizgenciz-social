@@ -1,0 +1,343 @@
+# Rate Limiting Sistemi - Mevcut Durum ve Gelecek Planı
+
+## 📊 Mevcut Durum Analizi
+
+### 🔧 Şu Anki Konfigürasyon
+```typescript
+const RATE_LIMITS = {
+  api: { limit: 100, window: 60 },        // 100 request/dakika
+  auth: { limit: 5, window: 900 },        // 5 login/15 dakika  
+  register: { limit: 3, window: 3600 },   // 3 kayıt/saat
+  email: { limit: 10, window: 3600 },     // 10 email/saat
+  menu: { limit: 5000, window: 60 },      // 5000 menu view/dakika ✅ (artırıldı)
+  order: { limit: 50, window: 300 },      // 50 sipariş/5 dakika
+};
+```
+
+### ⚠️ Kritik Sorunlar
+
+#### 1. **Menu Rate Limit Yetersizliği** ✅ ÇÖZÜLDÜ
+- **Önceki:** 1000 görüntülenme/dakika
+- **Şu Anki:** 5000 görüntülenme/dakika (5x artırıldı)
+- **Durum:** Geçici çözüm uygulandı, dinamik sistem planlanıyor
+- **Sonraki Adım:** Restoran bazlı dinamik limitler
+
+#### 2. **Sabit Limitler**
+- Tüm kullanıcılar aynı limitlere sahip
+- Premium kullanıcılar için farklılaştırma yok
+- Restoran büyüklüğüne göre dinamik ayarlama yok
+
+#### 3. **Basit Sliding Window**
+- Redis'te basit `INCR` kullanımı
+- Distributed rate limiting için yetersiz
+- Burst traffic'i iyi handle etmiyor
+
+## 🚀 Gelecek Planı - Ölçeklenebilir Rate Limiting
+
+### 📈 Faz 1: Dinamik Limit Sistemi (1-2 Hafta)
+
+#### 1.1 Restoran Bazlı Limitler
+```typescript
+interface RestaurantRateLimits {
+  small: { menu: 2000, order: 100 };      // 1-50 masa
+  medium: { menu: 5000, order: 250 };     // 51-200 masa  
+  large: { menu: 10000, order: 500 };     // 201+ masa
+  enterprise: { menu: 25000, order: 1000 }; // Zincir restoranlar
+}
+```
+
+#### 1.2 Kullanıcı Tipleri
+```typescript
+interface UserRateLimits {
+  anonymous: { menu: 100, order: 0 };     // QR tarayıcılar
+  registered: { menu: 1000, order: 50 };  // Kayıtlı kullanıcılar
+  premium: { menu: 5000, order: 200 };    // Premium üyeler
+  business: { menu: 10000, order: 500 };  // İş hesabı
+}
+```
+
+#### 1.3 Dinamik Limit Hesaplama
+```typescript
+async function calculateDynamicLimit(
+  restaurantId: string,
+  endpoint: string,
+  userType: UserType
+): Promise<RateLimitConfig> {
+  const restaurant = await getRestaurant(restaurantId);
+  const baseLimit = getBaseLimit(restaurant.size, endpoint);
+  const userMultiplier = getUserMultiplier(userType);
+  const timeMultiplier = getTimeMultiplier(); // Saat bazlı
+  
+  return {
+    limit: baseLimit * userMultiplier * timeMultiplier,
+    window: getOptimalWindow(endpoint)
+  };
+}
+```
+
+### 🔄 Faz 2: Gelişmiş Rate Limiting Algoritmaları (2-3 Hafta)
+
+#### 2.1 Token Bucket Algorithm
+```typescript
+class TokenBucketRateLimiter {
+  private tokens: Map<string, number>;
+  private lastRefill: Map<string, number>;
+  
+  async consume(identifier: string, tokens: number): Promise<boolean> {
+    const now = Date.now();
+    const bucket = await this.getBucket(identifier);
+    
+    // Token'ları yenile
+    const timePassed = now - bucket.lastRefill;
+    const tokensToAdd = Math.floor(timePassed / this.refillRate);
+    bucket.tokens = Math.min(bucket.capacity, bucket.tokens + tokensToAdd);
+    
+    // Token tüket
+    if (bucket.tokens >= tokens) {
+      bucket.tokens -= tokens;
+      bucket.lastRefill = now;
+      return true;
+    }
+    
+    return false;
+  }
+}
+```
+
+#### 2.2 Leaky Bucket Algorithm
+```typescript
+class LeakyBucketRateLimiter {
+  private buckets: Map<string, LeakyBucket>;
+  
+  async process(identifier: string): Promise<boolean> {
+    const bucket = this.getBucket(identifier);
+    const now = Date.now();
+    
+    // Bucket'tan sızan miktarı hesapla
+    const leaked = Math.floor((now - bucket.lastLeak) / bucket.leakRate);
+    bucket.tokens = Math.max(0, bucket.tokens - leaked);
+    
+    if (bucket.tokens < bucket.capacity) {
+      bucket.tokens++;
+      bucket.lastLeak = now;
+      return true;
+    }
+    
+    return false;
+  }
+}
+```
+
+### 🌐 Faz 3: Distributed Rate Limiting (3-4 Hafta)
+
+#### 3.1 Redis Cluster Desteği
+```typescript
+class DistributedRateLimiter {
+  private redisCluster: Redis.Cluster;
+  
+  async checkRateLimit(
+    key: string, 
+    limit: number, 
+    window: number
+  ): Promise<RateLimitResult> {
+    const script = `
+      local current = redis.call('incr', KEYS[1])
+      if current == 1 then
+        redis.call('expire', KEYS[1], ARGV[1])
+      end
+      return {current, redis.call('ttl', KEYS[1])}
+    `;
+    
+    const [current, ttl] = await this.redisCluster.eval(
+      script, 1, key, window
+    );
+    
+    return {
+      allowed: current <= limit,
+      remaining: Math.max(0, limit - current),
+      resetTime: Date.now() + (ttl * 1000)
+    };
+  }
+}
+```
+
+#### 3.2 Rate Limiting Proxy (Nginx/Cloudflare)
+```nginx
+# nginx.conf
+http {
+    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+    limit_req_zone $binary_remote_addr zone=menu:10m rate=100r/s;
+    
+    server {
+        location /api/ {
+            limit_req zone=api burst=20 nodelay;
+        }
+        
+        location /api/menu/ {
+            limit_req zone=menu burst=200 nodelay;
+        }
+    }
+}
+```
+
+### 📊 Faz 4: Monitoring ve Analytics (2-3 Hafta)
+
+#### 4.1 Rate Limit Metrics
+```typescript
+interface RateLimitMetrics {
+  endpoint: string;
+  totalRequests: number;
+  rateLimitedRequests: number;
+  averageResponseTime: number;
+  peakRequestsPerSecond: number;
+  uniqueUsers: number;
+  topBlockedIPs: string[];
+}
+```
+
+#### 4.2 Real-time Dashboard
+```typescript
+class RateLimitMonitor {
+  async getMetrics(timeframe: string): Promise<RateLimitMetrics[]> {
+    const pipeline = redis.pipeline();
+    
+    // Çeşitli metrikleri paralel olarak al
+    pipeline.get('rate_limit:total_requests');
+    pipeline.get('rate_limit:blocked_requests');
+    pipeline.zrange('rate_limit:peak_requests', 0, -1);
+    
+    const results = await pipeline.exec();
+    return this.processMetrics(results);
+  }
+  
+  async alertOnAnomaly(metrics: RateLimitMetrics): Promise<void> {
+    if (metrics.rateLimitedRequests / metrics.totalRequests > 0.1) {
+      await this.sendAlert('High rate limiting detected', metrics);
+    }
+  }
+}
+```
+
+### 🔧 Faz 5: Otomatik Optimizasyon (3-4 Hafta)
+
+#### 5.1 Machine Learning ile Limit Optimizasyonu
+```typescript
+class AdaptiveRateLimiter {
+  private mlModel: RateLimitMLModel;
+  
+  async optimizeLimits(restaurantId: string): Promise<void> {
+    const historicalData = await this.getHistoricalData(restaurantId);
+    const prediction = await this.mlModel.predict(historicalData);
+    
+    const newLimits = {
+      menu: prediction.expectedMenuViews * 1.2, // %20 buffer
+      order: prediction.expectedOrders * 1.1
+    };
+    
+    await this.updateRestaurantLimits(restaurantId, newLimits);
+  }
+}
+```
+
+#### 5.2 A/B Testing Rate Limits
+```typescript
+class RateLimitABTest {
+  async runABTest(
+    restaurantId: string,
+    variantA: RateLimitConfig,
+    variantB: RateLimitConfig
+  ): Promise<ABTestResult> {
+    const users = await this.getRestaurantUsers(restaurantId);
+    
+    // Kullanıcıları gruplara ayır
+    const groupA = users.slice(0, Math.floor(users.length / 2));
+    const groupB = users.slice(Math.floor(users.length / 2));
+    
+    // Her grup için farklı limitler uygula
+    await this.applyLimits(groupA, variantA);
+    await this.applyLimits(groupB, variantB);
+    
+    // Sonuçları ölç
+    return await this.measureResults(groupA, groupB);
+  }
+}
+```
+
+## 🛠️ Implementasyon Öncelikleri
+
+### 🔥 Acil (Bu Hafta)
+1. ✅ **Menu limit'ini 5000'e çıkar** - Tamamlandı
+2. **Restoran bazlı limit sistemi** - Temel altyapı
+3. **Rate limit monitoring** - Dashboard
+
+### 📈 Kısa Vadeli (1-2 Ay)
+1. **Token Bucket algoritması** - Daha iyi burst handling
+2. **Premium kullanıcı sistemi** - Gelir modeli
+3. **Distributed rate limiting** - Ölçeklenebilirlik
+
+### 🚀 Uzun Vadeli (3-6 Ay)
+1. **ML tabanlı optimizasyon** - Otomatik ayarlama
+2. **A/B testing sistemi** - Veri odaklı kararlar
+3. **Global CDN rate limiting** - Edge'de koruma
+
+## 📋 Teknik Borç ve Riskler
+
+### ⚠️ Mevcut Riskler
+1. ✅ **Redis bağlantı sorunları** - Çözüldü (Redis Cloud bağlantısı aktif)
+2. **Sabit limitler** - Ölçeklenebilirlik sorunu (menu limit'i artırıldı)
+3. **Monitoring eksikliği** - Problem tespiti zor
+
+### 🔧 Çözüm Planı
+1. ✅ **Redis Cloud bağlantısını düzelt** - Tamamlandı
+2. **Rate limit dashboard'u ekle** - Öncelik 1
+3. **Dinamik limit sistemi** - Öncelik 2
+
+## 💰 Maliyet Analizi
+
+### Redis Cloud Maliyeti
+- **Mevcut:** ~$15/ay (1GB RAM)
+- **Tahmini:** ~$50/ay (5GB RAM + Cluster)
+- **ROI:** Rate limiting sayesinde server maliyetlerinde %70 azalma
+
+### Geliştirme Maliyeti
+- **Faz 1-2:** 3-4 hafta (1 geliştirici)
+- **Faz 3-4:** 4-5 hafta (1 geliştirici + 0.5 DevOps)
+- **Faz 5:** 6-8 hafta (1 geliştirici + 0.5 Data Scientist)
+
+## 🎯 Başarı Metrikleri
+
+### 📊 KPI'lar
+1. **Rate limit aşım oranı:** < %5
+2. **API response time:** < 200ms
+3. **System uptime:** > 99.9%
+4. **User satisfaction:** > 4.5/5
+
+### 📈 Monitoring Dashboard
+```typescript
+interface RateLimitDashboard {
+  realTimeMetrics: {
+    requestsPerSecond: number;
+    rateLimitedRequests: number;
+    averageResponseTime: number;
+  };
+  topEndpoints: Array<{
+    endpoint: string;
+    requests: number;
+    rateLimited: number;
+  }>;
+  alerts: Array<{
+    type: 'high_rate_limit' | 'anomaly' | 'error';
+    message: string;
+    timestamp: Date;
+  }>;
+}
+```
+
+## 🔄 Sonraki Adımlar
+
+1. **Redis bağlantı sorununu çöz** - Kritik
+2. **Menu limit'ini artır** - Acil
+3. **Rate limit dashboard'u oluştur** - Orta vadeli
+4. **Dinamik limit sistemi** - Uzun vadeli
+
+Bu plan ile YemekZen, büyük restoranlar ve yüksek trafikli etkinlikler için hazır hale gelecek. 🚀 
