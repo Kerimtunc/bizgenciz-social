@@ -21,15 +21,23 @@ jobs:
       - name: Install deps (pnpm or npm)
         run: |
           if [ -f pnpm-lock.yaml ]; then npm i -g pnpm && pnpm i --frozen-lockfile; else npm ci || npm i; fi
+        env:
+          CI: true
 
       - name: Type check
-        run: npm run type-check || true
+        run: npm run type-check
 
       - name: Lint
-        run: npm run lint || true
+        run: npm run lint
 
       - name: Build
         run: npm run build
+
+      - name: Save mcp-server-git logs (if any)
+        if: always()
+        run: |
+          mkdir -p logs || true
+          echo "No mcp-server-git logs collected in runner" > logs/mcp-server-git.txt
 
       - name: Skip tests (archived)
         run: echo "Tests archived. See docs/reference/tests-archive."

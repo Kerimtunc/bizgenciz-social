@@ -40,4 +40,5 @@ prisma/*.db-journal
 .turbo/
 *.cache/
 tmp/
+logs/
 
