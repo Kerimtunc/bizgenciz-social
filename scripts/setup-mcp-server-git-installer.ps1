@@ -24,15 +24,27 @@ if (-not (Get-Command pipx -ErrorAction SilentlyContinue)) {
 Write-Output "Installing mcp-server-git via pipx (may be slow)..."
 pipx install mcp-server-git || pipx upgrade mcp-server-git
 
-# 4) Create logs directory
-$logDir = Join-Path $RepoPath "..\\logs\\mcp-server-git"
+# 4) Create logs directory inside the repository (ignored by git)
+#    e.g. C:\kod\cekirdek\logs\mcp-server-git
+$logDir = Join-Path $RepoPath "logs\\mcp-server-git"
 if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
 
 # 5) Optionally run mcp-server-git for the provided repo path
 if ($RunNow) {
+  # ensure archive dir
+  $archiveDir = Join-Path $logDir "archive"
+  if (-not (Test-Path $archiveDir)) { New-Item -ItemType Directory -Path $archiveDir -Force | Out-Null }
+
+  # rotate old logs older than 7 days into archive
+  Get-ChildItem -Path $logDir -Filter "*.log" -File -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-7) } | ForEach-Object {
+    Move-Item -Path $_.FullName -Destination (Join-Path $archiveDir $_.Name) -Force
+  }
+
   $logFile = Join-Path $logDir ("mcp-server-git-" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".log")
   Write-Output "Running mcp-server-git against $RepoPath; logs -> $logFile"
-  Start-Process -FilePath "pipx" -ArgumentList "run mcp-server-git -r `"$RepoPath`" --verbose" -NoNewWindow -RedirectStandardOutput $logFile -RedirectStandardError $logFile -Wait
+  # Run via pipx so it's isolated; redirect stdout/stderr to log file
+  & pipx run mcp-server-git -r "$RepoPath" --verbose *> $logFile 2>&1
+
   Write-Output "Done. Tail of log:"
   Get-Content $logFile -Tail 200
 } else {

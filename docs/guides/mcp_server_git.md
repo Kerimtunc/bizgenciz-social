@@ -158,9 +158,9 @@ gh run view <run-id> -R Kerimtunc/bizgenciz-social --log
 
 8) Örnek: PowerShell ile mcp-server-git loglarını almak
 ```powershell
-# Cursor çağrısı yerine manuel log almak isterseniz:
-uvx mcp-server-git -r C:\\kod\\cekirdek --verbose > C:\\temp\\mcp-server-git.log 2>&1
-Get-Content C:\\temp\\mcp-server-git.log -Tail 200 -Wait
+# Cursor çağrısı yerine manuel log almak isterseniz (proje içi logs dizinine yazılır):
+uvx mcp-server-git -r C:\\kod\\cekirdek --verbose > C:\\kod\\cekirdek\\logs\\mcp-server-git\\mcp-server-git-$(Get-Date -Format yyyyMMdd-HHmmss).log 2>&1
+Get-Content C:\\kod\\cekirdek\\logs\\mcp-server-git\\mcp-server-git-*.log -Tail 200 -Wait
 ```
 
 Bu adımların sonunda Cursor, mcp.json üzerinden `mcp-server-git` servisini başlatıp repo bağlamında git/status/actions sorgularını yapabilir.
