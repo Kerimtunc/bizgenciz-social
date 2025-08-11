@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "MCP: Setup mcp-server-git (install only)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\setup-mcp-server-git-installer.ps1",
+        "-RepoPath",
+        "${workspaceFolder}"
+      ],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "MCP: Setup mcp-server-git (install + run)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\setup-mcp-server-git-installer.ps1",
+        "-RepoPath",
+        "${workspaceFolder}",
+        "-RunNow"
+      ],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "MCP: Tail latest mcp-server-git log",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-NoExit",
+        "-Command",
+        "$f = Get-ChildItem -Path \"${workspaceFolder}\\logs\\mcp-server-git\" -Filter '*.log' -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($f){ Get-Content $f.FullName -Tail 200 -Wait } else { Write-Host 'No mcp-server-git log files found in ${workspaceFolder}\\logs\\mcp-server-git' }"
+      ],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    }
+  ]
+}
+
+

@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "PowerShell: Tail MCP Log",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}\\scripts\\setup-mcp-server-git-installer.ps1",
+      "args": ["-RepoPath", "${workspaceFolder}", "-RunNow"],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
+
+
