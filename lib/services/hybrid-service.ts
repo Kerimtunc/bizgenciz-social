@@ -41,8 +41,9 @@ export class HybridService {
       // 2. Cache'de yoksa veritabanından al
       console.log(`🔍 Menu cache miss: ${cacheKey}, fetching from database...`);
       // If Prisma schema does not include 'product' (we use Supabase tables),
-      // fall back to using Prisma via any cast to avoid TypeScript errors.
-      const _prisma: any = prisma as any;
+      // fall back to a narrow typed shim instead of `any` to satisfy ESLint.
+      type MaybeProductClient = { product?: { findMany: (opts?: unknown) => Promise<unknown[]> } }
+      const _prisma = prisma as unknown as MaybeProductClient;
       const menuItems = _prisma.product
         ? await _prisma.product.findMany({
             where: {
@@ -93,7 +94,8 @@ export class HybridService {
 
       // 2. Cache'de yoksa veritabanından al
       console.log('🔍 Popular products cache miss, fetching from database...');
-      const _prisma: any = prisma as any;
+      type MaybeProductClient = { product?: { findMany: (opts?: unknown) => Promise<unknown[]> } }
+      const _prisma = prisma as unknown as MaybeProductClient;
       const popularProducts = _prisma.product
         ? await _prisma.product.findMany({
             where: { isAvailable: true },
@@ -104,7 +106,9 @@ export class HybridService {
         : null;
 
       // 3. Cache'e kaydet (30 dakika)
-      await cacheService.cachePopularProducts(popularProducts, cacheUtils.TTL.MEDIUM);
+      if (popularProducts) {
+        await cacheService.cachePopularProducts(popularProducts, cacheUtils.TTL.MEDIUM);
+      }
       console.log('💾 Popular products cached');
 
       return popularProducts;
