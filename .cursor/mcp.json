@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "bizgenciz-mcp": {
+      "command": "/usr/bin/node",
+      "args": [
+        "/workspace/mcp_servers/dist/index.js"
+      ],
+      "cwd": "/workspace/mcp_servers",
+      "autoStart": true
+    }
+  }
+}
