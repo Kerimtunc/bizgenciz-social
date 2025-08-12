@@ -7,7 +7,7 @@ Type=simple
 WorkingDirectory=/opt/bizgenciz-social
 Environment=NODE_ENV=production
 EnvironmentFile=/opt/bizgenciz-social/.env.local
-ExecStart=/usr/bin/env bash -lc 'PORT=${PORT:-3000} node .next/standalone/server.js'
+ExecStart=/usr/bin/env bash -lc 'PORT=${PORT:-3000} /usr/bin/node /opt/bizgenciz-social/scripts/node-watchdog-wrapper.js /usr/bin/node .next/standalone/server.js'
 Restart=always
 RestartSec=5
 KillSignal=SIGINT
