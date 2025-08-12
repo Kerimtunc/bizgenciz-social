@@ -1,7 +1,9 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch'
 import { appRouter, createTRPCContext } from '@/server/api/root'
+import { apiHandler } from '@/lib/api-utils'
+import { logger } from '@/lib/logger'
 
-const handler = (req: Request) =>
+const innerHandler = (req: Request, ctx: { requestId: string }) =>
   fetchRequestHandler({
     endpoint: '/api/trpc',
     req,
@@ -12,7 +14,12 @@ const handler = (req: Request) =>
         ? ({ path, error }) => {
             console.error(`❌ tRPC failed on ${path ?? '<no-path>'}: ${error.message}`)
           }
-        : undefined,
+        : ({ path, error }) => {
+            // production: log and optionally send to Sentry via apiUtils
+            logger.error('tRPC handler error', { requestId: ctx.requestId, path, error: error.message })
+          },
   })
+
+const handler = apiHandler(async (req, ctx) => innerHandler(req, ctx))
 
 export { handler as GET, handler as POST }

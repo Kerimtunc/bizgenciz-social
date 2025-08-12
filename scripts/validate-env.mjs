@@ -1,6 +1,51 @@
 #!/usr/bin/env node
 // Validate required environment variables and print actionable report
 import { z } from 'zod'
+import fs from 'fs'
+import path from 'path'
+
+// load .env files if present to populate process.env for local developer workflows
+try {
+  const dotenvPathLocal = path.join(process.cwd(), '.env.local')
+  const dotenvPath = path.join(process.cwd(), '.env')
+  // eslint-disable-next-line no-await-in-loop
+  const dotenv = await import('dotenv')
+  if (fs.existsSync(dotenvPathLocal)) {
+    dotenv.config({ path: dotenvPathLocal })
+  }
+  if (fs.existsSync(dotenvPath)) {
+    dotenv.config({ path: dotenvPath })
+  }
+} catch (e) {
+  // ignore if dotenv isn't available or files don't exist
+}
+
+// Sanitize loaded env values: trim and remove inline comments like " # comment"
+function sanitizeEnvValue(val) {
+  if (typeof val !== 'string') return val
+  let v = val.trim()
+  // remove inline comment starting with space+hash or tab+hash
+  const inlineCommentMatch = v.match(/(\s+#|\s+\t#|\s+#\s).*/)
+  if (inlineCommentMatch) {
+    v = v.slice(0, inlineCommentMatch.index).trim()
+  }
+  // also remove trailing ' #comment' without preceding space
+  const hashIndex = v.indexOf(' #')
+  if (hashIndex !== -1) v = v.slice(0, hashIndex).trim()
+  // remove surrounding quotes if present
+  if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+    v = v.slice(1, -1)
+  }
+  return v
+}
+
+for (const k of Object.keys(process.env)) {
+  try {
+    process.env[k] = sanitizeEnvValue(process.env[k])
+  } catch (e) {
+    // ignore
+  }
+}
 
 const schema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().url({ message: 'Geçerli bir URL olmalı' }),

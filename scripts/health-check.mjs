@@ -18,6 +18,7 @@ try {
 // Lazy imports (installed in project)
 import { createClient } from '@supabase/supabase-js'
 import Redis from 'ioredis'
+import pg from 'pg'
 
 const nowIso = new Date().toISOString()
 const results = {
@@ -47,9 +48,47 @@ async function checkSupabase() {
     for (const table of candidates) {
       tried.push(table)
       try {
-        const { error } = await sb.from(table).select('id').limit(1)
-        if (!error) {
+        const { data, error } = await sb.from(table).select('id').limit(1)
+        if (!error && data) {
           return { ok: true, table }
+        }
+        // If PostgREST returns 404 or schema cache issue, try a REST fallback using direct fetch
+        if (error && error.code === 'PGRST205') {
+          try {
+            const restUrl = `${url.replace(/\/$/, '')}/rest/v1/${table}?select=id&limit=1`
+            const resp = await fetch(restUrl, {
+              headers: {
+                apikey: serviceKey,
+                Authorization: `Bearer ${serviceKey}`,
+              },
+            })
+            if (resp.ok) {
+              const body = await resp.json().catch(()=>null)
+              return { ok: true, table, fallback: 'rest' }
+            }
+          } catch (e) {
+            // ignore and continue
+          }
+        }
+        // If REST/PostgREST fails, optionally try direct Postgres connection via DATABASE_URL/DIRECT_URL
+        const allowFallback = getEnv('HEALTH_ALLOW_PG_FALLBACK', process.env.NODE_ENV === 'development' ? 'true' : 'false') === 'true'
+        if (allowFallback) {
+          try {
+            const connStr = getEnv('DATABASE_URL', getEnv('DIRECT_URL', ''))
+            if (connStr) {
+              const client = new pg.Client({ connectionString: connStr })
+              await client.connect()
+              try {
+                await client.query({ text: `SELECT 1 FROM public.${table} LIMIT 1` })
+                await client.end()
+                return { ok: true, table, fallback: 'pg' }
+              } catch (pgErr) {
+                await client.end().catch(()=>{})
+              }
+            }
+          } catch (e) {
+            // ignore and continue
+          }
         }
       } catch (err) {
         // continue trying next candidate

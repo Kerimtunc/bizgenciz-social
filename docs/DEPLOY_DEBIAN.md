@@ -56,6 +56,36 @@ sudo systemctl restart bizgenciz-web
 - Supabase/Redis erişim hatalarında `.env.local` değerlerini doğrulayın.
 
 
+## GitHub Actions Self-Hosted Runner (Debian)
+
+Gerçek servise karşı Playwright duman testlerini çalıştırmak için Debian sunucunuza self-hosted runner kurabilirsiniz.
+
+1) Kullanıcı ve dizin hazırlığı:
+```bash
+sudo adduser --system --group ci
+sudo mkdir -p /opt/actions-runner && sudo chown ci:ci /opt/actions-runner
+sudo -u ci bash -lc 'cd /opt/actions-runner && curl -o actions-runner.tar.gz -L https://github.com/actions/runner/releases/latest/download/actions-runner-linux-x64-2.319.1.tar.gz && tar xzf actions-runner.tar.gz'
+```
+
+2) GitHub repo ayarlarından Self-hosted runner ekleyin ve verilen komutu çalıştırın (örnek):
+```bash
+sudo -u ci bash -lc '/opt/actions-runner/config.sh --unattended --url https://github.com/<OWNER>/<REPO> --token <TOKEN> --labels self-hosted,deb'
+```
+
+3) Servis olarak başlatın:
+```bash
+sudo -u ci bash -lc '/opt/actions-runner/svc.sh install && /opt/actions-runner/svc.sh start'
+```
+
+4) Repo Secrets’a `SELFHOST_BASE_URL` (ör: `https://bizgenciz.example.com`) ekleyin.
+
+5) Actions sekmesinden `Self-Hosted Smoke (Debian)` workflow’unu çalıştırın (veya otomatik zamanlayıcıyı bekleyin).
+
+Notlar:
+- Runner, `playwright.config.ts` içindeki projelere göre Chromium/Firefox/WebKit üzerinde smoke testlerini çalıştırır.
+- Servis erişilemiyorsa test fail olur; loglar Actions ekranından incelenebilir.
+
+
 
 ## Otomatik Kurulum Scripti
 

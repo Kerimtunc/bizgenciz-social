@@ -7,6 +7,7 @@ import { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 */
 
 import type { AppRouter } from '@/server/api/root'
+import superjson from 'superjson'
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') return '' // browser should use relative url
@@ -15,9 +16,11 @@ const getBaseUrl = () => {
 }
 
 /** A set of typesafe hooks for consuming your API. */
-export const api = createTRPCNext<AppRouter>({
+export const api = (createTRPCNext as any)<AppRouter>({
   config() {
     return {
+      // transformer shim for typing; httpBatchLink carries actual transformer
+      transformer: superjson as any,
       links: [
         loggerLink({
           enabled: (opts) =>
@@ -26,9 +29,10 @@ export const api = createTRPCNext<AppRouter>({
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          transformer: superjson,
         }),
       ],
-    }
+    } as any
   },
   /**
    * Whether tRPC should await queries when server rendering pages.

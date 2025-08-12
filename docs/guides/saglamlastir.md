@@ -61,6 +61,20 @@ Amaç: Konsol/IDE/terminalde “anlamsız” hataları ortadan kaldırmak, hatay
 - Log standardı: JSON tek satır, seviyeli; prod’da `console.*` yerine tek log helper.
 - Nginx: domain geldikten sonra `scripts/setup-nginx.sh <domain>` ve TLS; güvenlik başlıkları aktifleştir.
 
+#### TRPC Geliştirme Rehberi (Hızlı Başlangıç)
+- `server/api/root.ts` içinde `validatedProcedure(schema)` helper'ı bulunur — yeni prosedürler bunu kullanarak input doğrulamalıdır.
+- Örnek kullanım:
+
+```ts
+const createUser = validatedProcedure(z.object({ name: z.string().min(1) }))
+  .mutation(async ({ input, ctx }) => {
+    // iş mantığı
+  })
+```
+
+- Hata yönetimi: prosedür içinde dışa sızan hatalar için `throw new TRPCError({ code: 'BAD_REQUEST', message: '...' })` kullanın. Zod hataları otomatik olarak formatlanır.
+
+
 ### 12) Uzun Vadeli (Opsiyonel, Büyük Proje İçin)
 - OpenTelemetry/OTLP: metrik + trace; Sentry veya Prometheus/Grafana ile birleştir.
 - Circuit breaker kütüphanesi (ör. `opossum`) kritik dış servis sarmalayıcılarında.
@@ -86,4 +100,34 @@ Bu dokümandaki önlemler “proje yapısına gömülü” olacak şekilde uygul
 - tRPC + Zod: API sözleşmeleri ve input doğrulaması zorunlu; ham hatalar yerine `TRPCError`—sızıntı engellenir.
 - Nginx + TLS (domain geldiğinde): güvenlik başlıkları, HTTP/2 ve cache; uygulama TLS yönetiminden soyutlanır.
 - CI smoke: Docker build + opsiyonel health probe; başarısızlık PR’ı engeller, loglar artefakt olur.
+
+### 13) İstemci (Web) Hatalarının Otomatik Yüzeye Çıkması
+- Dev-only overlay: Geliştirme modunda küçük bir uyarı rozeti ve konsolda structured loglar (eklendi).
+- Frontend error yakalama: `window.onerror` ve `unhandledrejection` listener’ları ile (ileride) Sentry + local dev toast tetikleyin; prod’da sadece Sentry’ye gitsin.
+- Konsol hataları kaydı: Kritik `console.error` çağrılarını logger’a yönlendiren hafif wrapper (opsiyonel).
+
+### 14) Uçtan Uca Request-ID Korelasyonu
+- Nginx: `add_header X-Request-Id $request_id; proxy_set_header X-Request-Id $request_id;` ve log_format’e `$request_id` ekleyin.
+- Uygulama: API loglarında `requestId`’ı header’dan okuyup aynı ID ile loglayın (altyapı hazır: `lib/logger.ts`, health endpoint’te kullanılıyor).
+
+### 15) Node Çalışma Zamanı Bayrakları (Dev)
+- `NODE_OPTIONS=--trace-warnings` ve `--unhandled-rejections=strict` geliştirici ortamında önerilir.
+- VS Code Tasks ile dev komutlarına otomatik enjekte edin (opsiyonel).
+
+### 16) CI Geliştirmeleri
+- Artifacts: `docker-health.json`, `logs/health/*` ve build loglarını artefakt olarak saklayın.
+- Otomatik audit: Haftalık `npm audit --omit=dev` raporu ve uyarı (opsiyonel ayrı workflow).
+- Basit canary test: `/api/health` 200 olmadan deploy engeli (şu an smoke ile kısmi var).
+
+### 17) Güvenlik ve Gizlilik
+- Sentry PII maskesi ve örnek redaction kuralları etkinleştirin (DSN mevcut; sampling prod’da düşürün).
+- Secrets maskesi: Logger’da bilinen anahtar adları maskelensin (opsiyonel iyileştirme).
+
+### 18) Veritabanı Gözlemlenebilirliği
+- Prisma query log’u geliştirmede açık; yoğunluk artarsa SELECT dışı query’ler için seviye düşürün.
+- N+1 tespiti: Şüpheli döngü + query durumlarını code review checklist’ine ekleyin.
+
+### 19) Nginx Trafik Kalkanı (Opsiyonel)
+- Rate limiting: `limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;` ve `/api` lokasyonunda `limit_req zone=api burst=20 nodelay;`.
+- Basic cache headers: statikler için `immutable` (ekli), dinamik endpoint’ler için `no-store` (ekli).
 
