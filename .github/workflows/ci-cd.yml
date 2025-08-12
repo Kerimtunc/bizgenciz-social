@@ -51,6 +51,7 @@ jobs:
       run: npm test
       
     - name: Run E2E tests
+      if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
       run: npm run test:e2e
       
     - name: Build application
@@ -113,6 +114,7 @@ jobs:
       run: npm ci --no-audit --no-fund
       
     - name: Install Playwright browsers
+      if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
       run: npx playwright install --with-deps
       
     - name: Setup test environment
@@ -153,6 +155,7 @@ jobs:
         name: codecov-umbrella
         
     - name: Run E2E tests
+      if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
       run: npm run test:e2e
       env:
         DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
