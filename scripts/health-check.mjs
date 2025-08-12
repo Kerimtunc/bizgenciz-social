@@ -52,6 +52,15 @@ async function checkSupabase() {
         // continue trying next candidate
       }
     }
+    // If none of the candidates worked, attempt to list tables via Supabase REST
+    try {
+      const { data, error } = await sb.rpc('pg_tables')
+      if (!error && data) {
+        return { ok: false, error: 'None of candidate tables queryable; pg_tables RPC returned data', tried, pg_tables_count: data.length }
+      }
+    } catch (e) {
+      // ignore
+    }
     // If none of the candidates worked, return the last error info
     return { ok: false, error: `None of candidate tables exist or are queryable`, tried }
   } catch (err) {
