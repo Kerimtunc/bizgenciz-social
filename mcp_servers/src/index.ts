@@ -61,7 +61,7 @@ async function runChecks(projectRoot: string) {
   }
 
   const summary = Object.entries(results)
-    .map(([k, v]) => summarize(k, v as any))
+    .map(([k, v]) => summarize(k, (v as any)))
     .join(" | ");
 
   return { summary, results };
@@ -172,6 +172,23 @@ async function startServer() {
 async function main() {
   const projectRoot = findProjectRoot(path.resolve(process.cwd(), ".."));
 
+  // Fast-path CLI flags
+  if (process.argv.includes("--version") || process.argv.includes("-v")) {
+    try {
+      const pkgPath = path.join(process.cwd(), "package.json");
+      const raw = fs.readFileSync(pkgPath, "utf8");
+      const { version, name } = JSON.parse(raw);
+      console.log(`${name} v${version}`);
+    } catch {
+      console.log("bizgenciz-mcp v0.1.0");
+    }
+    process.exit(0);
+  }
+  if (process.argv.includes("--help") || process.argv.includes("-h")) {
+    console.log(`BizGenciz MCP\n\nKullanım:\n  node dist/index.js [--help] [--version] [--selftest]\n\nFlags:\n  --help, -h     Yardım\n  --version, -v  Sürüm bilgisini yazdırır\n  --selftest     Dahili kontrol akışını çalıştırır ve özet döner`);
+    process.exit(0);
+  }
+
   if (process.argv.includes("--selftest")) {
     const { summary } = await runChecks(projectRoot);
     console.log(summary);
@@ -179,7 +196,6 @@ async function main() {
   }
 
   if ((globalThis as any)[GLOBAL_INIT_KEY]) {
-    // Already initialized (likely due to dev loader); do nothing
     return;
   }
   (globalThis as any)[GLOBAL_INIT_KEY] = true;
