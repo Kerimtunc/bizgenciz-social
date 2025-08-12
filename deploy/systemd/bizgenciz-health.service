@@ -1,0 +1,17 @@
+[Unit]
+Description=BizGenciz Health Loop
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/bizgenciz-social
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/bizgenciz-social/.env.local
+ExecStart=/usr/bin/node /opt/bizgenciz-social/scripts/health-check.mjs
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+
+

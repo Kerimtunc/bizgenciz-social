@@ -1,0 +1,18 @@
+[Unit]
+Description=BizGenciz Web (Next.js Standalone)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/bizgenciz-social
+Environment=NODE_ENV=production
+EnvironmentFile=/opt/bizgenciz-social/.env.local
+ExecStart=/usr/bin/env bash -lc 'PORT=${PORT:-3000} node .next/standalone/server.js'
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
+
+

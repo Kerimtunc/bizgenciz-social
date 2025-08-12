@@ -37,27 +37,19 @@ npm run health:loop
 ```
 
 ### 5) Debian/Ubuntu Servisleştime (Opsiyonel)
-Node betiğini systemd servisi olarak çalıştırmak için örnek unit dosyası (root olarak kaydedin):
-```
-[Unit]
-Description=BizGenciz Health Loop
-After=network.target
+Hazır unit dosyaları repo içinde:
+- `deploy/systemd/bizgenciz-web.service` (Next.js standalone)
+- `deploy/systemd/bizgenciz-health.service` (health-check loop)
 
-[Service]
-Type=simple
-WorkingDirectory=/opt/bizgenciz-social
-ExecStart=/usr/bin/node /opt/bizgenciz-social/scripts/health-check.mjs
-Restart=always
-Environment=NODE_ENV=production
-EnvironmentFile=/opt/bizgenciz-social/.env.local
-
-[Install]
-WantedBy=multi-user.target
-```
-Komutlar:
+Kurulum komutları (root):
 ```bash
-sudo cp bizgenciz-health.service /etc/systemd/system/
+sudo mkdir -p /opt/bizgenciz-social
+sudo rsync -av --delete . /opt/bizgenciz-social/ # veya git pull
+cd /opt/bizgenciz-social && npm ci && npm run build # Next.js standalone çıktısı
+sudo cp deploy/systemd/bizgenciz-web.service /etc/systemd/system/
+sudo cp deploy/systemd/bizgenciz-health.service /etc/systemd/system/
 sudo systemctl daemon-reload
+sudo systemctl enable --now bizgenciz-web
 sudo systemctl enable --now bizgenciz-health
 sudo journalctl -u bizgenciz-health -f
 ```
