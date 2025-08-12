@@ -11,6 +11,12 @@ ExecStart=/usr/bin/env bash -lc 'PORT=${PORT:-3000} node .next/standalone/server
 Restart=always
 RestartSec=5
 KillSignal=SIGINT
+TimeoutStartSec=30
+StartLimitIntervalSec=60
+StartLimitBurst=5
+# Optional watchdog: enable and implement sd_notify in the app to use. Example:
+# WatchdogSec=60
+# Type=notify
 
 [Install]
 WantedBy=multi-user.target
