@@ -577,7 +577,6 @@ export default function BizGencizGroupsPage() {
   const [showLimitMessage, setShowLimitMessage] = useState(false)
   const [welcomeKitTab, setWelcomeKitTab] = useState("groups")
   const [activeGuideSection, setActiveGuideSection] = useState(0)
-  const [guideSectionScrollY, setGuideSectionScrollY] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [selectedLetterFeedback, setSelectedLetterFeedback] = useState("")
   const containerRef = useRef<HTMLDivElement>(null)
@@ -702,24 +701,27 @@ export default function BizGencizGroupsPage() {
 
   // Filtrelenmiş bölümler
   const filteredDepartments = useMemo(() => {
+    const departmentData = {
+      lisans: groupData.lisans,
+      onlisans: groupData.onlisans,
+    }
     const currentData = departmentData[activeTab as keyof typeof departmentData]
     let filtered = currentData
 
     // Arama filtresi
     if (searchQuery.trim()) {
-      filtered = filtered.filter(
-        (dept) =>
-          dept.bolumAdi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          dept.fakulte.toLowerCase().includes(searchQuery.toLowerCase()),
+      filtered = filtered.filter((dept: { bolumAdi: string; fakulte?: string }) =>
+        dept.bolumAdi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (dept.fakulte ?? '').toLowerCase().includes(searchQuery.toLowerCase()),
       )
     }
 
     // Alfabetik filtre
     if (selectedLetter !== "Tümü") {
-      filtered = filtered.filter((dept) => dept.bolumAdi.charAt(0).toUpperCase() === selectedLetter)
+      filtered = filtered.filter((dept: { bolumAdi: string }) => dept.bolumAdi.charAt(0).toUpperCase() === selectedLetter)
     }
 
-    return filtered.sort((a, b) => a.bolumAdi.localeCompare(b.bolumAdi, "tr"))
+    return filtered.sort((a: { bolumAdi: string }, b: { bolumAdi: string }) => a.bolumAdi.localeCompare(b.bolumAdi, "tr"))
   }, [activeTab, searchQuery, selectedLetter])
 
   return (
@@ -746,7 +748,7 @@ export default function BizGencizGroupsPage() {
       {showLimitMessage && (
         <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-orange-500 to-amber-500 text-white p-2 text-center text-sm z-40">
           <Sparkles className="w-4 h-4 inline mr-2" />
-          3'ten fazla gruba katıldınız. Bu, diğer öğrencilere de yer açmak içindir. Anlayışınız için teşekkürler ❤️
+          3&apos;ten fazla gruba katıldınız. Bu, diğer öğrencilere de yer açmak içindir. Anlayışınız için teşekkürler ❤️
         </div>
       )}
 
@@ -819,12 +821,11 @@ export default function BizGencizGroupsPage() {
           <div className="text-center space-y-3">
             <div className="flex items-center justify-center gap-2">
               <Sparkles className="w-6 h-6 text-indigo-500 animate-pulse" />
-              <h2 className="text-2xl font-bold gradient-text">MAKÜ'ye Hoş Geldin!</h2>
+              <h2 className="text-2xl font-bold gradient-text">MAKÜ&apos;ye Hoş Geldin!</h2>
               <Sparkles className="w-6 h-6 text-indigo-500 animate-pulse" />
             </div>
             <p className="text-gray-600 text-sm leading-relaxed px-4">
-              Bölüm grubunu bulmadan önce, üniversite hayatını baştan sona değiştirecek bu başlangıç kitine mutlaka göz
-              at!
+              Üniversiteye yeni başlamış bir öğrenciysen ve &quot;Hangi gruplara katılmalıyım? Neleri takip etmeliyim?&quot; diye düşünüyorsan, bu bölüm sana yol gösterecek.
             </p>
           </div>
 
@@ -1433,7 +1434,7 @@ export default function BizGencizGroupsPage() {
           </div>
 
           <p className="text-gray-300 text-sm leading-relaxed">
-            Bu platform, MAKÜ'lü öğrencilerin hayatını kolaylaştırmak için tamamen gönüllü olarak geliştirilmiştir.
+            Bu platform, MAKÜ&apos;lü öğrencilerin hayatını kolaylaştırmak için tamamen gönüllü olarak geliştirilmiştir.
             Proje hakkındaki görüşlerinizi veya tanışmak isterseniz aşağıdaki hesaplarımdan ulaşabilirsiniz.
           </p>
 

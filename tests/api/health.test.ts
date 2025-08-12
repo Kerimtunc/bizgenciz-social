@@ -1,4 +1,5 @@
 import { GET } from '../../app/api/health/route'
+import { NextRequest } from 'next/server'
 
 // Mock NextResponse
 jest.mock('next/server', () => ({
@@ -18,7 +19,7 @@ describe('Health API', () => {
   })
 
   it('returns 200 status with health information', async () => {
-    const request = new Request('http://localhost:3000/api/health')
+    const request = new NextRequest(new URL('http://localhost:3000/api/health'))
     
     const response = await GET(request)
     
@@ -32,7 +33,7 @@ describe('Health API', () => {
   })
 
   it('includes required health check fields', async () => {
-    const request = new Request('http://localhost:3000/api/health')
+    const request = new NextRequest(new URL('http://localhost:3000/api/health'))
     
     const response = await GET(request)
     const data = await response.json()
@@ -43,7 +44,7 @@ describe('Health API', () => {
   })
 
   it('returns correct response format', async () => {
-    const request = new Request('http://localhost:3000/api/health')
+    const request = new NextRequest(new URL('http://localhost:3000/api/health'))
     
     const response = await GET(request)
     const data = await response.json()
