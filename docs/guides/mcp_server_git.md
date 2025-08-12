@@ -199,7 +199,7 @@ origin  https://github.com/Kerimtunc/bizgenciz-social.git (push)
 
 Not: `gh repo view` ile sorgularken `defaultBranch` alanı yerine `defaultBranchRef.name` veya `primaryLanguage` gibi mevcut alanları kullanabilirsiniz. Örnek:
 ```powershell
-gh repo view Kerimtunc/bizgenciz-social --json defaultBranchRef | ConvertTo-Json -Depth 5
+gh repo view Kerimtunc/bizgenciz-social --json defaultBranchRef,primaryLanguage,visibility | ConvertTo-Json -Depth 5
 ```
 
 Başarı kriterleri:

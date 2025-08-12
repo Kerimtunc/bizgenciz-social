@@ -4,6 +4,8 @@
   "description": "YemekZen QR Menu Elite Edition - Gelişmiş QR kod tabanlı dijital menü sistemi",
   "main": "index.js",
   "scripts": {
+    "health:check": "node scripts/health-check.mjs",
+    "health:loop": "node -e \"const {spawn}=require('child_process');setInterval(()=>{spawn(process.argv0,['scripts/health-check.mjs'],{stdio:'inherit'})},60000)\"",
     "dev": "next dev",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
