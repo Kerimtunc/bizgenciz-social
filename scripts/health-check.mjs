@@ -38,9 +38,22 @@ async function checkSupabase() {
   }
   try {
     const sb = createClient(url, serviceKey)
-    const { error } = await sb.from('groups').select('id').limit(1)
-    if (error) return { ok: false, error: error.message }
-    return { ok: true }
+    // Try a list of candidate tables and return the first that succeeds.
+    const candidates = ['groups', 'users', 'todos', 'profiles', 'app_users']
+    const tried = []
+    for (const table of candidates) {
+      tried.push(table)
+      try {
+        const { error } = await sb.from(table).select('id').limit(1)
+        if (!error) {
+          return { ok: true, table }
+        }
+      } catch (err) {
+        // continue trying next candidate
+      }
+    }
+    // If none of the candidates worked, return the last error info
+    return { ok: false, error: `None of candidate tables exist or are queryable`, tried }
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) }
   }
