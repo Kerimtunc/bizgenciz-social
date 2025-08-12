@@ -1,0 +1,22 @@
+{
+  "name": "bizgenciz-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "BizGenciz proje denetimleri için Model Context Protocol (MCP) sunucusu",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc -p tsconfig.json",
+    "selftest": "tsx src/index.ts --selftest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
+  }
+}
