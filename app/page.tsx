@@ -119,8 +119,8 @@ const groupData = {
       uyeSayisi: 200,
       aciklama: "Profesyonel networking grubu"
     }
-  ]
-}
+  ],
+  lisans: [
     {
       id: 3,
       bolumAdi: "Antropoloji",
