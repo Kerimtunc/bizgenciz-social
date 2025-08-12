@@ -22,7 +22,12 @@ if (-not (Get-Command pipx -ErrorAction SilentlyContinue)) {
 
 # 3) Install mcp-server-git using pipx (isolated)
 Write-Output "Installing mcp-server-git via pipx (may be slow)..."
-pipx install mcp-server-git || pipx upgrade mcp-server-git
+try {
+  pipx install mcp-server-git
+} catch {
+  Write-Output "pipx install failed, attempting upgrade..."
+  pipx upgrade mcp-server-git
+}
 
 # 4) Create logs directory inside the repository (ignored by git)
 #    e.g. C:\kod\cekirdek\logs\mcp-server-git

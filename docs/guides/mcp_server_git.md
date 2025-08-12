@@ -165,3 +165,47 @@ Get-Content C:\\kod\\cekirdek\\logs\\mcp-server-git\\mcp-server-git-*.log -Tail 
 
 Bu adımların sonunda Cursor, mcp.json üzerinden `mcp-server-git` servisini başlatıp repo bağlamında git/status/actions sorgularını yapabilir.
 
+---
+
+## Doğrulama — komutlar ve örnek çıktılar
+Aşağıdaki kısa kontrolleri yaparak kurulumun ve entegrasyonun çalıştığını doğrulayabilirsiniz.
+
+- Yerelde mcp-server-git loglarını listele (en yeni 5):
+```powershell
+Get-ChildItem -Path "${PWD}\\logs\\mcp-server-git" -File | Sort-Object LastWriteTime -Descending | Select-Object -First 5 | Format-Table FullName,LastWriteTime -AutoSize
+```
+
+- En yeni log'u tail'lemek (cihazınızda gerçek zamanlı izleme için):
+```powershell
+$f = Get-ChildItem -Path "${PWD}\\logs\\mcp-server-git" -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if ($f) { Get-Content $f.FullName -Tail 200 -Wait } else { Write-Host 'No logs found' }
+```
+
+Örnek log satırı (başarıyla bağlandığını gösterir):
+```
+INFO:mcp_server_git.server:Using repository at C:\kod\cekirdek
+```
+
+- Git remote ve GitHub repo kontrolü:
+```powershell
+git remote -v
+gh repo view Kerimtunc/bizgenciz-social --json name,url,visibility,primaryLanguage,viewerPermission
+```
+
+Örnek remote çıktısı:
+```
+origin  https://github.com/Kerimtunc/bizgenciz-social.git (fetch)
+origin  https://github.com/Kerimtunc/bizgenciz-social.git (push)
+```
+
+Not: `gh repo view` ile sorgularken `defaultBranch` alanı yerine `defaultBranchRef.name` veya `primaryLanguage` gibi mevcut alanları kullanabilirsiniz. Örnek:
+```powershell
+gh repo view Kerimtunc/bizgenciz-social --json defaultBranchRef | ConvertTo-Json -Depth 5
+```
+
+Başarı kriterleri:
+- `mcp-server-git` loglarında `Using repository at <repoPath>` görünüyor olmalı.
+- `git remote -v` doğru `origin` URL'sini göstermeli.
+- `gh repo view` çıktısı repo meta verisini döndürmeli.
+
+Eğer bu üç koşul sağlanmışsa MCP+Cursor integrasyonu çalışır durumda demektir.
+
