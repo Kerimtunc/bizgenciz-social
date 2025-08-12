@@ -39,7 +39,10 @@ async function checkSupabase() {
   try {
     const sb = createClient(url, serviceKey)
     // Try a list of candidate tables and return the first that succeeds.
-    const candidates = ['groups', 'users', 'todos', 'profiles', 'app_users']
+    // Allow overriding the probe table via env for projects with custom schema
+    const override = getEnv('SUPABASE_HEALTH_TABLE', '')
+    const defaultCandidates = ['groups', 'users', 'todos', 'profiles', 'app_users']
+    const candidates = override ? [override, ...defaultCandidates] : defaultCandidates
     const tried = []
     for (const table of candidates) {
       tried.push(table)
