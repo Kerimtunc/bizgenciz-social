@@ -1,3 +1,34 @@
+# syntax=docker/dockerfile:1.6
+
+FROM node:20-alpine AS deps
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+COPY package*.json ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+RUN apk add --no-cache libc6-compat
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+ENV NEXT_TELEMETRY_DISABLED=1
+# Prisma Client generate is safe even if not used
+RUN npx prisma generate || true
+RUN npm run build
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+ENV NODE_ENV=production
+ENV PORT=3000
+# Copy the standalone output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+USER nextjs
+EXPOSE 3000
+CMD ["node", "server.js"]
+
 # ============================================
 # AŞAMA 1: Builder - Bağımlılıkları kur ve kodu derle
 # ============================================

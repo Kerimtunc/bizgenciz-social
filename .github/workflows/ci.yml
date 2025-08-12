@@ -42,3 +42,20 @@ jobs:
       - name: Skip tests (archived)
         run: echo "Tests archived. See docs/reference/tests-archive."
 
+      - name: Docker build (smoke)
+        run: docker build -t bizgenciz-social:ci .
+
+      - name: Docker run (smoke) with health probe
+        if: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL != '' && secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY != '' && secrets.SUPABASE_SERVICE_ROLE_KEY != '' }}
+        run: |
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .ci.env
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .ci.env
+          echo "SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" >> .ci.env
+          if [ -n "${{ secrets.REDIS_URL }}" ]; then echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .ci.env; fi
+          echo "PORT=3000" >> .ci.env
+          docker run -d --name app -p 8080:3000 --env-file ./.ci.env bizgenciz-social:ci
+          sleep 10
+          curl -sf http://localhost:8080/api/health | tee docker-health.json
+          docker logs app --tail 200 | sed -e 's/.*/[container] &/'
+          docker rm -f app
+

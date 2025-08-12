@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+dist
+.git
+.github
+.vscode
+logs
+.env
+.env.*
+Dockerfile*
+**/*.md.archive
+**/tests/**
+**/docs/reference/tests-archive/**
