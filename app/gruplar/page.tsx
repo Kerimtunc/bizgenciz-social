@@ -1,23 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo, useRef } from "react"
-import {
-  Search,
-  Users,
-  GraduationCap,
-  BookOpen,
-  Instagram,
-  MessageCircle,
-  Linkedin,
-  ChevronRight,
-  MapPin,
-  Compass,
-  Coffee,
-  Calendar,
-  Star,
-  Sparkles,
-  Rocket,
-} from "lucide-react"
+import { Search, Users, GraduationCap, MessageCircle, ChevronRight, Sparkles, Rocket } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -213,7 +197,6 @@ const groupData = {
 export default function BizGencizGroupsPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeTab, setActiveTab] = useState("akademik")
-  const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [sparkles, setSparkles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>([])
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -222,11 +205,11 @@ export default function BizGencizGroupsPage() {
     const groups = groupData[activeTab as keyof typeof groupData] || []
     if (!searchQuery.trim()) return groups
 
-    return groups.filter(group => 
+    return groups.filter((group: { grupAdi: string; fakulte?: string; kategori?: string; aciklama?: string }) => 
       group.grupAdi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (group.fakulte && group.fakulte.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (group.kategori && group.kategori.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (group.aciklama && group.aciklama.toLowerCase().includes(searchQuery.toLowerCase()))
+      (group.fakulte ?? '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (group.kategori ?? '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (group.aciklama ?? '').toLowerCase().includes(searchQuery.toLowerCase())
     )
   }, [searchQuery, activeTab])
 
@@ -286,10 +269,7 @@ export default function BizGencizGroupsPage() {
     }
   }
 
-  // Harf seçimi
-  const handleLetterSelect = (letter: string) => {
-    setSelectedLetter(selectedLetter === letter ? null : letter)
-  }
+  // Harf seçimi UI içinde doğrudan setSelectedLetter ile yönetiliyor
 
   // Arama metni vurgulama
   const highlightSearchText = (text: string, query: string) => {
@@ -381,15 +361,13 @@ export default function BizGencizGroupsPage() {
                           {highlightSearchText(group.grupAdi, searchQuery)}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                          {group.fakulte}
+                          <span className="text-sm text-muted-foreground">{(group as any)?.fakulte ?? (group as any)?.kategori ?? ''}</span>
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                           {group.aciklama}
                         </p>
                       </div>
-                      <Badge variant="secondary" className="ml-2">
-                        {group.uyeSayisi} üye
-                      </Badge>
+                      <Badge variant="secondary" className="ml-2">{group.uyeSayisi} üye</Badge>
                     </div>
                     
                     <div className="flex items-center justify-between">
@@ -424,7 +402,7 @@ export default function BizGencizGroupsPage() {
                           {highlightSearchText(group.grupAdi, searchQuery)}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                          {group.kategori}
+                          <Badge variant="secondary" className="ml-2">{(group as any).kategori ?? (group as any).fakulte ?? ''}</Badge>
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                           {group.aciklama}
@@ -467,7 +445,7 @@ export default function BizGencizGroupsPage() {
                           {highlightSearchText(group.grupAdi, searchQuery)}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                          {group.kategori}
+                          <Badge variant="secondary" className="ml-2">{(group as any).kategori ?? (group as any).fakulte ?? ''}</Badge>
                         </p>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                           {group.aciklama}

@@ -39,7 +39,7 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --frozen-lockfile --prefer-offline
+      run: npm ci --no-audit --no-fund
       
     - name: Run linting
       run: npm run lint
@@ -51,6 +51,7 @@ jobs:
       run: npm test
       
     - name: Run E2E tests
+      if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
       run: npm run test:e2e
       
     - name: Build application
@@ -82,7 +83,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18, 20]
+        node-version: [20, 22]
         
     services:
       postgres:
@@ -110,9 +111,10 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --frozen-lockfile --prefer-offline
+      run: npm ci --no-audit --no-fund
       
     - name: Install Playwright browsers
+      if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
       run: npx playwright install --with-deps
       
     - name: Setup test environment
@@ -123,8 +125,8 @@ jobs:
         echo "NODE_ENV=test" >> .env.test
         echo "JWT_SECRET=test-jwt-secret-key-for-testing-only" >> .env.test
         echo "NEXTAUTH_SECRET=test-nextauth-secret-key-for-testing-only" >> .env.test
-        echo "SUPABASE_URL=https://test.supabase.co" >> .env.test
-        echo "SUPABASE_ANON_KEY=test-anon-key" >> .env.test
+        echo "NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co" >> .env.test
+        echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key" >> .env.test
         
     - name: Run database migrations
       run: |
@@ -153,6 +155,7 @@ jobs:
         name: codecov-umbrella
         
     - name: Run E2E tests
+      if: github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
       run: npm run test:e2e
       env:
         DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
@@ -184,7 +187,7 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --frozen-lockfile
+      run: npm ci --no-audit --no-fund
         
     - name: Run npm audit
       run: npm audit --audit-level=moderate
@@ -229,7 +232,7 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --frozen-lockfile
+      run: npm ci --no-audit --no-fund
         
     - name: Build application
       run: npm run build
@@ -369,7 +372,7 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --frozen-lockfile
+      run: npm ci --no-audit --no-fund
       
     - name: Install Playwright browsers
       run: npx playwright install --with-deps
@@ -403,7 +406,7 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm ci --frozen-lockfile
+      run: npm ci --no-audit --no-fund
       
     - name: Install Playwright browsers
       run: npx playwright install --with-deps

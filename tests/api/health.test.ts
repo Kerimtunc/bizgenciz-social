@@ -18,9 +18,7 @@ describe('Health API', () => {
   })
 
   it('returns 200 status with health information', async () => {
-    const request = new Request('http://localhost:3000/api/health')
-    
-    const response = await GET(request)
+    const response = await GET()
     
     expect(response.status).toBe(200)
     
@@ -32,9 +30,7 @@ describe('Health API', () => {
   })
 
   it('includes required health check fields', async () => {
-    const request = new Request('http://localhost:3000/api/health')
-    
-    const response = await GET(request)
+    const response = await GET()
     const data = await response.json()
     
     expect(data).toHaveProperty('database')
@@ -43,9 +39,7 @@ describe('Health API', () => {
   })
 
   it('returns correct response format', async () => {
-    const request = new Request('http://localhost:3000/api/health')
-    
-    const response = await GET(request)
+    const response = await GET()
     const data = await response.json()
     
     // Check all required fields
