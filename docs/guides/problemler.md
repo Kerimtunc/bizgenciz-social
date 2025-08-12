@@ -2,28 +2,20 @@ Harika bir inceleme talebi. Sağladığınız tüm kodları ve kuralları, kendi
 
 Raporumu üç ana başlıkta sunuyorum:
 
-## İnceleme Notu
+## İçindekiler
+- Hata 1: playwright.config.ts Dosyasında Çift Yapılandırma
+- Hata 2: docker-compose.yml ve docker-compose.prod.yml Dosyalarında Sabitlenmemiş İmajlar
+- Hata 3: deploy/systemd/bizgenciz-health.service Dosyasında Tekrarlanan Bölüm
+- Hata 4: .env.local Dosyasında Eksik REDIS_URL
+- Hata 5: next.config.js Dosyasında Tekrarlanan Güvenlik Başlığı
+- Hata 6: jest.config.js ve Playwright Test Yolu Uyumsuzluğu
+- Hata 7: tsconfig.json Dosyasında Gereksiz paths Tanımları
+- Hata 8: Arşivlenmiş Dokümanlar ve Pasif Kurallar
+- Hata 9: Test Stratejisi ve Kalite Güvencesi
+- Hata 10: Observability ve Dayanıklılık
+
+### Not
 İncelenirken .mdc dosyalarının içerikleri hesaba katılmalıdır.
-
-## İçindekiler
-
-## İçindekiler
-- [Hata 1: playwright.config.ts Dosyasında Çift Yapılandırma](#hata-1-playwright-config-ts-dosyasi)
-- [Hata 2: docker-compose.yml ve docker-compose.prod.yml Dosyalarında Sabitlenmemiş İmajlar](#hata-2-docker-compose-dosyalarinda-sabitlenmemis-imajlar)
-- [Hata 3: deploy/systemd/bizgenciz-health.service Dosyasında Tekrarlanan Bölüm](#hata-3-deploy-systemdbizgenciz-healthservice-dosyasi)
-- [Hata 4: .env.local Dosyasında Eksik REDIS_URL](#hata-4-envlocal-dosyasinda-eksik-redis_url)
-- [Hata 5: next.config.js Dosyasında Tekrarlanan Güvenlik Başlığı](#hata-5-nextconfigjs-dosyasinda-tekrarlanan-guvenlik-basligi)
-- [Hata 6: jest.config.js ve Playwright Test Yolu Uyumsuzluğu](#hata-6-jestconfigjs-ve-playwright-test-yolu-uyumsuzlugu)
-- [Hata 7: tsconfig.json Dosyasında Gereksiz paths Tanımları](#hata-7-tsconfigjson-dosyasinda-gereksiz-paths-tanimlari)
-- [Hata 8: Arşivlenmiş Dokümanlar ve Pasif Kurallar](#hata-8-arasivlenmis-dokumanlar-ve-pasif-kurallar)
-- [Hata 9: Test Stratejisi ve Kalite Güvencesi](#hata-9-test-stratejisi-ve-kalite-guvencesi)
-- [Hata 10: Observability ve Dayanıklılık](#hata-10-observability-ve-dayaniklilik)
-
-Tespit Edilen Hatalar ve Tutarsızlıklar: Doğrudan yanlış olan, çelişen veya projenin kendi kurallarını ihlal eden noktalar.
-
-İyileştirme ve Otomasyon Fırsatları: Çalışan ancak çok daha verimli, güvenli veya hataya dayanıklı hale getirilebilecek, otomasyon potansiyeli yüksek süreçler.
-
-Genel Değerlendirme ve Dikkat Çeken Noktalar: Projenin genel felsefesi, güçlü yönleri ve potansiyel riskleri üzerine üst düzey bir bakış.
 
 1. Tespit Edilen Hatalar ve Tutarsızlıklar
 
