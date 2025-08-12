@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { logger, withRequestId } from '@/lib/logger'
 
 // Server-side Supabase health check using service role key
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY
 
 export async function GET() {
+  const ctx = withRequestId()
   try {
     let dbStatus = 'disconnected'
 
@@ -17,7 +19,7 @@ export async function GET() {
         await sb.from('groups').select('id').limit(1).throwOnError()
         dbStatus = 'connected'
       } catch (err) {
-        console.warn('Supabase health query failed:', err instanceof Error ? err.message : err)
+        logger.warn('Supabase health query failed', { ...ctx, error: err instanceof Error ? err.message : String(err) })
         dbStatus = 'disconnected'
       }
     }
@@ -29,12 +31,14 @@ export async function GET() {
       environment: process.env.NODE_ENV || 'development',
       database: dbStatus,
       uptime: process.uptime(),
+      requestId: ctx.requestId,
     }
 
     const statusCode = dbStatus === 'connected' ? 200 : 503
+    logger.info('Health check result', { ...ctx, statusCode, database: dbStatus })
     return NextResponse.json(healthData, { status: statusCode })
   } catch (error) {
-    console.error('Health check unexpected failure:', error)
+    logger.error('Health check unexpected failure', { error: error instanceof Error ? error.message : String(error) })
     const errorData = {
       status: 'unhealthy',
       timestamp: new Date().toISOString(),
@@ -42,6 +46,7 @@ export async function GET() {
       environment: process.env.NODE_ENV || 'development',
       database: 'disconnected',
       uptime: process.uptime(),
+      requestId: ctx.requestId,
       error: process.env.NODE_ENV === 'production' ? 'Internal server error' : error instanceof Error ? error.message : 'Unknown error',
     }
     return NextResponse.json(errorData, { status: 503 })
