@@ -45,8 +45,8 @@ const customJestConfig = {
       statements: 80,
     },
   },
-  // Allow tests to pass even if no tests are found
-  passWithNoTests: true,
+  // Do not allow tests to pass if no tests are found — enforce real tests
+  passWithNoTests: false,
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
