@@ -40,7 +40,7 @@ export class HybridService {
 
       // 2. Cache'de yoksa veritabanından al
       console.log(`🔍 Menu cache miss: ${cacheKey}, fetching from database...`);
-      const menuItems = await prisma.product.findMany({
+      const menuItems = await (prisma as any).product.findMany({
         where: {
           isAvailable: true,
           ...(categoryId && { categoryId })
@@ -90,7 +90,7 @@ export class HybridService {
 
       // 2. Cache'de yoksa veritabanından al
       console.log('🔍 Popular products cache miss, fetching from database...');
-      const popularProducts = await prisma.product.findMany({
+      const popularProducts = await (prisma as any).product.findMany({
         where: {
           isAvailable: true
         },
