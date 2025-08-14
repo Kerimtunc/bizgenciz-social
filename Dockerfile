@@ -10,7 +10,7 @@ WORKDIR /app
 # Bu katman sadece manifestler değiştiğinde yeniden çalışır, kod değiştiğinde değil. Build hızını optimize eder.
 COPY package.json package-lock.json ./
 # npm kullanıyoruz çünkü daha hızlı ve disk alanı açısından daha verimli.
-RUN npm ci --only=production --frozen-lockfile
+RUN npm ci --omit=dev
 
 # Tüm kaynak kodunu kopyala ve uygulamayı build et
 COPY . .

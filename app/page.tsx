@@ -24,103 +24,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-// BizGenciz Grup Veri Yapısı
-const groupData = {
-  akademik: [
-    {
-      id: 1,
-      grupAdi: "Bilgisayar Mühendisliği",
-      fakulte: "Mühendislik-Mimarlık Fakültesi",
-      whatsappLinki: "https://chat.whatsapp.com/bilgisayar-muhendisligi",
-      uyeSayisi: 150,
-      aciklama: "Bilgisayar mühendisliği öğrencileri için akademik destek grubu"
-    },
-    {
-      id: 2,
-      grupAdi: "Elektrik-Elektronik Mühendisliği",
-      fakulte: "Mühendislik-Mimarlık Fakültesi",
-      whatsappLinki: "https://chat.whatsapp.com/elektrik-elektronik",
-      uyeSayisi: 120,
-      aciklama: "Elektrik-Elektronik mühendisliği öğrencileri için akademik destek grubu"
-    },
-    {
-      id: 3,
-      grupAdi: "Endüstri Mühendisliği",
-      fakulte: "Mühendislik-Mimarlık Fakültesi",
-      whatsappLinki: "https://chat.whatsapp.com/endustri-muhendisligi",
-      uyeSayisi: 95,
-      aciklama: "Endüstri mühendisliği öğrencileri için akademik destek grubu"
-    },
-    {
-      id: 4,
-      grupAdi: "İktisat",
-      fakulte: "İktisadi ve İdari Bilimler Fakültesi",
-      whatsappLinki: "https://chat.whatsapp.com/iktisat",
-      uyeSayisi: 200,
-      aciklama: "İktisat öğrencileri için akademik destek grubu"
-    },
-    {
-      id: 5,
-      grupAdi: "İşletme",
-      fakulte: "İktisadi ve İdari Bilimler Fakültesi",
-      whatsappLinki: "https://chat.whatsapp.com/isletme",
-      uyeSayisi: 180,
-      aciklama: "İşletme öğrencileri için akademik destek grubu"
-    }
-  ],
-  sosyal: [
-    {
-      id: 101,
-      grupAdi: "Fotoğrafçılık Kulübü",
-      kategori: "Sanat & Hobi",
-      whatsappLinki: "https://chat.whatsapp.com/fotografcilik",
-      uyeSayisi: 45,
-      aciklama: "Fotoğrafçılık tutkunları için sosyal grup"
-    },
-    {
-      id: 102,
-      grupAdi: "Müzik Kulübü",
-      kategori: "Sanat & Hobi",
-      whatsappLinki: "https://chat.whatsapp.com/muzik-kulubu",
-      uyeSayisi: 60,
-      aciklama: "Müzik tutkunları için sosyal grup"
-    },
-    {
-      id: 103,
-      grupAdi: "Spor Kulübü",
-      kategori: "Spor & Sağlık",
-      whatsappLinki: "https://chat.whatsapp.com/spor-kulubu",
-      uyeSayisi: 80,
-      aciklama: "Spor tutkunları için sosyal grup"
-    }
-  ],
-  kariyer: [
-    {
-      id: 201,
-      grupAdi: "Staj & İş İlanları",
-      kategori: "Kariyer Gelişimi",
-      whatsappLinki: "https://chat.whatsapp.com/staj-is-ilanlari",
-      uyeSayisi: 300,
-      aciklama: "Staj ve iş ilanları paylaşım grubu"
-    },
-    {
-      id: 202,
-      grupAdi: "Kariyer Danışmanlığı",
-      kategori: "Kariyer Gelişimi",
-      whatsappLinki: "https://chat.whatsapp.com/kariyer-danismanligi",
-      uyeSayisi: 150,
-      aciklama: "Kariyer danışmanlığı ve mentorluk grubu"
-    },
-    {
-      id: 203,
-      grupAdi: "Networking",
-      kategori: "Kariyer Gelişimi",
-      whatsappLinki: "https://chat.whatsapp.com/networking",
-      uyeSayisi: 200,
-      aciklama: "Profesyonel networking grubu"
-    }
-  ]
-}
+const departments = {
+  lisans: [
     {
       id: 3,
       bolumAdi: "Antropoloji",
@@ -569,6 +474,8 @@ const alphabet = [
   "Z",
 ]
 
+type Department = { id: number; bolumAdi: string; fakulte: string; whatsappLinki: string }
+
 export default function BizGencizGroupsPage() {
   const [activeTab, setActiveTab] = useState("lisans")
   const [searchQuery, setSearchQuery] = useState("")
@@ -577,7 +484,6 @@ export default function BizGencizGroupsPage() {
   const [showLimitMessage, setShowLimitMessage] = useState(false)
   const [welcomeKitTab, setWelcomeKitTab] = useState("groups")
   const [activeGuideSection, setActiveGuideSection] = useState(0)
-  const [guideSectionScrollY, setGuideSectionScrollY] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [selectedLetterFeedback, setSelectedLetterFeedback] = useState("")
   const containerRef = useRef<HTMLDivElement>(null)
@@ -701,14 +607,14 @@ export default function BizGencizGroupsPage() {
   }
 
   // Filtrelenmiş bölümler
-  const filteredDepartments = useMemo(() => {
-    const currentData = departmentData[activeTab as keyof typeof departmentData]
+  const filteredDepartments = useMemo<Department[]>(() => {
+    const currentData = departments[activeTab as keyof typeof departments] as Department[]
     let filtered = currentData
 
     // Arama filtresi
     if (searchQuery.trim()) {
       filtered = filtered.filter(
-        (dept) =>
+        (dept: Department) =>
           dept.bolumAdi.toLowerCase().includes(searchQuery.toLowerCase()) ||
           dept.fakulte.toLowerCase().includes(searchQuery.toLowerCase()),
       )
@@ -716,10 +622,10 @@ export default function BizGencizGroupsPage() {
 
     // Alfabetik filtre
     if (selectedLetter !== "Tümü") {
-      filtered = filtered.filter((dept) => dept.bolumAdi.charAt(0).toUpperCase() === selectedLetter)
+      filtered = filtered.filter((dept: Department) => dept.bolumAdi.charAt(0).toUpperCase() === selectedLetter)
     }
 
-    return filtered.sort((a, b) => a.bolumAdi.localeCompare(b.bolumAdi, "tr"))
+    return filtered.sort((a: Department, b: Department) => a.bolumAdi.localeCompare(b.bolumAdi, "tr"))
   }, [activeTab, searchQuery, selectedLetter])
 
   return (
@@ -1344,7 +1250,7 @@ export default function BizGencizGroupsPage() {
                         <p className="text-sm">Aradığınız kriterlere uygun bölüm bulunamadı.</p>
                       </div>
                     ) : (
-                      filteredDepartments.map((dept, index) => (
+                      filteredDepartments.map((dept: Department, index: number) => (
                         <Card
                           key={dept.id}
                           className="border-0 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-[1.02] bg-white bg-opacity-90 backdrop-blur-sm overflow-hidden hover-lift"
