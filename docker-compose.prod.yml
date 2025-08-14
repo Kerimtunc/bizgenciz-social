@@ -36,6 +36,7 @@ services:
 
   # PostgreSQL Database
   db:
+    # TODO: replace placeholder SHA256 with verified digest from registry
     image: postgres:15.3-alpine@sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
     container_name: ${PROJECT_NAME:-yemekzen}-db-prod
     environment:
@@ -56,6 +57,7 @@ services:
 
   # Redis Cache
   redis:
+    # TODO: replace placeholder SHA256 with verified digest from registry
     image: redis:7.2-alpine@sha256:abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890
     container_name: ${PROJECT_NAME:-yemekzen}-redis-prod
     restart: unless-stopped
@@ -71,6 +73,7 @@ services:
 
   # Nginx Reverse Proxy
   nginx:
+    # TODO: replace placeholder SHA256 with verified digest from registry
     image: nginx:1.25-alpine@sha256:7890abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456
     container_name: ${PROJECT_NAME:-yemekzen}-nginx-prod
     restart: unless-stopped
