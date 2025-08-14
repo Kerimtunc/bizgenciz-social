@@ -48,6 +48,7 @@ services:
 
   # PostgreSQL Database
   db:
+    # TODO: replace placeholder SHA256 with verified digest from registry
     image: postgres:15.3-alpine@sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
     container_name: ${PROJECT_NAME:-yemekzen}-db
     environment:

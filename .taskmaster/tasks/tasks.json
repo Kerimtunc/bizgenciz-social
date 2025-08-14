@@ -1,0 +1,141 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Proje Ortamını Kurma ve Temel Yapılandırma",
+        "description": "Projeyi başlatmak ve temel yapılandırma ayarlarını yapmak. Bu aşamada repository kurulumu, temel bağımlılıkların yüklenmesi ve ortamın hazırlanması sağlanacak.",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "details": "Git repository oluştur, Node.js veya uygun platformu kur, temel bağımlılıkları yükle, ortam değişkenlerini yapılandır.",
+        "testStrategy": "Projeyi klonladıktan sonra temel çalışma komutlarını çalıştır ve ortamın düzgün başlatıldığını doğrula.",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Sağlık Kontrolü ve Rate Limiting Güvenlik Testleri",
+        "description": "Veritabanı ve rate limiting mekanizmasının düzgün çalıştığını doğrulamak için sağlık kontrolleri ve güvenlik testleri geliştirilmesi.",
+        "status": "done",
+        "dependencies": [
+          1
+        ],
+        "priority": "high",
+        "details": "Sağlık kontrol endpointleri oluştur, rate limiting kurallarını uygula, testler yazarak bu mekanizmaların düzgün çalıştığını doğrula. Sağlık endpoint'i Prisma ve Redis tabanlı rate limiting kullanılarak yeniden yazıldı; smoke check eklendi.",
+        "testStrategy": "Sağlık kontrolü ve rate limiting testleri yazarak, beklenen yanıtları ve limitleri kontrol et.",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Yapılandırma Dosyalarının Temizlenmesi ve Güncellenmesi",
+        "description": "Env, Docker ve systemd yapılandırma dosyalarını gözden geçirip temizle ve güncelle.",
+        "status": "pending",
+        "dependencies": [
+          2
+        ],
+        "priority": "medium",
+        "details": "Mevcut yapılandırma dosyalarını incele, gereksiz veya hatalı ayarları kaldır veya düzelt, yeni yapılandırma kurallarını uygula.",
+        "testStrategy": "Yapılandırma dosyalarını test ortamında uygula ve sistemin düzgün başlatıldığını doğrula.",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "",
+            "description": "Mevcut yapılandırma dosyalarını incele, gereksiz veya hatalı ayarları kaldır veya düzelt, yeni yapılandırma kurallarını uygula.",
+            "status": "done",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 2,
+            "title": "",
+            "description": "Yapılandırma dosyalarını test ortamında uygula ve sistemin düzgün başlatıldığını doğrula.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          },
+          {
+            "id": 3,
+            "title": "",
+            "description": "Yapılandırma işlemlerinin karmaşıklığını azaltmak ve yönetilebilirliği artırmak için yapılandırma dosyalarını modüler hale getir.",
+            "status": "pending",
+            "dependencies": [],
+            "details": "",
+            "testStrategy": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Veritabanı Şeması Güncellemeleri ve API Uç Noktalarının Açılması",
+        "description": "Veritabanı şemasını güncelle ve tRPC uç noktalarını oluşturarak API erişimini sağla.",
+        "status": "pending",
+        "dependencies": [
+          3
+        ],
+        "priority": "high",
+        "details": "Veritabanı şemasını güncelle, migration işlemlerini yap, tRPC uç noktalarını oluştur ve test et.\n\n**Referanslar:**\n- Prisma Docs: https://www.prisma.io/docs\n- tRPC Docs: https://trpc.io/docs\n- Migration Best Practices: https://www.prisma.io/docs/guides/migrations\n\n**Önerilen Çözüm Özeti:**\nSchema'yi `prisma/schema.prisma` dosyasında `veriler.md` ile uyumlu şekilde tanımla, `prisma migrate dev` komutunu kullanarak migration yap, `prisma generate` ile client'ı oluştur, Zod ile giriş doğrulaması yapan tRPC router'larını uygula ve migration ile tRPC uç noktaları için entegrasyon testleri yaz.",
+        "testStrategy": "API uç noktalarını test ortamında çağır ve beklenen veriyi döndüğünü doğrula.",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Kullanıcı Arayüzünü Dinamik Hale Getirme",
+        "description": "UI'ı veri ile dinamik hale getirerek kullanıcı deneyimini iyileştir.",
+        "details": "Frontend kodunu güncelle, API'den alınan verileri kullanarak UI'ı dinamik hale getir.",
+        "testStrategy": "UI testleri yap, API'den gelen verilerin doğru şekilde gösterildiğini doğrula.",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "CI/CD Süreçlerini ve Test Otomasyonunu Geliştirme",
+        "description": "Sürekli entegrasyon ve dağıtım süreçlerini iyileştir, otomatik testleri ekle.",
+        "details": "CI/CD pipeline'ını yapılandır, otomatik testleri entegre et, başarısızlık durumlarını raporla.",
+        "testStrategy": "Pipeline'ı çalıştır ve otomatik testlerin başarıyla geçtiğini doğrula.",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Performans Optimizasyonu ve Bağımlılık Yönetimi",
+        "description": "Uygulamanın performansını artır ve bağımlılıkları optimize et.",
+        "details": "Profil ve analiz yap, yavaş noktaları belirle, bağımlılıkları güncelle veya optimize et.",
+        "testStrategy": "Performans testleri yap ve iyileştirmelerin etkisini ölç.",
+        "priority": "low",
+        "dependencies": [
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Son Kontrol ve Yayına Alma",
+        "description": "Tüm geliştirmeleri tamamla, son testleri yap ve projeyi üretime al.",
+        "details": "Tüm bileşenleri gözden geçir, son testleri yap, deploy işlemini gerçekleştir.",
+        "testStrategy": "Canlı ortamda test yap, tüm fonksiyonların düzgün çalıştığını doğrula.",
+        "priority": "high",
+        "dependencies": [
+          7
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-14T13:57:12.056Z",
+      "updated": "2025-08-14T13:57:12.056Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

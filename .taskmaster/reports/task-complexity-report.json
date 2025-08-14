@@ -1,0 +1,77 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-14T14:01:34.469Z",
+		"tasksAnalyzed": 8,
+		"totalTasks": 8,
+		"analysisCount": 8,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "Proje Ortamını Kurma ve Temel Yapılandırma",
+			"complexityScore": 4,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Repository kurulumu, ortam değişkenleri yapılandırması, temel bağımlılıkların yüklenmesi ve ilk çalışma testi.",
+			"reasoning": "Temel kurulum ve yapılandırma genellikle basit adımlar içerir, ancak dikkatli yapılması gerekir. Alt görevler netleştirildiğinde süreç daha düzenli olur."
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "Sağlık Kontrolü ve Rate Limiting Güvenlik Testleri",
+			"complexityScore": 6,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Sağlık kontrol endpointleri oluşturma, rate limiting kurallarını uygulama ve testler yazma.",
+			"reasoning": "Güvenlik ve sağlık kontrolleri önemli ve biraz karmaşık olabilir, özellikle testlerin kapsamını genişletmek faydalı olur."
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "Yapılandırma Dosyalarının Temizlenmesi ve Güncellenmesi",
+			"complexityScore": 3,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Mevcut yapılandırma dosyalarını inceleme, hataları düzeltme ve yeni kurallar ekleme.",
+			"reasoning": "Dosya temizliği ve güncellemesi genellikle rutin ve basit adımlar içerir, detaylandırmak işleri kolaylaştırır."
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "Veritabanı Şeması Güncellemeleri ve API Uç Noktalarının Açılması",
+			"complexityScore": 7,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "Veritabanı şemasını güncelle, migration işlemlerini yap, tRPC uç noktalarını oluştur ve test et.",
+			"reasoning": "Veritabanı ve API geliştirme karmaşık ve dikkat gerektirir. Alt görevler detaylandırıldığında süreç daha kontrollü olur."
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "Kullanıcı Arayüzünü Dinamik Hale Getirme",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Frontend kodunu güncelle, API'den alınan verileri kullanarak UI'ı dinamik hale getir.",
+			"reasoning": "UI güncellemesi orta seviyede karmaşıklık taşır, API entegrasyonu ve kullanıcı deneyimi iyileştirmeleri önemli."
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "CI/CD Süreçlerini ve Test Otomasyonunu Geliştirme",
+			"complexityScore": 6,
+			"recommendedSubtasks": 4,
+			"expansionPrompt": "CI/CD pipeline'ını yapılandır, otomatik testleri entegre et, başarısızlık raporları oluştur.",
+			"reasoning": "Sürekli entegrasyon ve otomasyon süreçleri biraz karmaşık olabilir, detaylandırmak stabilite sağlar."
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "Performans Optimizasyonu ve Bağımlılık Yönetimi",
+			"complexityScore": 5,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Performans analizi yap, yavaş noktaları belirle, bağımlılıkları güncelle veya optimize et.",
+			"reasoning": "Performans iyileştirmeleri genellikle analiz ve optimizasyon içerir, detaylandırmak faydalı olur."
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "Son Kontrol ve Yayına Alma",
+			"complexityScore": 4,
+			"recommendedSubtasks": 3,
+			"expansionPrompt": "Tüm bileşenleri gözden geçir, son testleri yap ve deploy işlemini gerçekleştir.",
+			"reasoning": "Yayına alma genellikle son adımlar ve rutin işlemler içerir, detaylandırmak riskleri azaltır."
+		}
+	]
+}

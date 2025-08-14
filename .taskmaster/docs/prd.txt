@@ -1,0 +1,21 @@
+# Proje Problemler ve Çözüm PRD
+
+## Overview
+Bu PRD, `docs/guides/problemler.md` dosyasında listelenen kritik problemleri ele alacak bir eylem planı ve görev dizisini tanımlar. Amaç: önceliklendirilmiş, uygulanabilir Taskmaster görevleri üretmek.
+
+## Core Features / Goals
+- Sağlık kontrolü ve rate limiting düzeltmeleri
+- Yapılandırma (Playwright, Docker, systemd, env) düzeltmeleri
+- Statik verilerin kaldırılması ve veri katmanının etkin kullanımı
+- CI/CD doğrulama ve gerçek testlerin eklenmesi
+- Performans ve bağımlılık yönetimi
+
+## Logical Dependency Chain
+1. Sağlık kontrolü ve temel güvenlik (DB + rate limiting)
+2. Yapılandırma temizliği (env, docker, systemd)
+3. Veritabanı şemasının güncellenmesi ve tRPC uç noktalarının açılması
+4. UI'ı dinamik hale getirme
+5. CI/CD ve test iyileştirmeleri
+
+## Appendix
+Kaynak: `docs/guides/problemler.md`
